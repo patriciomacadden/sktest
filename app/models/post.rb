@@ -1,5 +1,5 @@
 class Post < ApplicationRecord
-  PAGE_SIZE = 20
+  include Pagination
 
   belongs_to :author, class_name: "User"
 
@@ -15,13 +15,6 @@ class Post < ApplicationRecord
   validate :url_is_http
 
   scope :newest_first, -> { order(created_at: :desc, id: :desc) }
-
-  def self.paginated(page:, posts: all)
-    page = [ page.to_i, 1 ].max
-    records = posts.newest_first.offset((page - 1) * PAGE_SIZE).limit(PAGE_SIZE + 1).to_a
-
-    [ records.first(PAGE_SIZE), page, records.length > PAGE_SIZE ]
-  end
 
   private
     def url_is_http

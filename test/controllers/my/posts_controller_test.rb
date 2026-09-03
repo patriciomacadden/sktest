@@ -20,6 +20,15 @@ class My::PostsControllerTest < ActionDispatch::IntegrationTest
     assert_select "form button", { text: "Delete post", count: 2 }
   end
 
+  test "handles an oversized page safely" do
+    sign_in_as(users(:registered_member))
+
+    get my_posts_path(page: "9" * 100)
+
+    assert_response :success
+    assert_select "article:first-of-type a", "Member's recent post"
+  end
+
   test "creates a post and normalizes a bare web address" do
     sign_in_as(users(:registered_member))
 

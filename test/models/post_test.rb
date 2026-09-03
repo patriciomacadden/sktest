@@ -48,4 +48,11 @@ class PostTest < ActiveSupport::TestCase
     assert_equal 2, page
     assert_not has_next_page
   end
+
+  test "treats an oversized page as the first page" do
+    posts, page, = Post.paginated(page: "9" * 100)
+
+    assert_equal 1, page
+    assert_equal posts(:member_recent_post), posts.first
+  end
 end

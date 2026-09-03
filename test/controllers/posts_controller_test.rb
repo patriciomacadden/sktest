@@ -16,6 +16,13 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_select "a", { text: "Original URL", href: "https://example.com/recent" }
   end
 
+  test "visitor can request an oversized page safely" do
+    get posts_path(page: "9" * 100)
+
+    assert_response :success
+    assert_select "article:first-of-type a", "Member's recent post"
+  end
+
   test "visitor sees working page navigation only when another page exists" do
     18.times do |index|
       Post.create!(author: users(:registered_member), title: "Paged post #{index}", created_at: 1.minute.from_now + index.minutes)
