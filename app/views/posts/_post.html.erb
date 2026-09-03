@@ -1,0 +1,16 @@
+<article>
+  <h2><%= link_to post.title, post_path(post) %></h2>
+  <p>
+    By <%= post.author.email_address %> ·
+    <%= time_tag post.created_at, post.created_at.to_fs(:long) %>
+  </p>
+  <%= tag.p(post.body) if post.body.present? %>
+  <% if (original_url = safe_original_url(post)) %>
+    <%= tag.p(link_to("Original URL", original_url)) %>
+  <% end %>
+
+  <% if local_assigns[:manage] %>
+    <p><%= link_to "Edit post", edit_my_post_path(post) %></p>
+    <%= button_to "Delete post", my_post_path(post), method: :delete %>
+  <% end %>
+</article>

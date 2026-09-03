@@ -1,0 +1,7 @@
+<%= render "shared/post_navigation" %>
+
+<main>
+  <h1>Posts</h1>
+  <%= render partial: "post", collection: @posts %>
+  <%= render "shared/pagination", page: @page, has_next_page: @has_next_page, label: "Posts" %>
+</main>

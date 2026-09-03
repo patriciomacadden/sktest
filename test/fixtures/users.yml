@@ -3,3 +3,7 @@
 registered_member:
   email_address: member@example.com
   password_digest: <%= password_digest %>
+
+other_author:
+  email_address: other@example.com
+  password_digest: <%= password_digest %>

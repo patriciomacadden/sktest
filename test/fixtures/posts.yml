@@ -1,0 +1,21 @@
+member_recent_post:
+  author: registered_member
+  title: Member's recent post
+  url: https://example.com/recent
+  body: A recent post by the registered member.
+  created_at: 2026-09-03 18:00:00
+  updated_at: 2026-09-03 18:00:00
+
+member_older_post:
+  author: registered_member
+  title: Member's older post
+  body: An older post by the registered member.
+  created_at: 2026-09-02 18:00:00
+  updated_at: 2026-09-02 18:00:00
+
+other_author_post:
+  author: other_author
+  title: Other author's post
+  url: https://example.com/other
+  created_at: 2026-09-03 17:00:00
+  updated_at: 2026-09-03 17:00:00

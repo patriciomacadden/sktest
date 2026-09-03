@@ -24,6 +24,7 @@
   </head>
 
   <body>
+    <%= tag.p(flash[:notice], role: "status") if flash[:notice] %>
     <%= yield %>
   </body>
 </html>

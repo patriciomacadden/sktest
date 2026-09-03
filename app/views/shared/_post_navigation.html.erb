@@ -1,0 +1,10 @@
+<nav aria-label="Primary">
+  <%= link_to "Posts", posts_path %>
+  <% if authenticated? %>
+    <%= link_to "My posts", my_posts_path %>
+    <%= link_to "Create post", new_my_post_path %>
+    <%= button_to "Sign out", session_path, method: :delete %>
+  <% else %>
+    <%= link_to "Sign in", new_session_path %>
+  <% end %>
+</nav>

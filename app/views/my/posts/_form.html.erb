@@ -1,0 +1,26 @@
+<% if post.errors.any? %>
+  <div role="alert">
+    <h2>Check your details</h2>
+    <ul>
+      <% post.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_with model: [ :my, post ] do |form| %>
+  <p>
+    <%= form.label :title %><br>
+    <%= form.text_field :title, required: true, autofocus: true %>
+  </p>
+  <p>
+    <%= form.label :url, "Original URL (optional)" %><br>
+    <%= form.text_field :url, inputmode: "url", placeholder: "google.com" %>
+  </p>
+  <p>
+    <%= form.label :body, "Body (optional)" %><br>
+    <%= form.text_area :body %>
+  </p>
+  <%= form.submit %>
+<% end %>
