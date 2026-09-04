@@ -23,7 +23,7 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+  <body class="<%= content_for(:body_class) %>">
     <%= tag.p(flash[:notice], role: "status") if flash[:notice] %>
     <%= yield %>
   </body>

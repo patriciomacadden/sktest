@@ -11,7 +11,7 @@
   --braun-surface: #F3F1EC;
 }
 
-body {
+body.public-posts-page {
   margin: 0;
   background: var(--braun-neutral);
 }
