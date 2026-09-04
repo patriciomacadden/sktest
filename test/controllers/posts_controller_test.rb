@@ -20,9 +20,9 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     get post_path(posts(:member_recent_post))
 
     assert_response :success
-    assert_select "h1", "Member's recent post"
+    assert_select "h1", /Member's recent post/
     assert_select ".app-post__body", /A recent post by the registered member\./
-    assert_select "a", { text: "Original URL", href: "https://example.com/recent" }
+    assert_select ".app-post__title a", { text: "example.com", href: "https://example.com/recent" }
   end
 
   test "visitor can request an oversized root page safely" do

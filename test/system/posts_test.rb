@@ -11,7 +11,8 @@ class PostsTest < ApplicationSystemTestCase
 
     assert_selector ".app-shell--post-show"
     assert_text "By member@example.com"
-    assert_link "Original URL", href: "https://example.com/recent"
+    assert_selector ".app-post__title"
+    assert_link "example.com", href: "https://example.com/recent"
   end
 
   test "visitor paginates the public list" do
