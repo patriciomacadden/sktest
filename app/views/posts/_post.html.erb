@@ -1,11 +1,20 @@
+<% if local_assigns[:compact] %>
+  <li class="public-posts__item">
+<% end %>
+
 <article>
-  <h2><%= link_to post.title, post_path(post) %></h2>
-  <p>
+  <h2>
+    <%= link_to post.title, post_path(post) %>
+    <% if local_assigns[:compact] && (original_url = safe_original_url(post)) %>
+      <span class="public-posts__domain">(<%= link_to original_url_domain(post), original_url %>)</span>
+    <% end %>
+  </h2>
+  <p class="post__metadata">
     By <%= post.author.email_address %> ·
     <%= time_tag post.created_at, post.created_at.to_fs(:long) %>
   </p>
-  <%= tag.p(post.body) if post.body.present? %>
-  <% if (original_url = safe_original_url(post)) %>
+  <%= tag.p(post.body, class: "post__body") if post.body.present? %>
+  <% if !local_assigns[:compact] && (original_url = safe_original_url(post)) %>
     <%= tag.p(link_to("Original URL", original_url)) %>
   <% end %>
 
@@ -14,3 +23,7 @@
     <%= button_to "Delete post", my_post_path(post), method: :delete %>
   <% end %>
 </article>
+
+<% if local_assigns[:compact] %>
+  </li>
+<% end %>

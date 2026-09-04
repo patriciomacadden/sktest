@@ -1,10 +1,153 @@
 /*
- * This is a manifest file that'll be compiled into application.css.
- *
- * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
- * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
- * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
- * depending on specificity.
- *
- * Consider organizing styles into separate files for maintainability.
+ * Public posts use the Braun design standard. Other application pages retain
+ * their existing presentation unless they opt into the public-posts wrapper.
  */
+
+:root {
+  --braun-primary: #0F1113;
+  --braun-secondary: #6B6F74;
+  --braun-tertiary: #D95600;
+  --braun-neutral: #E7E5E1;
+  --braun-surface: #F3F1EC;
+}
+
+body {
+  margin: 0;
+  background: var(--braun-neutral);
+}
+
+.public-posts {
+  box-sizing: border-box;
+  width: min(100% - 1rem, 1050px);
+  min-height: calc(100vh - 1rem);
+  margin: .5rem auto;
+  background: var(--braun-surface);
+  color: var(--braun-primary);
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: .95rem;
+  line-height: 1.55;
+}
+
+.public-posts *,
+.public-posts *::before,
+.public-posts *::after {
+  box-sizing: border-box;
+}
+
+.public-posts a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.public-posts a:hover {
+  text-decoration: underline;
+}
+
+.public-posts a:focus-visible,
+.public-posts button:focus-visible {
+  outline: 2px solid var(--braun-primary);
+  outline-offset: 3px;
+}
+
+.public-posts .post-navigation {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  padding: .5rem;
+  border-bottom: 1px solid var(--braun-primary);
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: .72rem;
+  letter-spacing: .08em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.public-posts .post-navigation__brand {
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: .95rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.public-posts .post-navigation__primary-action {
+  margin-left: auto;
+  color: var(--braun-tertiary);
+}
+
+.public-posts .post-navigation form {
+  display: contents;
+}
+
+.public-posts main {
+  padding: 1rem .75rem 2rem;
+}
+
+.public-posts__list {
+  margin: 0;
+  padding-left: 1.75rem;
+}
+
+.public-posts__item {
+  padding: .18rem 0 .55rem;
+}
+
+.public-posts__item::marker {
+  color: var(--braun-secondary);
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: .72rem;
+}
+
+.public-posts__item article > * {
+  margin: 0;
+}
+
+.public-posts__item h2 {
+  font-size: .95rem;
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+.public-posts__domain,
+.public-posts .post__metadata {
+  color: var(--braun-secondary);
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: .72rem;
+  letter-spacing: .02em;
+}
+
+.public-posts .post__metadata,
+.public-posts .post__body {
+  margin-top: .12rem;
+}
+
+.public-posts .post__body {
+  color: var(--braun-secondary);
+  font-size: .82rem;
+}
+
+.public-posts nav[aria-label="Posts pagination"] {
+  margin: 1.5rem 0 0 1.75rem;
+  color: var(--braun-tertiary);
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: .72rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 520px) {
+  .public-posts {
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+  }
+
+  .public-posts .post-navigation {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .public-posts .post-navigation__primary-action {
+    margin-left: 0;
+  }
+}

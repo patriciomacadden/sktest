@@ -2,9 +2,10 @@ require "application_system_test_case"
 
 class PostsTest < ApplicationSystemTestCase
   test "visitor browses a public post" do
-    visit posts_path
+    visit root_path
 
-    assert_text "Posts"
+    assert_selector "ol[aria-label='Public posts']"
+    assert_link "example.com", href: "https://example.com/recent"
     click_on "Member's recent post"
 
     assert_text "By member@example.com"
@@ -16,7 +17,7 @@ class PostsTest < ApplicationSystemTestCase
       Post.create!(author: users(:registered_member), title: "Paged post #{index}", created_at: 1.minute.from_now + index.minutes)
     end
 
-    visit posts_path
+    visit root_path
 
     assert_link "Next"
     click_on "Next"
@@ -31,7 +32,9 @@ class PostsTest < ApplicationSystemTestCase
     fill_in "Email address", with: users(:registered_member).email_address
     fill_in "Password", with: "password"
     click_on "Sign in"
+    assert_selector "ol[aria-label='Public posts']"
     click_on "Create post"
+    assert_current_path new_my_post_path
 
     fill_in "Title", with: "A system post"
     fill_in "Original URL (optional)", with: "example.com/system"
@@ -61,7 +64,8 @@ class PostsTest < ApplicationSystemTestCase
     fill_in "Email address", with: users(:registered_member).email_address
     fill_in "Password", with: "password"
     click_on "Sign in"
-    assert_text "Signed in as member@example.com"
+    assert_current_path root_path
+    assert_selector "ol[aria-label='Public posts']"
     visit new_my_post_path
     assert_current_path new_my_post_path
 

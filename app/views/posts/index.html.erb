@@ -1,7 +1,10 @@
-<%= render "shared/post_navigation" %>
+<div class="public-posts">
+  <%= render "shared/post_navigation" %>
 
-<main>
-  <h1>Posts</h1>
-  <%= render partial: "post", collection: @posts %>
-  <%= render "shared/pagination", page: @page, has_next_page: @has_next_page, label: "Posts" %>
-</main>
+  <main>
+    <ol class="public-posts__list" aria-label="Public posts">
+      <%= render partial: "post", collection: @posts, locals: { compact: true } %>
+    </ol>
+    <%= render "shared/pagination", page: @page, has_next_page: @has_next_page, label: "Posts" %>
+  </main>
+</div>

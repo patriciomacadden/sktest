@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root "home#index"
+  root "posts#index"
 
   resource :registration, only: %i[ new create ]
   resource :session
