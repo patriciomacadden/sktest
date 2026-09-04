@@ -164,6 +164,7 @@ textarea:focus-visible { outline: 2px solid var(--braun-tertiary); outline-offse
   text-decoration: underline;
   text-transform: inherit;
 }
+.app-post__action:hover { color: var(--braun-tertiary); }
 
 .app-pagination {
   display: flex;
