@@ -13,9 +13,11 @@ class My::PostsControllerTest < ActionDispatch::IntegrationTest
     get my_posts_path
 
     assert_response :success
-    assert_select "h1", "My posts"
+    assert_select "h1", { text: "My posts", count: 0 }
+    assert_select "ol[aria-label='My posts'] .app-post-list__item", count: 2
     assert_select "article", text: /Member's recent post/
     assert_select "article", text: /Other author's post/, count: 0
+    assert_select "ol[aria-label='My posts'] .app-post__body", count: 0
     assert_select "a", { text: "Edit post", count: 2 }
     assert_select "form button", { text: "Delete post", count: 2 }
   end

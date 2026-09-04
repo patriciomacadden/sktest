@@ -4,8 +4,9 @@
   <%= render "shared/post_navigation" %>
 
   <main class="app-main">
-    <h1>My posts</h1>
-  <%= render partial: "posts/post", collection: @posts, locals: { manage: true } %>
+    <ol class="app-post-list" aria-label="My posts">
+      <%= render partial: "posts/post", collection: @posts, locals: { compact: true, manage: true } %>
+    </ol>
     <%= render "shared/pagination", page: @page, has_next_page: @has_next_page, label: "My posts" %>
   </main>
 </div>

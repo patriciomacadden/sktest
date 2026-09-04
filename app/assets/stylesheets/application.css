@@ -144,7 +144,15 @@ textarea:focus-visible { outline: 2px solid var(--braun-tertiary); outline-offse
 .app-post__domain,
 .app-post__body { color: var(--braun-secondary); }
 .app-post__body { max-width: 70ch; }
-.app-post__actions { display: flex; flex-wrap: wrap; gap: var(--braun-space-md); }
+.app-post__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--braun-space-md);
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: .72rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
 .app-post__actions button {
   padding: 0;
   border: 0;
