@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Post voting — design mockup</title>
+  <style>
+    :root { --ink:#0f1113; --muted:#6b6f74; --orange:#d95600; --ground:#e7e5e1; --paper:#f3f1ec; }
+    * { box-sizing:border-box; } body { margin:0; background:var(--ground); color:var(--ink); font:15px/1.55 Inter,ui-sans-serif,system-ui,sans-serif; }
+    .shell { width:min(100% - 32px,1050px); margin:16px auto; border:1px solid var(--ink); background:var(--paper); }
+    header { display:flex; gap:16px; padding:16px; border-bottom:1px solid var(--ink); font:12px/1 "JetBrains Mono",monospace; letter-spacing:.08em; text-transform:uppercase; }
+    header b { margin-right:auto; font:500 15px/1 Inter,sans-serif; letter-spacing:0; text-transform:none; } main { padding:16px; }
+    .kicker { margin:0 0 16px; color:var(--muted); font:12px/1 "JetBrains Mono",monospace; letter-spacing:.08em; text-transform:uppercase; }
+    ol { margin:0; padding-left:32px; } li { padding:8px 0 16px; } li::marker { color:var(--muted); font:12px "JetBrains Mono",monospace; }
+    article { display:grid; grid-template-columns:16px 1fr; gap:3px; } h2 { margin:0; font-size:16px; font-weight:500; line-height:1.25; } a { color:inherit; } .domain,.meta,.count { color:var(--muted); }
+    .domain,.meta,.count,.vote { font:12px/1.4 "JetBrains Mono",monospace; letter-spacing:.08em; } .meta { margin:8px 0 0; }
+    .vote { align-self:start; width:16px; margin-top:3px; padding:0; border:0; background:transparent; color:var(--muted); cursor:pointer; font:14px/1 Inter,sans-serif; text-align:left; }
+    .vote[aria-pressed="true"] { color:var(--orange); } .detail { max-width:700px; } .detail .vote { margin-top:10px; }
+    .detail h1 { margin:0; font-size:30px; font-weight:500; line-height:1.15; } .detail p { max-width:70ch; } .rule { border:0; border-top:1px solid var(--ink); margin:32px 0; }
+    .note { margin-top:16px; padding:12px 16px; border-left:4px solid var(--orange); color:var(--muted); }
+    button:focus-visible,a:focus-visible { outline:2px solid var(--ink); outline-offset:3px; }
+    @media (max-width:520px) { .shell { width:100%; margin:0; border:0; } article { grid-template-columns:16px 1fr; gap:3px; } .detail h1 { font-size:24px; } }
+  </style>
+</head>
+<body>
+  <section class="shell">
+    <header><b>Sktest</b><a href="#">Posts</a><a href="#">My posts</a><a href="#">Sign out</a></header>
+    <main>
+      <p class="kicker">Public posts · ranked by votes</p>
+      <ol aria-label="Public posts">
+        <li><article><button class="vote" type="button" aria-pressed="true" aria-label="Remove your vote. 42 votes.">▲</button><div><h2><a href="#show">Designing a durable paper trail</a> <span class="domain">(example.org)</span></h2><p class="meta"><span class="count">42 votes</span> · By morgan@example.com · September 4, 2026</p></div></article></li>
+        <li><article><button class="vote" type="button" aria-pressed="false" aria-label="Vote for this post. 18 votes.">▲</button><div><h2><a href="#show">A field guide to clear incident notes</a></h2><p class="meta"><span class="count">18 votes</span> · By riley@example.com · September 3, 2026</p></div></article></li>
+        <li><article><button class="vote" type="button" aria-pressed="false" aria-label="Vote for this post. 18 votes.">▲</button><div><h2><a href="#show">The small rituals that make a team work</a></h2><p class="meta"><span class="count">18 votes</span> · By alex@example.com · September 2, 2026</p></div></article></li>
+      </ol>
+      <p class="note">Signed-out view: each vote control leads to sign in; vote totals remain visible.</p>
+      <hr class="rule">
+      <article id="show" class="detail"><button class="vote" type="button" aria-pressed="true" aria-label="Remove your vote. 42 votes.">▲</button><div><h1>Designing a durable paper trail <span class="domain">(example.org)</span></h1><p class="meta"><span class="count">42 votes</span> · By morgan@example.com · September 4, 2026</p><p>Post content appears here. The same compact vote control stays beside the content, making the current state and total available without competing with the reading experience.</p></div></article>
+    </main>
+  </section>
+</body>
+</html>
