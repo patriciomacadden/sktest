@@ -4,8 +4,6 @@
   <main class="app-main">
     <h1>Sign up</h1>
 
-    <%= tag.p(flash[:alert], class: "app-alert", role: "alert") if flash[:alert] %>
-
   <% if @user.errors.any? %>
     <div class="app-form-errors" role="alert">
       <h2>Check your details</h2>

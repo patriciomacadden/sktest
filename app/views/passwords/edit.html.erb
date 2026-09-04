@@ -4,8 +4,6 @@
   <main class="app-main">
     <h1>Update your password</h1>
 
-    <%= tag.p(flash[:alert], class: "app-alert", role: "alert") if flash[:alert] %>
-
     <%= form_with url: password_path(params[:token]), method: :put, class: "app-form" do |form| %>
     <p>
       <%= form.label :password, "New password" %><br>

@@ -4,9 +4,6 @@
   <main class="app-main">
     <h1>Sign in</h1>
 
-    <%= tag.p(flash[:alert], class: "app-alert", role: "alert") if flash[:alert] %>
-    <%= tag.p(flash[:notice], class: "app-alert", role: "status") if flash[:notice] %>
-
     <%= form_with url: session_path, class: "app-form" do |form| %>
     <p>
       <%= form.label :email_address, "Email address" %><br>

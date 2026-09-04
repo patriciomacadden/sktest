@@ -4,8 +4,6 @@
   <main class="app-main">
     <h1>Reset password</h1>
 
-    <%= tag.p(flash[:alert], class: "app-alert", role: "alert") if flash[:alert] %>
-
     <%= form_with url: passwords_path, class: "app-form" do |form| %>
     <p>
       <%= form.label :email_address, "Email address" %><br>
