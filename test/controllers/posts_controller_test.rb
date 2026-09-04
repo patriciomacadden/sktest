@@ -5,6 +5,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     get root_path
 
     assert_response :success
+    assert_select "body.public-posts-page"
     assert_select "ol[aria-label='Public posts']"
     assert_select "li:first-of-type a", "Member's recent post"
     assert_select "li", text: /A recent post by the registered member\./
