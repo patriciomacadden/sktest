@@ -2,28 +2,34 @@
   <li class="app-post-list__item">
 <% end %>
 
-<article class="app-post">
-  <h2 class="app-post__title">
-    <%= link_to post.title, post_path(post) %>
-    <% if local_assigns[:compact] && (original_url = safe_original_url(post)) %>
-      <span class="app-post__domain">(<%= link_to original_url_domain(post), original_url %>)</span>
-    <% end %>
-  </h2>
-  <p class="app-post__metadata">
-    By <%= post.author.email_address %> ·
-    <%= time_tag post.created_at, post.created_at.to_fs(:long) %>
-  </p>
-  <%= tag.p(post.body, class: "app-post__body") if !local_assigns[:compact] && post.body.present? %>
-  <% if !local_assigns[:compact] && (original_url = safe_original_url(post)) %>
-    <%= tag.p(link_to("Original URL", original_url)) %>
+<article class="<%= class_names("app-post", "app-post--votable": local_assigns[:show_vote]) %>">
+  <% if local_assigns[:show_vote] %>
+    <%= render "vote", post: post, voted: local_assigns[:voted_post_ids].include?(post.id) %>
   <% end %>
 
-  <% if local_assigns[:manage] %>
-    <div class="app-post__actions">
-      <%= link_to "Edit post", edit_my_post_path(post), class: "app-post__action" %>
-      <%= button_to "Delete post", my_post_path(post), method: :delete, class: "app-post__action" %>
-    </div>
-  <% end %>
+  <div class="app-post__content">
+    <h2 class="app-post__title">
+      <%= link_to post.title, post_path(post) %>
+      <% if local_assigns[:compact] && (original_url = safe_original_url(post)) %>
+        <span class="app-post__domain">(<%= link_to original_url_domain(post), original_url %>)</span>
+      <% end %>
+    </h2>
+    <p class="app-post__metadata">
+      <%= pluralize(post.votes_count, "vote") %> · By <%= post.author.email_address %> ·
+      <%= time_tag post.created_at, post.created_at.to_fs(:long) %>
+    </p>
+    <%= tag.p(post.body, class: "app-post__body") if !local_assigns[:compact] && post.body.present? %>
+    <% if !local_assigns[:compact] && (original_url = safe_original_url(post)) %>
+      <%= tag.p(link_to("Original URL", original_url)) %>
+    <% end %>
+
+    <% if local_assigns[:manage] %>
+      <div class="app-post__actions">
+        <%= link_to "Edit post", edit_my_post_path(post), class: "app-post__action" %>
+        <%= button_to "Delete post", my_post_path(post), method: :delete, class: "app-post__action" %>
+      </div>
+    <% end %>
+  </div>
 </article>
 
 <% if local_assigns[:compact] %>

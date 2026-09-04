@@ -2,6 +2,7 @@ class Post < ApplicationRecord
   include Pagination
 
   belongs_to :author, class_name: "User"
+  has_many :votes, dependent: :delete_all
 
   normalizes :title, with: ->(value) { value.to_s.strip }
   normalizes :url, with: ->(value) {
@@ -15,6 +16,7 @@ class Post < ApplicationRecord
   validate :url_is_http
 
   scope :newest_first, -> { order(created_at: :desc, id: :desc) }
+  scope :ranked_by_votes, -> { order(votes_count: :desc).newest_first }
 
   private
     def url_is_http

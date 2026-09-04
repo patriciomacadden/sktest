@@ -49,6 +49,15 @@ class PostTest < ActiveSupport::TestCase
     assert_not has_next_page
   end
 
+  test "ranks posts by vote total then newest first" do
+    Vote.create!(user: users(:registered_member), post: posts(:member_older_post))
+    Vote.create!(user: users(:other_author), post: posts(:member_older_post))
+    Vote.create!(user: users(:registered_member), post: posts(:member_recent_post))
+    Vote.create!(user: users(:other_author), post: posts(:other_author_post))
+
+    assert_equal [ posts(:member_older_post), posts(:member_recent_post), posts(:other_author_post) ], Post.ranked_by_votes.to_a
+  end
+
   test "treats an oversized page as the first page" do
     posts, page, = Post.paginated(page: "9" * 100)
 

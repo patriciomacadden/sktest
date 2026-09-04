@@ -139,9 +139,28 @@ textarea:focus-visible { outline: 2px solid var(--braun-primary); outline-offset
 
 .app-post > * { margin: 0; }
 .app-post > * + * { margin-top: var(--braun-space-sm); }
+.app-post__content > * { margin: 0; }
+.app-post__content > * + * { margin-top: var(--braun-space-sm); }
+.app-post--votable { display: grid; grid-template-columns: 16px minmax(0, 1fr); column-gap: 3px; }
+.app-post--votable > * + * { margin-top: 0; }
+.app-post__vote-form { margin: 0; }
+.app-post__vote {
+  display: block;
+  width: 16px;
+  margin-top: 3px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--braun-secondary);
+  cursor: pointer;
+  font: 14px/1 Inter, ui-sans-serif, system-ui, sans-serif;
+  text-align: left;
+  text-decoration: none;
+}
+.app-post__vote--voted { color: var(--braun-tertiary); }
+.app-post--votable-detail .app-post__vote { margin-top: 10px; }
 .app-post__title { font-size: 1.9rem; font-weight: 500; line-height: 1.15; }
-.app-post-list .app-post__title,
-.app-shell--post-show .app-post__title { font-size: 1rem; font-weight: 500; }
+.app-post-list .app-post__title { font-size: 1rem; font-weight: 500; }
 .app-post__metadata,
 .app-post__domain,
 .app-post__body { color: var(--braun-secondary); }

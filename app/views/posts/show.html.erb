@@ -4,18 +4,22 @@
   <%= render "shared/post_navigation" %>
 
   <main class="app-main">
-    <article class="app-post">
-      <h1 class="app-post__title">
-        <%= @post.title %>
-        <% if (original_url = safe_original_url(@post)) %>
-          <span class="app-post__domain">(<%= link_to original_url_domain(@post), original_url %>)</span>
-        <% end %>
-      </h1>
-      <p class="app-post__metadata">
-        By <%= @post.author.email_address %> ·
-      <%= time_tag @post.created_at, @post.created_at.to_fs(:long) %>
-    </p>
-      <%= tag.p(@post.body, class: "app-post__body") if @post.body.present? %>
+    <article class="app-post app-post--votable app-post--votable-detail">
+      <%= render "vote", post: @post, voted: @voted %>
+
+      <div class="app-post__content">
+        <h1 class="app-post__title">
+          <%= @post.title %>
+          <% if (original_url = safe_original_url(@post)) %>
+            <span class="app-post__domain">(<%= link_to original_url_domain(@post), original_url %>)</span>
+          <% end %>
+        </h1>
+        <p class="app-post__metadata">
+          <%= pluralize(@post.votes_count, "vote") %> · By <%= @post.author.email_address %> ·
+          <%= time_tag @post.created_at, @post.created_at.to_fs(:long) %>
+        </p>
+        <%= tag.p(@post.body, class: "app-post__body") if @post.body.present? %>
+      </div>
     </article>
   </main>
 </div>

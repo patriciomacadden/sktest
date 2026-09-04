@@ -4,7 +4,9 @@ Rails.application.routes.draw do
   resource :registration, only: %i[ new create ]
   resource :session
   resources :passwords, param: :token
-  resources :posts, only: %i[ index show ]
+  resources :posts, only: %i[ index show ] do
+    resource :vote, only: %i[ create destroy ], module: :posts
+  end
 
   namespace :my do
     resources :posts

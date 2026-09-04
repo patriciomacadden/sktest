@@ -25,6 +25,24 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".app-post__title a", { text: "example.com", href: "https://example.com/recent" }
   end
 
+  test "visitor sees vote totals and posts ranked by vote total" do
+    Vote.create!(user: users(:registered_member), post: posts(:member_older_post))
+    Vote.create!(user: users(:other_author), post: posts(:member_older_post))
+    Vote.create!(user: users(:registered_member), post: posts(:member_recent_post))
+
+    get root_path
+
+    assert_response :success
+    assert_select "li:first-of-type a", "Member's older post"
+    assert_select ".app-post__metadata", /2 votes · By member@example.com/
+    assert_select "a.app-post__vote", { href: new_session_path(return_to: post_path(posts(:member_older_post))) }
+
+    get post_path(posts(:member_older_post))
+
+    assert_response :success
+    assert_select ".app-post__metadata", /2 votes · By member@example.com/
+  end
+
   test "visitor can request an oversized root page safely" do
     get root_path(page: "9" * 100)
 

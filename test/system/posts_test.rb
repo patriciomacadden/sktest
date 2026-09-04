@@ -15,6 +15,37 @@ class PostsTest < ApplicationSystemTestCase
     assert_link "example.com", href: "https://example.com/recent"
   end
 
+  test "member votes and removes their vote from a public post" do
+    visit post_path(posts(:member_recent_post))
+    find("a.app-post__vote").click
+    fill_in "Email address", with: users(:registered_member).email_address
+    fill_in "Password", with: "password"
+    click_on "Sign in"
+
+    assert_current_path post_path(posts(:member_recent_post))
+    assert_selector "button[aria-label='Vote for this post. 0 votes.'][aria-pressed='false']"
+    find("button[aria-label='Vote for this post. 0 votes.']").click
+
+    assert_selector "button[aria-label='Remove your vote. 1 vote.'][aria-pressed='true']"
+    assert_text "1 vote · By member@example.com"
+    find("button[aria-label='Remove your vote. 1 vote.']").click
+
+    assert_selector "button[aria-label='Vote for this post. 0 votes.'][aria-pressed='false']"
+    assert_text "0 votes · By member@example.com"
+  end
+
+  test "visitor is returned to a post after signing in to vote" do
+    visit post_path(posts(:member_recent_post))
+
+    find("a.app-post__vote").click
+    fill_in "Email address", with: users(:registered_member).email_address
+    fill_in "Password", with: "password"
+    click_on "Sign in"
+
+    assert_current_path post_path(posts(:member_recent_post))
+    assert_selector "button[aria-label='Vote for this post. 0 votes.'][aria-pressed='false']"
+  end
+
   test "visitor paginates the public list" do
     18.times do |index|
       Post.create!(author: users(:registered_member), title: "Paged post #{index}", created_at: 1.minute.from_now + index.minutes)

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_03_195500) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_04_215209) do
   create_table "posts", force: :cascade do |t|
     t.integer "author_id", null: false
     t.text "body"
@@ -18,6 +18,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_03_195500) do
     t.string "title", null: false
     t.datetime "updated_at", null: false
     t.string "url"
+    t.integer "votes_count", default: 0, null: false
     t.index ["author_id", "created_at"], name: "index_posts_on_author_id_and_created_at"
     t.index ["author_id"], name: "index_posts_on_author_id"
     t.index ["created_at"], name: "index_posts_on_created_at"
@@ -40,6 +41,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_03_195500) do
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 
+  create_table "votes", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "post_id", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["post_id"], name: "index_votes_on_post_id"
+    t.index ["user_id", "post_id"], name: "index_votes_on_user_id_and_post_id", unique: true
+  end
+
   add_foreign_key "posts", "users", column: "author_id"
   add_foreign_key "sessions", "users"
+  add_foreign_key "votes", "posts"
+  add_foreign_key "votes", "users"
 end

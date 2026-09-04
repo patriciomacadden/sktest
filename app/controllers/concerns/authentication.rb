@@ -43,6 +43,12 @@ module Authentication
       session.delete(:return_to_after_authenticating) || root_url
     end
 
+    def store_post_return_location(location)
+      return unless location&.match?(%r{\A/posts/\d+\z})
+
+      session[:return_to_after_authenticating] = location
+    end
+
     def start_new_session_for(user)
       user.sessions.create!(user_agent: request.user_agent, ip_address: request.remote_ip).tap do |session|
         Current.session = session
