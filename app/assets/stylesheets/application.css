@@ -25,11 +25,12 @@ body {
 }
 
 a { color: inherit; }
-a:hover { color: var(--braun-tertiary); }
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
-textarea:focus-visible { outline: 2px solid var(--braun-tertiary); outline-offset: 3px; }
+textarea:focus-visible { outline: 2px solid var(--braun-primary); outline-offset: 3px; }
+.app-primary-action:focus-visible,
+.post-navigation__primary-action:focus-visible { outline-color: var(--braun-tertiary); }
 
 .app-shell {
   width: min(100% - var(--braun-space-md), 1050px);
@@ -165,7 +166,6 @@ textarea:focus-visible { outline: 2px solid var(--braun-tertiary); outline-offse
   text-decoration: underline;
   text-transform: inherit;
 }
-.app-post__action:hover { color: var(--braun-tertiary); }
 
 .app-pagination {
   display: flex;
@@ -175,7 +175,6 @@ textarea:focus-visible { outline: 2px solid var(--braun-tertiary); outline-offse
   color: var(--braun-secondary);
   text-transform: uppercase;
 }
-.app-pagination a:hover { color: var(--braun-tertiary); }
 
 .app-form { max-width: 34rem; }
 .app-form p { margin: 0 0 var(--braun-space-md); }

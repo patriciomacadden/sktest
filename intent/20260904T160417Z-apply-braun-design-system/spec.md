@@ -5,7 +5,7 @@ Author: Patricio Mac Adden. Timestamp: 2026-09-04T16:23:49Z. Status: accepted.
 - frontend-design: SHA-256 `1608ea77fbb6fc30d13a97d12cfa8ebf31358d40f0dd97beed24829d6b3f45dd`; source: `/Users/patricio/.agents/skills/frontend-design/SKILL.md` (externally managed, untracked skill).
 
 ## Summary
-The browser-facing Rails application must consistently use the Braun system defined in `DESIGN.md`. Public post browsing, account and password flows, and authenticated post management are in scope. The change is visual only: existing copy and behavior must remain unchanged. Email and PWA pages are explicitly out of scope.
+The browser-facing Rails application must consistently use the Braun system defined in `DESIGN.md`. Public post browsing, account and password flows, and authenticated post management are in scope. Existing behavior remains unchanged; approved presentation changes remove the redundant Posts link and My posts heading, hide optional bodies on post-list screens, and move an original-source domain link beside the post-detail title. Email and PWA pages are explicitly out of scope.
 
 ## Users and primary journeys
 - Visitors browse the posts index, open a post, and follow pagination or original-source links.
@@ -15,13 +15,13 @@ The browser-facing Rails application must consistently use the Braun system defi
 
 ## Functional requirements
 - **FR-1:** Apply the Braun presentation to every browser-facing page rendered by the application layout: public post index and detail; registration; sign-in; password-reset request and update; and authenticated post index, create, and edit. **Source:** Intent: Proposed outcome; affected users and systems.
-- **FR-2:** Preserve all existing routes, authentication and authorization behavior, form fields and submitted parameters, validation/error behavior, flash behavior, pagination, post actions, and user-facing copy. **Source:** Product-owner decision: preserve both behavior and copy.
+- **FR-2:** Preserve all existing routes, authentication and authorization behavior, form fields and submitted parameters, validation/error behavior, flash behavior, pagination, and post actions. Approved presentation exceptions are removal of the redundant Posts link and My posts heading; hiding optional bodies on public and managed-post lists; and replacing the post-detail “Original URL” label with its domain link beside the title. **Source:** Product-owner decisions recorded in annotation feedback.
 - **FR-3:** Leave mailer templates and PWA templates/assets outside this change. **Source:** Intent: Constraints.
 
 ## UX and design requirements
 - **UX-1:** Use `DESIGN.md` tokens consistently: Primary `#0F1113`, Secondary `#6B6F74`, Tertiary `#D95600`, Neutral `#E7E5E1`, and Surface `#F3F1EC`; Inter for display, headings, and body; and JetBrains Mono for labels, captions, metadata, and navigation utilities. **Source:** `DESIGN.md`; Intent: Constraints.
 - **UX-2:** Use the specified type scale, spacing (8px, 16px, and 32px), and 0–4px corner radii. Lay pages out on a disciplined, responsive industrial grid with neutral negative space and flat surfaces; do not introduce gradients or any alternate accent color. **Source:** `DESIGN.md`; frontend-design.
-- **UX-3:** Give each screen exactly one visually tertiary-orange primary action. All other links, buttons, destructive actions, and navigation controls remain visually neutral while retaining their existing behavior and copy. **Source:** Intent: Constraints; `DESIGN.md`.
+- **UX-3:** Give each screen exactly one visually tertiary-orange primary action. All other links, buttons, destructive actions, and navigation controls remain visually neutral in default, focus, and hover states while retaining their existing behavior and approved presentation. **Source:** Intent: Constraints; `DESIGN.md`; review finding 1.
 - **UX-4:** Present hierarchy through content-relevant structural devices—such as labels, rules, metadata, and spacing—rather than decorative numbering or new marketing copy. The public post list is the product's content-oriented focal point; account and post-management pages prioritize the existing task form or list. **Source:** frontend-design; product-owner decision: preserve copy.
 - **UX-5:** Keep layouts usable at narrow mobile widths; provide visible keyboard focus for interactive controls; preserve semantic form labels, alert/status roles, and pagination/navigation labels; and avoid nonessential motion. Any introduced motion must honor reduced-motion preferences. **Source:** frontend-design.
 

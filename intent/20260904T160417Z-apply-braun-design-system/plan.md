@@ -8,9 +8,9 @@ Author: Patricio Mac Adden. Timestamp: 2026-09-04T17:27:37Z. Status: accepted.
 ## Order of work
 
 1. Replace the public-post-only CSS with shared Braun tokens and responsive, accessible application-shell, navigation, content, list, form, status/error, pagination, and action styles. Use 16px main-content padding, retain usable font fallbacks, and add focus/reduced-motion rules.
-2. Add semantic presentation classes and page/shell wrappers to every in-scope browser view and shared partial. Preserve existing text, routes, fields, form parameters, and behavior except for the approved public-list body and redundant navigation changes.
+2. Add semantic presentation classes and page/shell wrappers to every in-scope browser view and shared partial. Preserve existing routes, fields, form parameters, and behavior except for the approved list-body, heading, navigation, and original-source presentation changes.
 3. Assign one orange primary action per screen through context-specific classes: Sign in or Create post on public pages; Sign up, Sign in, Email reset instructions, and Save in the account flows; Create post on My posts; and Create Post or Update Post on the respective form screens. Retain neutral styling for navigation, secondary links, and destructive actions.
-4. Remove the redundant Posts navigation link, because the Sktest brand link already reaches the public-posts root. Hide optional post bodies on the public posts list only; retain them on the post-detail page.
+4. Remove the redundant Posts navigation link, because the Sktest brand link already reaches the public-posts root. Remove the My posts heading; hide optional post bodies on public and managed-post lists while retaining them on the post-detail page; and place the post-detail original-source domain link beside its title.
 5. Extend existing system tests with stable structural/style hooks for the in-scope public, authentication, password, and post-management journeys, while preserving their existing behavioral coverage.
 6. Run targeted system tests, the Rails test suite, RuboCop, and the configured CI target as environment permits.
 7. Start the local application and use Playwright at desktop and mobile widths to inspect public browsing, an authentication form, and an authenticated post-management form; capture screenshots as evidence.
@@ -18,7 +18,7 @@ Author: Patricio Mac Adden. Timestamp: 2026-09-04T17:27:37Z. Status: accepted.
 ## Risks
 
 - Broad shared CSS can unintentionally affect mailer/PWA output or browser pages outside the defined scope; scope selectors to the application HTML presentation only and verify excluded templates remain unchanged.
-- A “single orange action” can conflict with global navigation and form submissions; use page-context classes so the current task’s submit action is primary on forms and creation is primary on listing screens.
+- A “single orange action” can conflict with global navigation, form submissions, and hover styles; use page-context classes so the current task’s submit action is primary on forms and creation is primary on listing screens, and keep secondary controls neutral in every state.
 - Visual changes can degrade keyboard focus, narrow layouts, or existing Rails form/error semantics; preserve semantic markup and validate rendered flows.
 - System browser tooling may be unavailable locally; if so, report the exact blocker and retain the strongest available automated proof.
 
