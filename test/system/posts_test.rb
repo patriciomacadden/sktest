@@ -63,10 +63,11 @@ class PostsTest < ApplicationSystemTestCase
   end
 
   test "author sees validation errors" do
-    visit new_session_path
-    fill_in "Email address", with: users(:registered_member).email_address
+    visit new_registration_path
+    fill_in "Email address", with: "post-errors-#{SecureRandom.uuid}@example.com"
     fill_in "Password", with: "password"
-    click_on "Sign in"
+    fill_in "Confirm password", with: "password"
+    click_on "Sign up"
     assert_current_path root_path
     assert_selector "ol[aria-label='Public posts']"
     visit new_my_post_path

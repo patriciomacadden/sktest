@@ -13,7 +13,7 @@
     By <%= post.author.email_address %> ·
     <%= time_tag post.created_at, post.created_at.to_fs(:long) %>
   </p>
-  <%= tag.p(post.body, class: "app-post__body") if post.body.present? %>
+  <%= tag.p(post.body, class: "app-post__body") if !local_assigns[:compact] && post.body.present? %>
   <% if !local_assigns[:compact] && (original_url = safe_original_url(post)) %>
     <%= tag.p(link_to("Original URL", original_url)) %>
   <% end %>

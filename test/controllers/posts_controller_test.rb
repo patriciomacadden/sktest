@@ -8,7 +8,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_select "body.app-page--posts-index"
     assert_select "ol[aria-label='Public posts']"
     assert_select "li:first-of-type a", "Member's recent post"
-    assert_select "li", text: /A recent post by the registered member\./
+    assert_select "ol[aria-label='Public posts'] .app-post__body", count: 0
     assert_select "a", { text: "example.com", href: "https://example.com/recent" }
 
     get posts_path
@@ -21,6 +21,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select "h1", "Member's recent post"
+    assert_select ".app-post__body", /A recent post by the registered member\./
     assert_select "a", { text: "Original URL", href: "https://example.com/recent" }
   end
 

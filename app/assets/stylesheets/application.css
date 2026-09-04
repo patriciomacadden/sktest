@@ -39,7 +39,7 @@ textarea:focus-visible { outline: 2px solid var(--braun-tertiary); outline-offse
   border: 1px solid var(--braun-primary);
 }
 
-.app-main { padding: var(--braun-space-lg); }
+.app-main { padding: var(--braun-space-md); }
 .app-main > :first-child { margin-top: 0; }
 .app-main h1 {
   font-size: 1.9rem;

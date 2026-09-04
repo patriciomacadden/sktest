@@ -7,12 +7,13 @@ Author: Patricio Mac Adden. Timestamp: 2026-09-04T17:27:37Z. Status: accepted.
 
 ## Order of work
 
-1. Replace the public-post-only CSS with shared Braun tokens and responsive, accessible application-shell, navigation, content, list, form, status/error, pagination, and action styles. Retain usable font fallbacks and add focus/reduced-motion rules.
-2. Add semantic presentation classes and page/shell wrappers to every in-scope browser view and shared partial, without changing text, routes, fields, form parameters, or behavior.
+1. Replace the public-post-only CSS with shared Braun tokens and responsive, accessible application-shell, navigation, content, list, form, status/error, pagination, and action styles. Use 16px main-content padding, retain usable font fallbacks, and add focus/reduced-motion rules.
+2. Add semantic presentation classes and page/shell wrappers to every in-scope browser view and shared partial. Preserve existing text, routes, fields, form parameters, and behavior except for the approved public-list body and redundant navigation changes.
 3. Assign one orange primary action per screen through context-specific classes: Sign in or Create post on public pages; Sign up, Sign in, Email reset instructions, and Save in the account flows; Create post on My posts; and Create Post or Update Post on the respective form screens. Retain neutral styling for navigation, secondary links, and destructive actions.
-4. Extend existing system tests with stable structural/style hooks for the in-scope public, authentication, password, and post-management journeys, while preserving their existing behavioral coverage.
-5. Run targeted system tests, the Rails test suite, RuboCop, and the configured CI target as environment permits.
-6. Start the local application and use Playwright at desktop and mobile widths to inspect public browsing, an authentication form, and an authenticated post-management form; capture screenshots as evidence.
+4. Remove the redundant Posts navigation link, because the Sktest brand link already reaches the public-posts root. Hide optional post bodies on the public posts list only; retain them on the post-detail page.
+5. Extend existing system tests with stable structural/style hooks for the in-scope public, authentication, password, and post-management journeys, while preserving their existing behavioral coverage.
+6. Run targeted system tests, the Rails test suite, RuboCop, and the configured CI target as environment permits.
+7. Start the local application and use Playwright at desktop and mobile widths to inspect public browsing, an authentication form, and an authenticated post-management form; capture screenshots as evidence.
 
 ## Risks
 

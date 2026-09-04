@@ -1,6 +1,5 @@
 <nav class="post-navigation" aria-label="Primary">
   <%= link_to "Sktest", root_path, class: "post-navigation__brand" %>
-  <%= link_to "Posts", posts_path %>
   <% if authenticated? %>
     <%= link_to "My posts", my_posts_path %>
     <%= link_to "Create post", new_my_post_path, class: "post-navigation__primary-action" %>
