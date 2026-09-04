@@ -153,14 +153,16 @@ textarea:focus-visible { outline: 2px solid var(--braun-tertiary); outline-offse
   letter-spacing: .08em;
   text-transform: uppercase;
 }
-.app-post__actions button {
+.app-post__action {
   padding: 0;
   border: 0;
   background: none;
   color: inherit;
   cursor: pointer;
   font: inherit;
+  letter-spacing: inherit;
   text-decoration: underline;
+  text-transform: inherit;
 }
 
 .app-pagination {

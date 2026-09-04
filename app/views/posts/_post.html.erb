@@ -20,8 +20,8 @@
 
   <% if local_assigns[:manage] %>
     <div class="app-post__actions">
-      <%= link_to "Edit post", edit_my_post_path(post) %>
-      <%= button_to "Delete post", my_post_path(post), method: :delete %>
+      <%= link_to "Edit post", edit_my_post_path(post), class: "app-post__action" %>
+      <%= button_to "Delete post", my_post_path(post), method: :delete, class: "app-post__action" %>
     </div>
   <% end %>
 </article>
