@@ -4,10 +4,12 @@ class PostsTest < ApplicationSystemTestCase
   test "visitor browses a public post" do
     visit root_path
 
+    assert_selector ".app-shell--posts-index"
     assert_selector "ol[aria-label='Public posts']"
     assert_link "example.com", href: "https://example.com/recent"
     click_on "Member's recent post"
 
+    assert_selector ".app-shell--post-show"
     assert_text "By member@example.com"
     assert_link "Original URL", href: "https://example.com/recent"
   end
@@ -35,6 +37,7 @@ class PostsTest < ApplicationSystemTestCase
     assert_selector "ol[aria-label='Public posts']"
     click_on "Create post"
     assert_current_path new_my_post_path
+    assert_selector ".app-shell--post-form input.app-primary-action[value='Create Post']", count: 1
 
     fill_in "Title", with: "A system post"
     fill_in "Original URL (optional)", with: "example.com/system"

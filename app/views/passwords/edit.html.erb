@@ -1,9 +1,12 @@
-<main>
-  <h1>Update your password</h1>
+<% content_for :body_class, "app-page app-page--password-update" %>
 
-  <%= tag.p(flash[:alert], role: "alert") if flash[:alert] %>
+<div class="app-shell app-shell--password-update">
+  <main class="app-main">
+    <h1>Update your password</h1>
 
-  <%= form_with url: password_path(params[:token]), method: :put do |form| %>
+    <%= tag.p(flash[:alert], class: "app-alert", role: "alert") if flash[:alert] %>
+
+    <%= form_with url: password_path(params[:token]), method: :put, class: "app-form" do |form| %>
     <p>
       <%= form.label :password, "New password" %><br>
       <%= form.password_field :password, required: true, autocomplete: "new-password", maxlength: 72 %>
@@ -12,6 +15,7 @@
       <%= form.label :password_confirmation, "Confirm new password" %><br>
       <%= form.password_field :password_confirmation, required: true, autocomplete: "new-password", maxlength: 72 %>
     </p>
-    <%= form.submit "Save" %>
-  <% end %>
-</main>
+      <%= form.submit "Save", class: "app-primary-action" %>
+    <% end %>
+  </main>
+</div>

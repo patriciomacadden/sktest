@@ -24,7 +24,7 @@
   </head>
 
   <body class="<%= content_for(:body_class) %>">
-    <%= tag.p(flash[:notice], role: "status") if flash[:notice] %>
+    <%= tag.p(flash[:notice], class: "app-flash", role: "status") if flash[:notice] %>
     <%= yield %>
   </body>
 </html>

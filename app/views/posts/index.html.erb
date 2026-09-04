@@ -1,10 +1,12 @@
 <% content_for :body_class, "public-posts-page" %>
 
-<div class="public-posts">
+<% content_for :body_class, "app-page app-page--posts-index" %>
+
+<div class="app-shell app-shell--posts-index">
   <%= render "shared/post_navigation" %>
 
-  <main>
-    <ol class="public-posts__list" aria-label="Public posts">
+  <main class="app-main">
+    <ol class="app-post-list" aria-label="Public posts">
       <%= render partial: "post", collection: @posts, locals: { compact: true } %>
     </ol>
     <%= render "shared/pagination", page: @page, has_next_page: @has_next_page, label: "Posts" %>

@@ -1,5 +1,5 @@
 <% if post.errors.any? %>
-  <div role="alert">
+  <div class="app-form-errors" role="alert">
     <h2>Check your details</h2>
     <ul>
       <% post.errors.full_messages.each do |message| %>
@@ -9,7 +9,7 @@
   </div>
 <% end %>
 
-<%= form_with model: [ :my, post ] do |form| %>
+<%= form_with model: [ :my, post ], class: "app-form" do |form| %>
   <p>
     <%= form.label :title %><br>
     <%= form.text_field :title, required: true, autofocus: true %>
@@ -22,5 +22,5 @@
     <%= form.label :body, "Body (optional)" %><br>
     <%= form.text_area :body %>
   </p>
-  <%= form.submit %>
+  <%= form.submit class: "app-primary-action" %>
 <% end %>

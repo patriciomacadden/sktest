@@ -1,15 +1,19 @@
-<%= render "shared/post_navigation" %>
+<% content_for :body_class, "app-page app-page--post-show" %>
 
-<main>
-  <article>
-    <h1><%= @post.title %></h1>
-    <p>
-      By <%= @post.author.email_address %> ·
+<div class="app-shell app-shell--post-show">
+  <%= render "shared/post_navigation" %>
+
+  <main class="app-main">
+    <article class="app-post">
+      <h1 class="app-post__title"><%= @post.title %></h1>
+      <p class="app-post__metadata">
+        By <%= @post.author.email_address %> ·
       <%= time_tag @post.created_at, @post.created_at.to_fs(:long) %>
     </p>
-    <%= tag.p(@post.body) if @post.body.present? %>
+      <%= tag.p(@post.body, class: "app-post__body") if @post.body.present? %>
     <% if (original_url = safe_original_url(@post)) %>
       <%= tag.p(link_to("Original URL", original_url)) %>
     <% end %>
-  </article>
-</main>
+    </article>
+  </main>
+</div>

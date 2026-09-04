@@ -1,10 +1,13 @@
-<main>
-  <h1>Sign up</h1>
+<% content_for :body_class, "app-page app-page--registration" %>
 
-  <%= tag.p(flash[:alert], role: "alert") if flash[:alert] %>
+<div class="app-shell app-shell--registration">
+  <main class="app-main">
+    <h1>Sign up</h1>
+
+    <%= tag.p(flash[:alert], class: "app-alert", role: "alert") if flash[:alert] %>
 
   <% if @user.errors.any? %>
-    <div role="alert">
+    <div class="app-form-errors" role="alert">
       <h2>Check your details</h2>
       <ul>
         <% @user.errors.full_messages.each do |message| %>
@@ -14,7 +17,7 @@
     </div>
   <% end %>
 
-  <%= form_with model: @user, url: registration_path do |form| %>
+  <%= form_with model: @user, url: registration_path, class: "app-form" do |form| %>
     <p>
       <%= form.label :email_address, "Email address" %><br>
       <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "email" %>
@@ -27,8 +30,9 @@
       <%= form.label :password_confirmation, "Confirm password" %><br>
       <%= form.password_field :password_confirmation, required: true, autocomplete: "new-password", maxlength: 72 %>
     </p>
-    <%= form.submit "Sign up" %>
+    <%= form.submit "Sign up", class: "app-primary-action" %>
   <% end %>
 
-  <p><%= link_to "Sign in", new_session_path %></p>
-</main>
+    <p class="app-secondary-links"><%= link_to "Sign in", new_session_path %></p>
+  </main>
+</div>

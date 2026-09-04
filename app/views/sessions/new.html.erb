@@ -1,10 +1,13 @@
-<main>
-  <h1>Sign in</h1>
+<% content_for :body_class, "app-page app-page--session" %>
 
-  <%= tag.p(flash[:alert], role: "alert") if flash[:alert] %>
-  <%= tag.p(flash[:notice], role: "status") if flash[:notice] %>
+<div class="app-shell app-shell--session">
+  <main class="app-main">
+    <h1>Sign in</h1>
 
-  <%= form_with url: session_path do |form| %>
+    <%= tag.p(flash[:alert], class: "app-alert", role: "alert") if flash[:alert] %>
+    <%= tag.p(flash[:notice], class: "app-alert", role: "status") if flash[:notice] %>
+
+    <%= form_with url: session_path, class: "app-form" do |form| %>
     <p>
       <%= form.label :email_address, "Email address" %><br>
       <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", value: params[:email_address] %>
@@ -13,9 +16,12 @@
       <%= form.label :password, "Password" %><br>
       <%= form.password_field :password, required: true, autocomplete: "current-password", maxlength: 72 %>
     </p>
-    <%= form.submit "Sign in" %>
+      <%= form.submit "Sign in", class: "app-primary-action" %>
   <% end %>
 
-  <p><%= link_to "Reset password", new_password_path %></p>
-  <p><%= link_to "Sign up", new_registration_path %></p>
-</main>
+    <div class="app-secondary-links">
+      <%= link_to "Reset password", new_password_path %>
+      <%= link_to "Sign up", new_registration_path %>
+    </div>
+  </main>
+</div>

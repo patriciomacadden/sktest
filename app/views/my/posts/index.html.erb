@@ -1,7 +1,11 @@
-<%= render "shared/post_navigation" %>
+<% content_for :body_class, "app-page app-page--my-posts" %>
 
-<main>
-  <h1>My posts</h1>
+<div class="app-shell app-shell--my-posts">
+  <%= render "shared/post_navigation" %>
+
+  <main class="app-main">
+    <h1>My posts</h1>
   <%= render partial: "posts/post", collection: @posts, locals: { manage: true } %>
-  <%= render "shared/pagination", page: @page, has_next_page: @has_next_page, label: "My posts" %>
-</main>
+    <%= render "shared/pagination", page: @page, has_next_page: @has_next_page, label: "My posts" %>
+  </main>
+</div>

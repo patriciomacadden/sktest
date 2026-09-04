@@ -1,6 +1,10 @@
-<%= render "shared/post_navigation" %>
+<% content_for :body_class, "app-page app-page--post-form" %>
 
-<main>
-  <h1>Edit post</h1>
-  <%= render "form", post: @post %>
-</main>
+<div class="app-shell app-shell--post-form">
+  <%= render "shared/post_navigation" %>
+
+  <main class="app-main">
+    <h1>Edit post</h1>
+    <%= render "form", post: @post %>
+  </main>
+</div>

@@ -1,15 +1,19 @@
-<main>
-  <h1>Reset password</h1>
+<% content_for :body_class, "app-page app-page--password-reset" %>
 
-  <%= tag.p(flash[:alert], role: "alert") if flash[:alert] %>
+<div class="app-shell app-shell--password-reset">
+  <main class="app-main">
+    <h1>Reset password</h1>
 
-  <%= form_with url: passwords_path do |form| %>
+    <%= tag.p(flash[:alert], class: "app-alert", role: "alert") if flash[:alert] %>
+
+    <%= form_with url: passwords_path, class: "app-form" do |form| %>
     <p>
       <%= form.label :email_address, "Email address" %><br>
       <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", value: params[:email_address] %>
     </p>
-    <%= form.submit "Email reset instructions" %>
+      <%= form.submit "Email reset instructions", class: "app-primary-action" %>
   <% end %>
 
-  <p><%= link_to "Sign in", new_session_path %></p>
-</main>
+    <p class="app-secondary-links"><%= link_to "Sign in", new_session_path %></p>
+  </main>
+</div>
