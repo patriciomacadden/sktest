@@ -12,7 +12,7 @@ Authenticated users need a way to vote for public web posts so the public post l
 
 ## Users and primary journeys
 - **Authenticated voter:** On a public post list or show page, identifies the compact up-arrow control, casts a vote, sees its selected state and the updated total, and can activate it again to remove the vote.
-- **Signed-out visitor:** Can see public posts and vote totals. Activating a vote control takes them to sign in rather than recording a vote; after signing in, they return to the originating post.
+- **Signed-out visitor:** Can see public posts and vote totals. Activating a vote control takes them to sign in rather than recording a vote; after successful sign-in, they follow the application's normal sign-in destination.
 - **Public reader:** Uses the list ordered by vote total; ties are ordered newest first.
 
 The reviewed design input is `vote-mockup.html`, revision 1, 2026-09-04, approved by product owner Patricio Mac Adden. It informs UX-1 through UX-4 and is an input only, not implementation authorization.
@@ -22,7 +22,7 @@ The reviewed design input is `vote-mockup.html`, revision 1, 2026-09-04, approve
 - **FR-2:** The system must prevent more than one active vote for the same user and post, including under concurrent requests. **Source:** Intent: Constraints; Rails Best Practices Core.
 - **FR-3:** Public post list pages must order posts by active vote total descending. Posts with equal totals must be ordered newest first. **Source:** Intent: Proposed outcome; product-owner decision, 2026-09-04.
 - **FR-4:** Public post list and show pages must display each post's current active vote total. **Source:** Intent: Proposed outcome and Constraints.
-- **FR-5:** A signed-out visitor who activates a post's vote control must be directed to sign in, no vote may be created, and after successful sign-in the visitor must return to the originating post. **Source:** Product-owner decisions, 2026-09-04.
+- **FR-5:** A signed-out visitor who activates a post's vote control must be directed to sign in, and no vote may be created. Successful sign-in follows the application's normal destination. **Source:** Product-owner decision, 2026-09-04.
 
 ## UX and design requirements
 - **UX-1:** Each public list item and public show page must provide an up-arrow vote control adjacent to the post title. It uses the muted gray design-system color when not voted and utility orange when voted; the control has no background or border in either state. **Source:** Reviewed mockup revision 1; Braun design system.
@@ -58,10 +58,10 @@ None identified.
 - **AC-2:** Repeated or concurrent attempts to vote the same post as the same user leave exactly one active vote. **Covers:** FR-2, SPC-2.
 - **AC-3:** The public post list is sorted by active vote total descending; posts with the same total are ordered newest first. **Covers:** FR-3.
 - **AC-4:** Every public list item and show page displays the current vote total before author metadata. **Covers:** FR-4, UX-2.
-- **AC-5:** A signed-out visitor cannot create a vote, is sent to sign in when activating the vote control, and returns to the originating post after successful sign-in. **Covers:** FR-5, SPC-1.
+- **AC-5:** A signed-out visitor cannot create a vote and is sent to sign in when activating the vote control; successful sign-in follows the application's normal destination. **Covers:** FR-5, SPC-1.
 - **AC-6:** The public vote control uses a borderless up arrow, gray when inactive and orange when active; its accessible name communicates action and total, it is keyboard operable with visible focus, and it does not rely on color alone to communicate state. **Covers:** UX-1, UX-3.
 - **AC-7:** The show-page title typography and vote-arrow alignment exactly match the public list treatment. **Covers:** UX-4.
 - **AC-8:** Post-list vote totals and ordering are retrieved through database-backed queries without in-memory aggregation or sorting of all posts/votes. **Covers:** NFR-1, NFR-2.
 
 ## Planning readiness
-Ready — functional scope, reviewed UI behavior, pagination behavior, and post-sign-in return behavior are defined. Vote moderation and related controls are explicitly deferred to future intents.
+Ready — functional scope, reviewed UI behavior, and pagination behavior are defined. Vote moderation and related controls are explicitly deferred to future intents.
