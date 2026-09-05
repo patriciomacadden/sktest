@@ -28,7 +28,7 @@ The reviewed design input is `vote-mockup.html`, revision 1, 2026-09-04, approve
 - **UX-1:** Each public list item and public show page must provide an up-arrow vote control adjacent to the post title. It uses the muted gray design-system color when not voted and utility orange when voted; the control has no background or border in either state. **Source:** Reviewed mockup revision 1; Braun design system.
 - **UX-2:** The vote total must appear before the author and timestamp in the post metadata on list and show pages. **Source:** Product-owner feedback; reviewed mockup revision 1.
 - **UX-3:** The control must expose its state and action to assistive technology (for example, an accessible name that distinguishes voting from removing a vote and includes the current total), must be keyboard operable, and must retain a visible keyboard focus indicator. Color alone must not convey vote state. **Source:** Reviewed mockup revision 1; Frontend Design.
-- **UX-4:** The list control’s arrow must be optically aligned with its title without changing the separately tuned show-page alignment for its larger title. The show-page arrow must be visually centered against the show-page title line. **Source:** Product-owner annotation; reviewed mockup revision 1.
+- **UX-4:** Show-page title typography and the vote arrow's alignment must exactly match the public list treatment. **Source:** Product-owner decision, 2026-09-04.
 
 ## Non-functional requirements
 - **NFR-1:** Vote totals and ranking must be derived in database-backed queries; the application must not load all posts or votes into memory to calculate or sort the public list. **Source:** Rails Best Practices Core.
@@ -60,7 +60,7 @@ None identified.
 - **AC-4:** Every public list item and show page displays the current vote total before author metadata. **Covers:** FR-4, UX-2.
 - **AC-5:** A signed-out visitor cannot create a vote, is sent to sign in when activating the vote control, and returns to the originating post after successful sign-in. **Covers:** FR-5, SPC-1.
 - **AC-6:** The public vote control uses a borderless up arrow, gray when inactive and orange when active; its accessible name communicates action and total, it is keyboard operable with visible focus, and it does not rely on color alone to communicate state. **Covers:** UX-1, UX-3.
-- **AC-7:** The list and show-page arrow alignments match the approved mockup: the list arrow is tightly aligned with the list title, and the show-page arrow is centered against its larger title without changing the list alignment. **Covers:** UX-4.
+- **AC-7:** The show-page title typography and vote-arrow alignment exactly match the public list treatment. **Covers:** UX-4.
 - **AC-8:** Post-list vote totals and ordering are retrieved through database-backed queries without in-memory aggregation or sorting of all posts/votes. **Covers:** NFR-1, NFR-2.
 
 ## Planning readiness
