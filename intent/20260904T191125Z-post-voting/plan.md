@@ -8,9 +8,9 @@ Author: Patricio Mac Adden. Timestamp: 2026-09-04T21:48:11Z. Status: accepted.
 ## Order of work
 
 1. Add a `votes` table and `Vote` domain model belonging to a user and post. Add foreign keys, a unique database index on `[user_id, post_id]`, and a `posts.votes_count` counter cache with a non-null zero default. Back the active-vote invariant with the database constraint.
-2. Add `User`/`Post` vote associations, a `Post#voted_by?` predicate, and an explicit post scope for vote-count ranking with newest-first tie breaking. Keep existing newest-first pagination for managed posts; make the public controller pass the ranked relation into existing pagination and preload votes for displayed public posts.
+2. Add `User`/`Post` vote associations and an explicit post scope for vote-count ranking with newest-first tie breaking. Keep existing newest-first pagination for managed posts; make the public controller pass the ranked relation into existing pagination and fetch only the current user's vote IDs for displayed list posts, with a single existence query on show pages.
 3. Add nested singular vote routes and a RESTful `Posts::VotesController`. Create and delete only through `current_user.votes`, redirect back to the post context, and rely on normal authentication for authorization.
-4. Send a signed-out visitor who activates the public vote affordance to the existing sign-in page without recording a vote. Successful sign-in retains the application's normal destination.
+4. Send a signed-out visitor who activates the public vote affordance to the existing sign-in page without recording a vote. Do not store a return location for unauthenticated non-GET requests, so a direct vote mutation request also reaches the application's normal destination after sign-in.
 5. Render a shared vote affordance on public list and show pages. It will show the count before author metadata, use the approved borderless `▲` with muted-gray/orange states, provide action-and-count accessible labels and pressed state, and retain visible keyboard focus. Match show-page title typography and vote-arrow alignment to the public list treatment.
 6. Add focused model, controller, and system coverage. Reuse existing `registered_member`, `other_author`, and post fixtures as the shared personas; create vote relationships inline in tests for ranking, duplicate-vote, and edge states rather than introducing one-off fixture combinations.
 7. Run focused tests while implementing, then the complete CI-equivalent test, system-test, lint, and security-check commands. Visually compare the authenticated and signed-out list/show states against `vote-mockup.html`.
@@ -21,6 +21,7 @@ Author: Patricio Mac Adden. Timestamp: 2026-09-04T21:48:11Z. Status: accepted.
 - The unique index must be the authoritative duplicate-vote protection, including concurrent requests.
 - Public ranking must not unintentionally change the authenticated “My posts” ordering.
 - Pagination remains offset-based as specified; vote changes can move posts between pages.
+- Authentication must not retain a POST/DELETE vote URL as a post-sign-in destination.
 
 ## Execution topology
 
@@ -29,7 +30,7 @@ Sequential. Migration/schema, model/query behavior, routes/controller behavior, 
 ## Proof
 
 - Model tests prove associations, counter totals, descending vote ranking with newest-first ties, and database-enforced duplicate prevention.
-- Controller tests prove list/show totals, ranking, authenticated create/delete, authorization ownership, and signed-out redirect behavior.
+- Controller tests prove list/show totals, ranking, authenticated create/delete, authorization ownership, and signed-out redirect behavior, including a direct unauthenticated vote mutation followed by sign-in.
 - System tests prove the approved arrow states, metadata order, list/show alignment, keyboard-accessible controls, and the signed-out sign-in journey.
 - `bin/rails db:test:prepare test`
 - `bin/rails db:test:prepare test:system`
