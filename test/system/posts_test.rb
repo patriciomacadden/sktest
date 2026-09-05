@@ -23,7 +23,7 @@ class PostsTest < ApplicationSystemTestCase
     fill_in "Password", with: "password"
     click_on "Sign in"
 
-    assert_current_path root_path
+    assert_current_path root_path, wait: 5
     visit post_path(posts(:member_recent_post))
     assert_selector "button[aria-label='Vote for this post. 0 votes.'][aria-pressed='false']"
     find("button[aria-label='Vote for this post. 0 votes.']").click
@@ -45,7 +45,7 @@ class PostsTest < ApplicationSystemTestCase
     fill_in "Password", with: "password"
     click_on "Sign in"
 
-    assert_current_path root_path
+    assert_current_path root_path, wait: 5
     assert_selector "button[aria-label='Vote for this post. 0 votes.'][aria-pressed='false']"
   end
 

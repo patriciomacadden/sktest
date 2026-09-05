@@ -37,5 +37,9 @@ class Posts::VotesControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to new_session_path
+
+    post session_path, params: { email_address: users(:registered_member).email_address, password: "password" }
+
+    assert_redirected_to root_path
   end
 end
