@@ -2,12 +2,10 @@ class PostsController < ApplicationController
   allow_unauthenticated_access only: %i[ index show ]
 
   def index
-    @posts, @page, @has_next_page = Post.paginated(page: params[:page], posts: Post.ranked_by_votes)
-    @voted_post_ids = current_user ? current_user.votes.where(post: @posts).pluck(:post_id) : []
+    @posts, @page, @has_next_page = Post.paginated(page: params[:page], posts: Post.ranked_by_votes.includes(:votes))
   end
 
   def show
-    @post = Post.find(params[:id])
-    @voted = current_user&.votes&.exists?(post: @post) || false
+    @post = Post.includes(:votes).find(params[:id])
   end
 end

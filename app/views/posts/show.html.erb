@@ -5,7 +5,7 @@
 
   <main class="app-main">
     <article class="app-post app-post--votable">
-      <%= render "vote", post: @post, voted: @voted %>
+      <%= render "vote", post: @post, voted: @post.voted_by?(current_user) %>
 
       <div class="app-post__content">
         <h1 class="app-post__title">

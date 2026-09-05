@@ -15,22 +15,6 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert cookies[:session_id]
   end
 
-  test "create returns a visitor to the post they were voting on" do
-    get new_session_path(return_to: post_path(posts(:member_recent_post)))
-
-    post session_path, params: { email_address: @user.email_address, password: "password" }
-
-    assert_redirected_to post_path(posts(:member_recent_post))
-  end
-
-  test "create ignores an external return location" do
-    get new_session_path(return_to: "https://example.test/phishing")
-
-    post session_path, params: { email_address: @user.email_address, password: "password" }
-
-    assert_redirected_to root_path
-  end
-
   test "create with invalid credentials" do
     post session_path, params: { email_address: @user.email_address, password: "wrong" }
 

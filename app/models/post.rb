@@ -18,6 +18,10 @@ class Post < ApplicationRecord
   scope :newest_first, -> { order(created_at: :desc, id: :desc) }
   scope :ranked_by_votes, -> { order(votes_count: :desc).newest_first }
 
+  def voted_by?(user)
+    user && votes.any? { |vote| vote.user_id == user.id }
+  end
+
   private
     def url_is_http
       return if url.blank?

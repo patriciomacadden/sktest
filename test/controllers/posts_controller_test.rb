@@ -35,7 +35,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "li:first-of-type a", "Member's older post"
     assert_select ".app-post__metadata", /2 votes · By member@example.com/
-    assert_select "a.app-post__vote", { href: new_session_path(return_to: post_path(posts(:member_older_post))) }
+    assert_select "a.app-post__vote", { href: new_session_path }
 
     get post_path(posts(:member_older_post))
 

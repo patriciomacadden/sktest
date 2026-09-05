@@ -4,5 +4,5 @@
 <% if authenticated? %>
   <%= button_to "▲", post_vote_path(post), method: voted ? :delete : :post, class: class_names("app-post__vote", "app-post__vote--voted": voted), form_class: "app-post__vote-form", aria: { label: vote_label, pressed: voted } %>
 <% else %>
-  <%= link_to "▲", new_session_path(return_to: post_path(post)), class: "app-post__vote", aria: { label: "Sign in to vote for this post. #{pluralize(post.votes_count, "vote")}." } %>
+  <%= link_to "▲", new_session_path, class: "app-post__vote", aria: { label: "Sign in to vote for this post. #{pluralize(post.votes_count, "vote")}." } %>
 <% end %>
