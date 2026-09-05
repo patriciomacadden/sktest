@@ -158,9 +158,9 @@ textarea:focus-visible { outline: 2px solid var(--braun-primary); outline-offset
   text-decoration: none;
 }
 .app-post__vote--voted { color: var(--braun-tertiary); }
-.app-post--votable-detail .app-post__vote { margin-top: 10px; }
 .app-post__title { font-size: 1.9rem; font-weight: 500; line-height: 1.15; }
-.app-post-list .app-post__title { font-size: 1rem; font-weight: 500; }
+.app-post-list .app-post__title,
+.app-shell--post-show .app-post__title { font-size: 1rem; font-weight: 500; }
 .app-post__metadata,
 .app-post__domain,
 .app-post__body { color: var(--braun-secondary); }
