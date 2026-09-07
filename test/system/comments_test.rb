@@ -34,16 +34,14 @@ class CommentsTest < ApplicationSystemTestCase
     assert_current_path post_path(posts(:member_recent_post)), ignore_query: true
     assert_text "Edited discussion"
     assert_no_text "Cancelled change"
-    within("#comment_#{root.id}") { click_on "Delete" }
-    assert_equal post_path(posts(:member_recent_post)), URI.parse(page.current_url).path
-    assert_text "text is retained internally"
-    click_on "Cancel"
-    assert_current_path post_path(posts(:member_recent_post)), ignore_query: true
-    visit post_path(posts(:member_recent_post))
+    dismiss_confirm(/existing replies will remain/) do
+      within("#comment_#{root.id}") { click_on "Delete" }
+    end
     assert_text "Edited discussion"
-    within("#comment_#{root.id}") { click_on "Delete" }
-    assert_equal post_path(posts(:member_recent_post)), URI.parse(page.current_url).path
-    click_on "Delete comment"
+    assert_not Comment.find(root.id).deleted?
+    accept_confirm(/existing replies will remain/) do
+      within("#comment_#{root.id}") { click_on "Delete" }
+    end
     assert_text "Comment deleted."
     within("#comment_#{root.id}") do
       assert_text "[deleted]"

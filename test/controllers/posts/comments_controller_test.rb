@@ -113,9 +113,6 @@ class Posts::CommentsControllerTest < ActionDispatch::IntegrationTest
       assert_equal @comment.body, elements.first.content
     end
     sign_in_as(users(:registered_member))
-    get post_comment_path(@post, @comment)
-    assert_select "button", text: "Delete comment"
-    assert_select "a", text: "Cancel"
     delete post_comment_path(@post, @comment)
     assert_response :see_other
     assert_equal "<script>alert('x')</script>\n**literal**", @comment.reload.body

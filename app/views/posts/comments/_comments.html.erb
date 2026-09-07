@@ -1,7 +1,5 @@
 <section id="comments" class="comments" aria-label="Discussion">
-  <% if deletion_comment %>
-    <%= render "posts/comments/deletion", post: post, comment: deletion_comment %>
-  <% elsif authenticated? && reply_parent_id.nil? %>
+  <% if authenticated? && reply_parent_id.nil? %>
     <%= render "posts/comments/form", post: post, comment: comment %>
   <% elsif !authenticated? %>
     <p><%= link_to "Sign in to comment", new_session_path %></p>

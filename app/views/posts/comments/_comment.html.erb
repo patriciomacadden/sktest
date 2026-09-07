@@ -14,7 +14,7 @@
           <%= link_to "Reply", new_post_comment_path(post, parent_id: comment.id), data: { turbo_stream: true } %>
           <% if comment.editable_by?(current_user) %>
             <%= link_to "Edit", edit_post_comment_path(post, comment), data: { turbo_stream: true } %>
-            <%= link_to "Delete", post_comment_path(post, comment), data: { turbo_stream: true } %>
+            <%= link_to "Delete", post_comment_path(post, comment), data: { turbo_method: :delete, turbo_stream: true, turbo_confirm: "Delete this comment? It will show as [deleted], existing replies will remain, and its text is retained internally while the post exists." } %>
           <% end %>
           <% end %>
         </div>

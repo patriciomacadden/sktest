@@ -1,7 +1,7 @@
 class Posts::CommentsController < ApplicationController
   before_action :set_post
-  before_action :set_comment, only: %i[ show edit update destroy ]
-  before_action :authorize_author, only: %i[ show edit update destroy ]
+  before_action :set_comment, only: %i[ edit update destroy ]
+  before_action :authorize_author, only: %i[ edit update destroy ]
 
   def new
     @comment = @post.comments.new(parent: selected_parent)
@@ -23,13 +23,6 @@ class Posts::CommentsController < ApplicationController
       respond_to_success("Comment posted.")
     else
       respond_to_failure(:new)
-    end
-  end
-
-  def show
-    respond_to do |format|
-      format.turbo_stream { render_discussion(nil, deletion_comment: @comment, focus_comment_id: nil) }
-      format.html
     end
   end
 
@@ -97,12 +90,12 @@ class Posts::CommentsController < ApplicationController
       end
     end
 
-    def render_discussion(notice, form_comment: @post.comments.new, deletion_comment: nil, reply_parent_id: nil, focus_comment_id: @comment&.id, status: :ok)
+    def render_discussion(notice, form_comment: @post.comments.new, reply_parent_id: nil, focus_comment_id: @comment&.id, status: :ok)
       @thread = Comment::Thread.new(@post)
       streams = [
         turbo_stream.update("flash_messages", partial: "shared/flash_messages", locals: { notice:, alert: nil }),
         turbo_stream.replace("comments", partial: "posts/comments/comments", locals: {
-          post: @post, comment: form_comment, deletion_comment:, reply_parent_id:, thread: @thread, notice: nil, focus_comment_id:
+          post: @post, comment: form_comment, reply_parent_id:, thread: @thread, notice: nil, focus_comment_id:
         })
       ]
       render turbo_stream: streams, status:

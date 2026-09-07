@@ -179,3 +179,7 @@ The product owner approved replacing the custom HTML deletion confirmation with 
 Reply-context-copy amendment verification:
 - `bin/rails test test/controllers/posts/comments_controller_test.rb`: 10 runs, 123 assertions, 0 failures/errors/skips.
 - The focused deep-thread system check (`bin/rails test test/system/comments_test.rb:81`) passed in isolation (1 run, 6 assertions) after an intermittent full-focused-suite anchor assertion; `bin/rubocop` passed with 67 files and no offenses.
+
+Native-deletion-confirmation amendment verification:
+- `bin/rails test test/controllers/posts/comments_controller_test.rb test/system/comments_test.rb`: 13 runs, 159 assertions, 0 failures/errors/skips. The system test dismisses the native prompt and confirms the comment is unchanged, then accepts it and verifies the Turbo Stream placeholder.
+- `bin/rubocop`: 67 files, no offenses. Brakeman: no warnings/errors. `git diff --check`: clean.
