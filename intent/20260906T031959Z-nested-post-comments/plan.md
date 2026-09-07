@@ -135,6 +135,17 @@ Turbo Stream amendment verification:
 - `bin/rubocop`: 67 files, no offenses.
 - Controller tests assert stream MIME, discussion/form replacement targets, no redirect on create/update/delete, and inline validation retention. System tests assert reply/edit/delete stream interactions retain the post path rather than visiting form/confirmation pages.
 
+## Amendment: Inline reply composer
+
+Author: Patricio Mac Adden. Timestamp: 2026-09-07T02:24:00Z. Status: accepted.
+
+The product owner approved removing composer disclosure text and replacing the top-of-discussion reply form with an inline child-level composer beneath the selected parent.
+
+- Remove the composer disclosure and update tests/spec references accordingly.
+- In the preloaded iterative thread render, insert the selected reply form immediately after its live parent with child-level visual indentation and explicit parent context.
+- Keep Turbo Stream create/reply/error flows; reply validation replaces the inline form in place, and Cancel restores the parent’s action area/default discussion view.
+- Verify desktop and 320px reply composition, semantic/keyboard behavior, and that the form does not appear at the top while replying.
+
 Discussion-presentation amendment verification:
 - `bin/rails test test/controllers/posts/comments_controller_test.rb test/system/comments_test.rb`: 13 runs, 164 assertions, 0 failures/errors/skips.
 - `bin/rails test`: 65 runs, 388 assertions, 0 failures/errors/skips.
