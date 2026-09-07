@@ -144,11 +144,11 @@ class Posts::CommentsControllerTest < ActionDispatch::IntegrationTest
     assert_not_includes response.body, "other@example.com"
   end
 
-  test "empty thread invites discussion and form discloses email visibility" do
+  test "empty thread invites discussion without composer disclosures" do
     sign_in_as(users(:registered_member))
     get post_path(posts(:member_older_post))
     assert_select "#comments", text: /No comments yet/
-    assert_select "#comment-disclosure", text: /Your email address will be visible/
+    assert_select "#comment-disclosure", count: 0
     assert_select "textarea", count: 1
     assert_select "#form_comment a", count: 0
   end

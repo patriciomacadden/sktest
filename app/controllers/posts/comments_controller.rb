@@ -9,7 +9,7 @@ class Posts::CommentsController < ApplicationController
       redirect_to post_path(@post), alert: "This comment can no longer receive replies."
     else
       respond_to do |format|
-        format.turbo_stream { render_discussion(nil, form_comment: @comment, focus_comment_id: nil) }
+        format.turbo_stream { render_discussion(nil, form_comment: @comment, reply_parent_id: @comment.parent_id, focus_comment_id: nil) }
         format.html
       end
     end
@@ -97,12 +97,12 @@ class Posts::CommentsController < ApplicationController
       end
     end
 
-    def render_discussion(notice, form_comment: @post.comments.new, deletion_comment: nil, focus_comment_id: @comment&.id, status: :ok)
+    def render_discussion(notice, form_comment: @post.comments.new, deletion_comment: nil, reply_parent_id: nil, focus_comment_id: @comment&.id, status: :ok)
       @thread = Comment::Thread.new(@post)
       streams = [
         turbo_stream.update("flash_messages", partial: "shared/flash_messages", locals: { notice:, alert: nil }),
         turbo_stream.replace("comments", partial: "posts/comments/comments", locals: {
-          post: @post, comment: form_comment, deletion_comment:, thread: @thread, notice: nil, focus_comment_id:
+          post: @post, comment: form_comment, deletion_comment:, reply_parent_id:, thread: @thread, notice: nil, focus_comment_id:
         })
       ]
       render turbo_stream: streams, status:

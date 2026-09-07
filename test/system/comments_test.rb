@@ -14,6 +14,8 @@ class CommentsTest < ApplicationSystemTestCase
     page_url = page.current_url
     within("#comment_#{root.id}") { click_on "Reply" }
     assert_equal page_url, page.current_url
+    assert_selector ".comments > #form_comment", count: 0
+    assert_selector "#comment_#{root.id} + .comment--composer #form_comment"
     assert_field "Reply"
     fill_in "Reply", with: "A nested reply"
     click_on "Post reply"

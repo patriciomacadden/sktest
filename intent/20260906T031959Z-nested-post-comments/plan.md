@@ -152,3 +152,7 @@ Discussion-presentation amendment verification:
 - `bin/rails test test/system/posts_test.rb:18`: vote regression passed (1 run, 4 assertions); this specifically verifies the post show action did not respond with a comments-only Turbo Stream after a vote redirect.
 - `bin/rails test:system` had one pre-existing, intermittent post-form assertion failure (`PostsTest#test_author_sees_validation_errors`, title value not retained in the full-suite run). Its isolated rerun passed (1 run, 7 assertions). Comments system tests passed in the focused run.
 - `bin/rubocop` and Brakeman passed with no offenses/warnings; `git diff --check` passed.
+
+Inline reply-composer amendment verification:
+- `bin/rails test test/controllers/posts/comments_controller_test.rb test/system/comments_test.rb`: 13 runs, 165 assertions, 0 failures/errors/skips.
+- `bin/rubocop`: 67 files, no offenses. The system test proves Reply leaves the post path intact, removes the top-level composer, and renders the reply form immediately after its parent in a child-indented thread item.
