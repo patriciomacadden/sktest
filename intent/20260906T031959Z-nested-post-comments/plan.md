@@ -153,6 +153,15 @@ Discussion-presentation amendment verification:
 - `bin/rails test:system` had one pre-existing, intermittent post-form assertion failure (`PostsTest#test_author_sees_validation_errors`, title value not retained in the full-suite run). Its isolated rerun passed (1 run, 7 assertions). Comments system tests passed in the focused run.
 - `bin/rubocop` and Brakeman passed with no offenses/warnings; `git diff --check` passed.
 
+## Amendment: Reply composer context copy
+
+Author: Patricio Mac Adden. Timestamp: 2026-09-07T03:06:04Z. Status: accepted.
+
+The product owner approved removing the redundant parent-link/copy from the inline reply composer. Child-level placement is the sole relationship cue in that composer.
+
+- Remove the reply-composer parent link/copy and its hidden-field-adjacent presentation markup; retain the parent ID field and server-side parent validation.
+- Update focused controller/system assertions and rerun the relevant checks.
+
 Inline reply-composer amendment verification:
 - `bin/rails test test/controllers/posts/comments_controller_test.rb test/system/comments_test.rb`: 13 runs, 165 assertions, 0 failures/errors/skips.
 - `bin/rubocop`: 67 files, no offenses. The system test proves Reply leaves the post path intact, removes the top-level composer, and renders the reply form immediately after its parent in a child-indented thread item.
