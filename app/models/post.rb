@@ -3,6 +3,7 @@ class Post < ApplicationRecord
 
   belongs_to :author, class_name: "User"
   has_many :votes, dependent: :delete_all
+  has_many :comments, dependent: :delete_all
 
   normalizes :title, with: ->(value) { value.to_s.strip }
   normalizes :url, with: ->(value) {

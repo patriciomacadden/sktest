@@ -1,0 +1,11 @@
+<div class="app-shell">
+  <%= render "shared/post_navigation" %>
+  <main class="app-main">
+    <h1>Delete comment?</h1>
+    <p>Your comment will show as “[deleted]” and no longer accept replies. Existing replies remain. The text is retained internally while the post exists.</p>
+    <div class="comment-actions">
+      <%= button_to "Delete comment", post_comment_path(@post, @comment), method: :delete %>
+      <%= link_to "Cancel", post_path(@post, anchor: dom_id(@comment)) %>
+    </div>
+  </main>
+</div>

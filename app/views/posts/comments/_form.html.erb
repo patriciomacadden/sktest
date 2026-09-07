@@ -1,0 +1,19 @@
+<%= form_with model: [post, comment], class: "app-form comment-form" do |form| %>
+  <% if comment.errors.any? %>
+    <div id="comment-errors" class="app-form-errors" role="alert">
+      <h2>Check your comment</h2>
+      <ul><% comment.errors.full_messages.each do |message| %><li><%= message %></li><% end %></ul>
+    </div>
+  <% end %>
+  <% if comment.new_record? && comment.parent_id %>
+    <%= form.hidden_field :parent_id %>
+    <p>Replying to <%= link_to "parent comment", post_path(post, anchor: "comment_#{comment.parent_id}") %>.</p>
+  <% end %>
+  <p id="comment-disclosure">Your email address will be visible to anyone who can read this post. Deleted comment text is retained internally while the post exists.</p>
+  <%= form.label :body, comment.persisted? ? "Edit comment" : (comment.parent_id ? "Reply" : "Comment") %>
+  <%= form.text_area :body, rows: 5, required: true, aria: { describedby: ["comment-disclosure", ("comment-errors" if comment.errors.any?)].compact.join(" "), invalid: comment.errors.any? } %>
+  <div class="comment-actions">
+    <%= form.submit comment.persisted? ? "Save changes" : (comment.parent_id ? "Post reply" : "Post comment") %>
+    <%= link_to "Cancel", post_path(post, anchor: comment.persisted? ? dom_id(comment) : "comments") %>
+  </div>
+<% end %>

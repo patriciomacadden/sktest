@@ -1,0 +1,22 @@
+<%= tag.li id: dom_id(comment), class: "comment", style: "--comment-depth: #{[depth, 6].min}", tabindex: -1, autofocus: focus do %>
+  <article aria-label="<%= comment.deleted? ? 'Deleted comment' : 'Comment' %>">
+    <% if comment.parent_id %>
+      <p class="comment-parent"><%= link_to "In reply to parent comment", post_path(post, anchor: "comment_#{comment.parent_id}") %> · Level <%= depth %></p>
+    <% end %>
+    <% if comment.deleted? %>
+      <p>[deleted]</p>
+    <% else %>
+      <p class="app-post__metadata">By <%= comment.author&.email_address || "[deleted user]" %> · <%= time_tag comment.created_at, comment.created_at.to_fs(:long) %></p>
+      <p class="comment-body"><%= comment.body %></p>
+      <div class="comment-actions">
+        <% if authenticated? %>
+          <%= link_to "Reply", new_post_comment_path(post, parent_id: comment.id) %>
+          <% if comment.editable_by?(current_user) %>
+            <%= link_to "Edit", edit_post_comment_path(post, comment) %>
+            <%= link_to "Delete", post_comment_path(post, comment) %>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  </article>
+<% end %>

@@ -9,5 +9,7 @@ class PostsController < ApplicationController
   def show
     @post = Post.find(params[:id])
     @voted = current_user&.votes&.exists?(post: @post) || false
+    @thread = Comment::Thread.new(@post)
+    @comment = @post.comments.new
   end
 end

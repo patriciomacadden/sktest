@@ -1,0 +1,8 @@
+<div class="app-shell">
+  <%= render "shared/post_navigation" %>
+  <main class="app-main">
+    <h1><%= @comment.parent_id ? "Reply to comment" : "Comment on post" %></h1>
+    <p><%= link_to @post.title, post_path(@post) %></p>
+    <%= render "form", post: @post, comment: @comment %>
+  </main>
+</div>

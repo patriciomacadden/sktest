@@ -3,6 +3,7 @@ class User < ApplicationRecord
   has_many :sessions, dependent: :destroy
   has_many :posts, foreign_key: :author_id, dependent: :destroy
   has_many :votes, dependent: :delete_all
+  has_many :comments, foreign_key: :author_id, dependent: :nullify
 
   normalizes :email_address, with: ->(email_address) { email_address.strip.downcase }
 

@@ -81,3 +81,27 @@ Sequential. Schema, lifecycle behavior, controllers, rendering, and tests share 
 - Desktop and 320px browser checks with screenshots, including deep threads, long text, errors, deleted states, and keyboard-only interaction.
 
 No production migrations, deployment, push, or merge. Implementation begins only after this accepted plan is committed and the operator chooses same-session or new-session execution.
+
+## Implementation record
+
+The operator authorized same-session implementation after accepted-plan commit `d3ad444`.
+
+- Migration: `db/migrate/20260906035000_create_comments.rb`. SQLite foreign keys enforce same-post parent references; post cleanup uses bulk deletion, avoiding recursive deletion through the thread.
+- Rails 8.1 uses IMMEDIATE transactions for ordinary joinable SQLite transactions. Publishing bypasses the request query cache before checking parent state; edit/deletion reload inside the transaction. Writer timeouts return recoverable errors and preserve submitted text.
+- Reply/edit forms and deletion confirmation use ordinary server-rendered pages. Successful mutations include a `comment_id` query parameter and autofocus the matching comment, in addition to the planned fragment; browser verification showed Turbo drops the fragment from form redirects.
+- Added `test/models/comment_contention_test.rb` alongside the planned concurrency tests to prove timeout handling. No dependencies, production changes, or product-scope changes were introduced.
+- The first existing system-suite baseline had an intermittent Create post navigation failure; its isolated rerun passed before feature implementation. The new browser tests wait for navigation rather than weakening behavior assertions.
+- Screenshot checks use actual 320px device emulation because resizing a desktop Chrome window alone was clamped to 500px. An additional Playwright check confirmed a 320px viewport without horizontal overflow.
+- Two reproducible implementation defects were fixed without changing their established system/model regression proofs: missing post-submit focus (`test/system/comments_test.rb`, SHA-256 `84c634c294339dbab85020d6e0fe40fb0454875cae62f873e678feca8ef619c0`) and unhandled writer timeout (`test/models/comment_contention_test.rb`, SHA-256 `43a579ca3804036fa7110d750a84aa13682ad37beddb15032297c0aecfb98b4e`). Pre-fix failures and post-fix passes are recorded in the session; proofs were not independently committed.
+
+These are implementation refinements within the accepted approach, not changes to approved requirements or deferred risks.
+
+Final verification:
+- `bin/rails test`: 64 runs, 361 assertions, 0 failures/errors/skips.
+- `bin/rails test:system`: 11 runs, 83 assertions, 0 failures/errors/skips.
+- `bin/rubocop`: 67 files, no offenses.
+- `bin/brakeman --quiet --no-pager --exit-on-warn --exit-on-error`: no warnings or errors.
+- `bin/bundler-audit` and `bin/importmap audit`: no vulnerabilities found.
+- `git diff --check`: clean.
+- Local log: `tmp/comments-verification.log`. Screenshots: `tmp/screenshots/comments-desktop.png`, `comments-mobile.png`, `comments-deleted.png`, `comments-errors.png`, and `comments-playwright-mobile.png` in that directory. Rendered desktop/mobile/deletion/error screenshots were visually inspected; Playwright reported width 320, no horizontal overflow, and no console warnings/errors.
+- The new development migration was applied, rolled back, and reapplied after confirming no development comments existed. No production migration was run.

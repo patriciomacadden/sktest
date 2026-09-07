@@ -1,0 +1,23 @@
+# A short conversation between the existing member and other-author personas.
+member_question:
+  post: member_recent_post
+  author: registered_member
+  body: What do you think of this post?
+  created_at: 2026-09-04 10:00:00
+  updated_at: 2026-09-04 10:00:00
+
+other_author_reply:
+  post: member_recent_post
+  author: other_author
+  parent: member_question
+  body: I would like to explore this further.
+  created_at: 2026-09-04 11:00:00
+  updated_at: 2026-09-04 11:00:00
+
+member_follow_up:
+  post: member_recent_post
+  author: registered_member
+  parent: other_author_reply
+  body: Which part interests you?
+  created_at: 2026-09-04 12:00:00
+  updated_at: 2026-09-04 12:00:00
