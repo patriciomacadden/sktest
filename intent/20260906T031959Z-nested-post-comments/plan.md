@@ -96,6 +96,18 @@ The operator authorized same-session implementation after accepted-plan commit `
 
 These are implementation refinements within the accepted approach, not changes to approved requirements or deferred risks.
 
+## Amendment: Turbo Stream mutations
+
+Author: Patricio Mac Adden. Timestamp: 2026-09-07T01:53:30Z. Status: accepted.
+
+The product owner approved replacing the server-rendered page/redirect approach for comment mutations with Turbo Streams. This is a material implementation change but does not alter the accepted product requirements.
+
+- Create, reply, edit, update, and delete respond with Turbo Streams for Turbo requests; HTML requests retain redirect/page fallbacks.
+- Successful stream mutations replace the full comments section from its preloaded iterative thread, placing the new/changed/deleted comment in its correct threaded order without a full-page visit. The target comment receives autofocus to preserve orientation.
+- Invalid and contention results replace only the relevant form, retaining entered text and its accessible errors.
+- Add stable form and discussion-section DOM IDs, Turbo Stream templates, controller/request tests for stream MIME and targets, and browser tests proving each mutation happens without full-page navigation.
+- Full-page rendering remains iterative with preloaded authors/deletion records. No new JavaScript dependency or scope extension is allowed.
+
 Final verification:
 - `bin/rails test`: 64 runs, 361 assertions, 0 failures/errors/skips.
 - `bin/rails test:system`: 11 runs, 83 assertions, 0 failures/errors/skips.
