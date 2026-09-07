@@ -165,3 +165,7 @@ The product owner approved removing the redundant parent-link/copy from the inli
 Inline reply-composer amendment verification:
 - `bin/rails test test/controllers/posts/comments_controller_test.rb test/system/comments_test.rb`: 13 runs, 165 assertions, 0 failures/errors/skips.
 - `bin/rubocop`: 67 files, no offenses. The system test proves Reply leaves the post path intact, removes the top-level composer, and renders the reply form immediately after its parent in a child-indented thread item.
+
+Reply-context-copy amendment verification:
+- `bin/rails test test/controllers/posts/comments_controller_test.rb`: 10 runs, 123 assertions, 0 failures/errors/skips.
+- The focused deep-thread system check (`bin/rails test test/system/comments_test.rb:81`) passed in isolation (1 run, 6 assertions) after an intermittent full-focused-suite anchor assertion; `bin/rubocop` passed with 67 files and no offenses.

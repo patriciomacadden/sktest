@@ -5,10 +5,7 @@
       <ul><% comment.errors.full_messages.each do |message| %><li><%= message %></li><% end %></ul>
     </div>
   <% end %>
-  <% if comment.new_record? && comment.parent_id %>
-    <%= form.hidden_field :parent_id %>
-    <p>Replying to <%= link_to "parent comment", post_path(post, anchor: "comment_#{comment.parent_id}") %>.</p>
-  <% end %>
+  <%= form.hidden_field :parent_id if comment.new_record? && comment.parent_id %>
   <%= form.label :body, comment.persisted? ? "Edit comment" : (comment.parent_id ? "Reply" : "Comment") %>
   <%= form.text_area :body, rows: 5, required: true, aria: { describedby: ("comment-errors" if comment.errors.any?), invalid: comment.errors.any? } %>
   <div class="comment-actions">
