@@ -9,13 +9,16 @@ class CommentsTest < ApplicationSystemTestCase
     assert_text "Comment posted."
     root = Comment.find_by!(body: "A new discussion\nSecond line")
     assert_selector "#comment_#{root.id}:focus"
+    page_url = page.current_url
     within("#comment_#{root.id}") { click_on "Reply" }
-    assert_text "Reply to comment"
+    assert_equal page_url, page.current_url
+    assert_field "Reply"
     fill_in "Reply", with: "A nested reply"
     click_on "Post reply"
     assert_text "Comment posted."
     assert_text "A nested reply"
     within("#comment_#{root.id}") { click_on "Edit" }
+    assert_equal page_url, page.current_url
     fill_in "Edit comment", with: "Edited discussion"
     click_on "Save changes"
     assert_text "Comment updated."
@@ -27,12 +30,14 @@ class CommentsTest < ApplicationSystemTestCase
     assert_text "Edited discussion"
     assert_no_text "Cancelled change"
     within("#comment_#{root.id}") { click_on "Delete" }
+    assert_equal post_path(posts(:member_recent_post)), URI.parse(page.current_url).path
     assert_text "text is retained internally"
     click_on "Cancel"
     assert_current_path post_path(posts(:member_recent_post)), ignore_query: true
+    visit post_path(posts(:member_recent_post))
     assert_text "Edited discussion"
     within("#comment_#{root.id}") { click_on "Delete" }
-    assert_current_path post_comment_path(posts(:member_recent_post), root)
+    assert_equal post_path(posts(:member_recent_post)), URI.parse(page.current_url).path
     click_on "Delete comment"
     assert_text "Comment deleted."
     within("#comment_#{root.id}") do
@@ -61,7 +66,7 @@ class CommentsTest < ApplicationSystemTestCase
     comment = Comment.find_by!(body: "Keyboard comment")
     visit post_path(posts(:member_older_post), anchor: "comment_#{comment.id}")
     find("#comment_#{comment.id}").send_keys(:tab, :enter)
-    assert_text "Reply to comment"
+    assert_field "Reply"
     fill_in "Reply", with: "Keyboard reply"
     find_field("Reply").send_keys(:tab, :enter)
     assert_text "Comment posted."

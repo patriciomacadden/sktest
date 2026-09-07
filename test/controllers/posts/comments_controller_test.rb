@@ -41,6 +41,33 @@ class Posts::CommentsControllerTest < ActionDispatch::IntegrationTest
     assert_equal original_time, @comment.created_at
   end
 
+  test "Turbo Streams replace discussion and invalid form without a redirect" do
+    sign_in_as(users(:registered_member))
+    headers = { "ACCEPT" => "text/vnd.turbo-stream.html" }
+    assert_difference -> { Comment.count }, 1 do
+      post post_comments_path(@post), params: { comment: { body: "Streamed" } }, headers: headers
+    end
+    assert_response :success
+    assert_equal "text/vnd.turbo-stream.html", response.media_type
+    assert_select "turbo-stream[action=replace][target=comments]"
+    assert_includes response.body, "Comment posted."
+
+    post post_comments_path(@post), params: { comment: { body: " " } }, headers: headers
+    assert_response :unprocessable_entity
+    assert_includes response.body, "target=\"form_comment\""
+    assert_includes response.body, "Body can&#39;t be blank"
+
+    patch post_comment_path(@post, @comment), params: { comment: { body: "Stream edited" } }, headers: headers
+    assert_response :success
+    assert_select "turbo-stream[action=replace][target=comments]"
+    assert_equal "Stream edited", @comment.reload.body
+
+    delete post_comment_path(@post, @comment), headers: headers
+    assert_response :success
+    assert_select "turbo-stream[action=replace][target=comments]"
+    assert @comment.reload.deleted?
+  end
+
   test "ownership and thread tampering cannot mutate data" do
     sign_in_as(users(:other_author))
     patch post_comment_path(@post, @comment), params: { comment: { body: "Intrusion" } }

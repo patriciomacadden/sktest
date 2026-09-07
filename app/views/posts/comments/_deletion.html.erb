@@ -1,0 +1,7 @@
+<div id="<%= dom_id(comment, :deletion) %>" class="comment-deletion" role="alert">
+  <p>Delete this comment? It will show as “[deleted]” and no longer accept replies. Existing replies remain. Its text is retained internally while the post exists.</p>
+  <div class="comment-actions">
+    <%= button_to "Delete comment", post_comment_path(post, comment), method: :delete %>
+    <%= link_to "Cancel", post_path(post, anchor: dom_id(comment)) %>
+  </div>
+</div>

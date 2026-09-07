@@ -22,22 +22,6 @@
       </div>
     </article>
 
-    <section id="comments" class="comments" aria-labelledby="comments-heading">
-      <h2 id="comments-heading">Comments</h2>
-      <% if authenticated? %>
-        <%= render "posts/comments/form", post: @post, comment: @comment %>
-      <% else %>
-        <p><%= link_to "Sign in to comment", new_session_path %></p>
-      <% end %>
-      <% if @thread.none? %>
-        <p>No comments yet.</p>
-      <% else %>
-        <ol class="comment-thread" aria-label="Post comments">
-          <% @thread.each do |comment, depth| %>
-            <%= render "posts/comments/comment", post: @post, comment: comment, depth: depth, focus: params[:comment_id].to_s == comment.id.to_s %>
-          <% end %>
-        </ol>
-      <% end %>
-    </section>
+    <%= render "posts/comments/comments", post: @post, comment: @comment, deletion_comment: nil, thread: @thread, notice: nil, focus_comment_id: params[:comment_id] %>
   </main>
 </div>

@@ -7,6 +7,11 @@ class Posts::CommentsController < ApplicationController
     @comment = @post.comments.new(parent: selected_parent)
     if @comment.parent&.deleted?
       redirect_to post_path(@post), alert: "This comment can no longer receive replies."
+    else
+      respond_to do |format|
+        format.turbo_stream { render_discussion(nil, form_comment: @comment, focus_comment_id: nil) }
+        format.html
+      end
     end
   end
 
@@ -15,31 +20,42 @@ class Posts::CommentsController < ApplicationController
     @comment = @post.comments.new(body: attributes[:body], author: current_user,
       parent: selected_parent(attributes[:parent_id]))
     if @comment.publish
-      redirect_to post_path(@post, comment_id: @comment.id, anchor: helpers.dom_id(@comment)), notice: "Comment posted.", status: :see_other
+      respond_to_success("Comment posted.")
     else
-      render :new, status: :unprocessable_entity
+      respond_to_failure(:new)
     end
   end
 
   def show
+    respond_to do |format|
+      format.turbo_stream { render_discussion(nil, deletion_comment: @comment, focus_comment_id: nil) }
+      format.html
+    end
   end
 
   def edit
+    respond_to do |format|
+      format.turbo_stream { render_discussion(nil, form_comment: @comment, focus_comment_id: nil) }
+      format.html
+    end
   end
 
   def update
     if @comment.revise_by(current_user, comment_params[:body])
-      redirect_to post_path(@post, comment_id: @comment.id, anchor: helpers.dom_id(@comment)), notice: "Comment updated.", status: :see_other
+      respond_to_success("Comment updated.")
     else
-      render :edit, status: :unprocessable_entity
+      respond_to_failure(:edit)
     end
   end
 
   def destroy
     if @comment.delete_by(current_user)
-      redirect_to post_path(@post, comment_id: @comment.id, anchor: helpers.dom_id(@comment)), notice: "Comment deleted.", status: :see_other
+      respond_to_success("Comment deleted.")
     else
-      redirect_to post_path(@post), alert: @comment.errors.full_messages.to_sentence, status: :see_other
+      respond_to do |format|
+        format.turbo_stream { render_discussion(@comment.errors.full_messages.to_sentence, status: :unprocessable_entity) }
+        format.html { redirect_to post_path(@post), alert: @comment.errors.full_messages.to_sentence, status: :see_other }
+      end
     end
   end
 
@@ -65,5 +81,32 @@ class Posts::CommentsController < ApplicationController
       supplied = params.require(:comment)
       raise ActionController::BadRequest, "Unexpected comment attributes" if (supplied.keys - allowed).any?
       params.expect(comment: allowed.map(&:to_sym))
+    end
+
+    def respond_to_success(notice)
+      respond_to do |format|
+        format.turbo_stream { render_discussion(notice) }
+        format.html { redirect_to post_path(@post, comment_id: @comment.id, anchor: helpers.dom_id(@comment)), notice:, status: :see_other }
+      end
+    end
+
+    def respond_to_failure(template)
+      respond_to do |format|
+        format.turbo_stream { render_form_errors }
+        format.html { render template, status: :unprocessable_entity }
+      end
+    end
+
+    def render_discussion(notice, form_comment: @post.comments.new, deletion_comment: nil, focus_comment_id: @comment&.id, status: :ok)
+      @thread = Comment::Thread.new(@post)
+      render turbo_stream: turbo_stream.replace("comments", partial: "posts/comments/comments", locals: {
+        post: @post, comment: form_comment, deletion_comment:, thread: @thread, notice:, focus_comment_id:
+      }), status:
+    end
+
+    def render_form_errors
+      render turbo_stream: turbo_stream.replace(helpers.dom_id(@comment, :form), partial: "posts/comments/form", locals: {
+        post: @post, comment: @comment
+      }), status: :unprocessable_entity
     end
 end

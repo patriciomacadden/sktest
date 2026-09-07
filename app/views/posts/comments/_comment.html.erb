@@ -10,10 +10,10 @@
       <p class="comment-body"><%= comment.body %></p>
       <div class="comment-actions">
         <% if authenticated? %>
-          <%= link_to "Reply", new_post_comment_path(post, parent_id: comment.id) %>
+          <%= link_to "Reply", new_post_comment_path(post, parent_id: comment.id), data: { turbo_stream: true } %>
           <% if comment.editable_by?(current_user) %>
-            <%= link_to "Edit", edit_post_comment_path(post, comment) %>
-            <%= link_to "Delete", post_comment_path(post, comment) %>
+            <%= link_to "Edit", edit_post_comment_path(post, comment), data: { turbo_stream: true } %>
+            <%= link_to "Delete", post_comment_path(post, comment), data: { turbo_stream: true } %>
           <% end %>
         <% end %>
       </div>

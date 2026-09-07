@@ -117,3 +117,9 @@ Final verification:
 - `git diff --check`: clean.
 - Local log: `tmp/comments-verification.log`. Screenshots: `tmp/screenshots/comments-desktop.png`, `comments-mobile.png`, `comments-deleted.png`, `comments-errors.png`, and `comments-playwright-mobile.png` in that directory. Rendered desktop/mobile/deletion/error screenshots were visually inspected; Playwright reported width 320, no horizontal overflow, and no console warnings/errors.
 - The new development migration was applied, rolled back, and reapplied after confirming no development comments existed. No production migration was run.
+
+Turbo Stream amendment verification:
+- `bin/rails test test/controllers/posts/comments_controller_test.rb test/system/comments_test.rb`: 13 runs, 156 assertions, 0 failures/errors/skips.
+- `bin/rails test`: 65 runs, 382 assertions, 0 failures/errors/skips.
+- `bin/rubocop`: 67 files, no offenses.
+- Controller tests assert stream MIME, discussion/form replacement targets, no redirect on create/update/delete, and inline validation retention. System tests assert reply/edit/delete stream interactions retain the post path rather than visiting form/confirmation pages.

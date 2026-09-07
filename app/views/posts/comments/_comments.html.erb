@@ -1,0 +1,20 @@
+<section id="comments" class="comments" aria-labelledby="comments-heading">
+  <h2 id="comments-heading">Comments</h2>
+  <%= tag.p(notice, role: "status", class: "comment-status") if notice.present? %>
+  <% if deletion_comment %>
+    <%= render "posts/comments/deletion", post: post, comment: deletion_comment %>
+  <% elsif authenticated? %>
+    <%= render "posts/comments/form", post: post, comment: comment %>
+  <% else %>
+    <p><%= link_to "Sign in to comment", new_session_path %></p>
+  <% end %>
+  <% if thread.none? %>
+    <p>No comments yet.</p>
+  <% else %>
+    <ol class="comment-thread" aria-label="Post comments">
+      <% thread.each do |thread_comment, depth| %>
+        <%= render "posts/comments/comment", post: post, comment: thread_comment, depth: depth, focus: focus_comment_id.to_s == thread_comment.id.to_s %>
+      <% end %>
+    </ol>
+  <% end %>
+</section>
