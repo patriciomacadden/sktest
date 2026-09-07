@@ -118,6 +118,17 @@ Final verification:
 - Local log: `tmp/comments-verification.log`. Screenshots: `tmp/screenshots/comments-desktop.png`, `comments-mobile.png`, `comments-deleted.png`, `comments-errors.png`, and `comments-playwright-mobile.png` in that directory. Rendered desktop/mobile/deletion/error screenshots were visually inspected; Playwright reported width 320, no horizontal overflow, and no console warnings/errors.
 - The new development migration was applied, rolled back, and reapplied after confirming no development comments existed. No production migration was run.
 
+## Amendment: Discussion presentation
+
+Author: Patricio Mac Adden. Timestamp: 2026-09-07T02:16:59Z. Status: accepted.
+
+The product owner approved removing the visible Comments heading and moving Turbo Stream success/error messages to the existing global flash area. The no-op Cancel link is removed from the top-level composer; reply/edit composers retain a Cancel control that dismisses their contextual form.
+
+- Add a stable global flash target to the layout and stream-replace it with the correct `role=status` or `role=alert` message alongside the discussion/form update.
+- Remove the discussion heading while retaining semantic structure and accessible composer labels.
+- Render Cancel only for persisted or reply composers; it returns the discussion to the default composer state through Turbo Streams.
+- Update request and browser tests to prove flash placement, no heading, and contextual cancellation.
+
 Turbo Stream amendment verification:
 - `bin/rails test test/controllers/posts/comments_controller_test.rb test/system/comments_test.rb`: 13 runs, 156 assertions, 0 failures/errors/skips.
 - `bin/rails test`: 65 runs, 382 assertions, 0 failures/errors/skips.
