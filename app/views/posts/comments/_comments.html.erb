@@ -1,6 +1,4 @@
-<section id="comments" class="comments" aria-labelledby="comments-heading">
-  <h2 id="comments-heading">Comments</h2>
-  <%= tag.p(notice, role: "status", class: "comment-status") if notice.present? %>
+<section id="comments" class="comments" aria-label="Discussion">
   <% if deletion_comment %>
     <%= render "posts/comments/deletion", post: post, comment: deletion_comment %>
   <% elsif authenticated? %>

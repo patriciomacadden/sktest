@@ -14,6 +14,8 @@
   <%= form.text_area :body, rows: 5, required: true, aria: { describedby: ["comment-disclosure", ("comment-errors" if comment.errors.any?)].compact.join(" "), invalid: comment.errors.any? } %>
   <div class="comment-actions">
     <%= form.submit comment.persisted? ? "Save changes" : (comment.parent_id ? "Post reply" : "Post comment") %>
-    <%= link_to "Cancel", post_path(post, anchor: comment.persisted? ? dom_id(comment) : "comments") %>
+    <% if comment.persisted? || comment.parent_id %>
+      <%= link_to "Cancel", new_post_comment_path(post), data: { turbo_stream: true } %>
+    <% end %>
   </div>
 <% end %>

@@ -10,6 +10,7 @@ class Posts::CommentsControllerTest < ActionDispatch::IntegrationTest
     get post_path(@post)
     assert_response :success
     assert_select "#comments", text: /What do you think/
+    assert_select "#comments h2", count: 0
     assert_select "#comments a", text: "Sign in to comment"
     assert_select "#comments textarea", count: 0
     assert_no_difference -> { Comment.count } do
@@ -50,7 +51,9 @@ class Posts::CommentsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_equal "text/vnd.turbo-stream.html", response.media_type
     assert_select "turbo-stream[action=replace][target=comments]"
+    assert_select "turbo-stream[action=update][target=flash_messages]"
     assert_includes response.body, "Comment posted."
+    assert_not_includes response.body, "comment-status"
 
     post post_comments_path(@post), params: { comment: { body: " " } }, headers: headers
     assert_response :unprocessable_entity
@@ -147,6 +150,7 @@ class Posts::CommentsControllerTest < ActionDispatch::IntegrationTest
     assert_select "#comments", text: /No comments yet/
     assert_select "#comment-disclosure", text: /Your email address will be visible/
     assert_select "textarea", count: 1
+    assert_select "#form_comment a", count: 0
   end
 
   test "comment body is filtered from request parameters" do

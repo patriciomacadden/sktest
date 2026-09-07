@@ -1,0 +1,5 @@
+<% if notice.present? %>
+  <%= tag.p(notice, class: "app-flash", role: "status") %>
+<% elsif alert.present? %>
+  <%= tag.p(alert, class: "app-flash", role: "alert") %>
+<% end %>

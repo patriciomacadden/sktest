@@ -4,9 +4,11 @@ class CommentsTest < ApplicationSystemTestCase
   test "member posts replies edits cancels and deletes while replies survive" do
     sign_in_member
     visit post_path(posts(:member_recent_post))
+    assert_no_selector "#comments-heading"
+    within("#form_comment") { assert_no_link "Cancel" }
     fill_in "Comment", with: "A new discussion\nSecond line"
     click_on "Post comment"
-    assert_text "Comment posted."
+    assert_selector "#flash_messages [role=status]", text: "Comment posted."
     root = Comment.find_by!(body: "A new discussion\nSecond line")
     assert_selector "#comment_#{root.id}:focus"
     page_url = page.current_url

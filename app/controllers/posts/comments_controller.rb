@@ -99,9 +99,13 @@ class Posts::CommentsController < ApplicationController
 
     def render_discussion(notice, form_comment: @post.comments.new, deletion_comment: nil, focus_comment_id: @comment&.id, status: :ok)
       @thread = Comment::Thread.new(@post)
-      render turbo_stream: turbo_stream.replace("comments", partial: "posts/comments/comments", locals: {
-        post: @post, comment: form_comment, deletion_comment:, thread: @thread, notice:, focus_comment_id:
-      }), status:
+      streams = [
+        turbo_stream.update("flash_messages", partial: "shared/flash_messages", locals: { notice:, alert: nil }),
+        turbo_stream.replace("comments", partial: "posts/comments/comments", locals: {
+          post: @post, comment: form_comment, deletion_comment:, thread: @thread, notice: nil, focus_comment_id:
+        })
+      ]
+      render turbo_stream: streams, status:
     end
 
     def render_form_errors

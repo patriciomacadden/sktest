@@ -134,3 +134,10 @@ Turbo Stream amendment verification:
 - `bin/rails test`: 65 runs, 382 assertions, 0 failures/errors/skips.
 - `bin/rubocop`: 67 files, no offenses.
 - Controller tests assert stream MIME, discussion/form replacement targets, no redirect on create/update/delete, and inline validation retention. System tests assert reply/edit/delete stream interactions retain the post path rather than visiting form/confirmation pages.
+
+Discussion-presentation amendment verification:
+- `bin/rails test test/controllers/posts/comments_controller_test.rb test/system/comments_test.rb`: 13 runs, 164 assertions, 0 failures/errors/skips.
+- `bin/rails test`: 65 runs, 388 assertions, 0 failures/errors/skips.
+- `bin/rails test test/system/posts_test.rb:18`: vote regression passed (1 run, 4 assertions); this specifically verifies the post show action did not respond with a comments-only Turbo Stream after a vote redirect.
+- `bin/rails test:system` had one pre-existing, intermittent post-form assertion failure (`PostsTest#test_author_sees_validation_errors`, title value not retained in the full-suite run). Its isolated rerun passed (1 run, 7 assertions). Comments system tests passed in the focused run.
+- `bin/rubocop` and Brakeman passed with no offenses/warnings; `git diff --check` passed.
