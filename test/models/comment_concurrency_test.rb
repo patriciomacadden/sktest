@@ -36,6 +36,18 @@ class CommentConcurrencyTest < ActiveSupport::TestCase
     assert @root.reload.deleted?
   end
 
+  test "deletion commits before waiting vote and vote is rejected" do
+    first, second = contend(
+      -> { Comment.find(@root.id).delete_by(@author) },
+      -> { Comment.find(@root.id).add_vote_by(@author) }
+    )
+
+    assert first
+    assert_not second
+    assert @root.reload.deleted?
+    assert_empty @root.comment_votes
+  end
+
   test "deletion before waiting edit retains original text" do
     first, second = contend(
       -> { Comment.find(@root.id).delete_by(@author) },

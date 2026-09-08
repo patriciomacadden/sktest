@@ -72,6 +72,22 @@ class Comment < ApplicationRecord
     record_contention
   end
 
+  def add_vote_by(user)
+    with_lock do
+      return false if deleted?
+
+      comment_votes.create!(user:)
+    end
+  end
+
+  def remove_vote_by(user)
+    with_lock do
+      return false if deleted?
+
+      user.comment_votes.find_by!(comment: self).destroy!
+    end
+  end
+
   private
     def record_contention
       errors.add(:base, "The discussion is busy. Please try again.")
