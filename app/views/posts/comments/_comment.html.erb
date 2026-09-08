@@ -5,20 +5,22 @@
     <% end %>
     <% if comment.deleted? %>
       <p>[deleted]</p>
+      <p class="comment-vote__total"><%= pluralize(comment.votes_count, "vote") %></p>
     <% else %>
       <p class="app-post__metadata">By <%= comment.author&.email_address || "[deleted user]" %> · <%= time_tag comment.created_at, comment.created_at.to_fs(:long) %></p>
       <p class="comment-body"><%= comment.body %></p>
-      <% unless replying %>
-        <div class="comment-actions">
+      <div class="comment-actions">
+        <%= render "posts/comments/vote", post: post, comment: comment, voted: voted %>
+        <% unless replying %>
           <% if authenticated? %>
-          <%= link_to "Reply", new_post_comment_path(post, parent_id: comment.id), data: { turbo_stream: true } %>
-          <% if comment.editable_by?(current_user) %>
-            <%= link_to "Edit", edit_post_comment_path(post, comment), data: { turbo_stream: true } %>
-            <%= link_to "Delete", post_comment_path(post, comment), data: { turbo_method: :delete, turbo_stream: true, turbo_confirm: "Delete this comment? It will show as [deleted], existing replies will remain, and its text is retained internally while the post exists." } %>
+            <%= link_to "Reply", new_post_comment_path(post, parent_id: comment.id), data: { turbo_stream: true } %>
+            <% if comment.editable_by?(current_user) %>
+              <%= link_to "Edit", edit_post_comment_path(post, comment), data: { turbo_stream: true } %>
+              <%= link_to "Delete", post_comment_path(post, comment), data: { turbo_method: :delete, turbo_stream: true, turbo_confirm: "Delete this comment? It will show as [deleted], existing replies will remain, and its text is retained internally while the post exists." } %>
+            <% end %>
           <% end %>
-          <% end %>
-        </div>
-      <% end %>
+        <% end %>
+      </div>
     <% end %>
   </article>
 <% end %>

@@ -95,7 +95,8 @@ class Posts::CommentsController < ApplicationController
       streams = [
         turbo_stream.update("flash_messages", partial: "shared/flash_messages", locals: { notice:, alert: nil }),
         turbo_stream.replace("comments", partial: "posts/comments/comments", locals: {
-          post: @post, comment: form_comment, reply_parent_id:, thread: @thread, notice: nil, focus_comment_id:
+          post: @post, comment: form_comment, reply_parent_id:, thread: @thread, notice: nil, focus_comment_id:,
+          voted_comment_ids: current_user ? current_user.comment_votes.where(comment: @post.comments).pluck(:comment_id) : []
         })
       ]
       render turbo_stream: streams, status:

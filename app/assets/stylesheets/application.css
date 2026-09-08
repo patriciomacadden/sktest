@@ -248,6 +248,19 @@ textarea:focus-visible { outline: 2px solid var(--braun-primary); outline-offset
   font: inherit;
   cursor: pointer;
 }
+.comment-vote { display: flex; align-items: center; gap: 4px; }
+.comment-actions .app-post__vote {
+  width: 16px;
+  margin-top: 3px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--braun-secondary);
+  font: 14px/1 Inter, ui-sans-serif, system-ui, sans-serif;
+  text-align: left;
+}
+.comment-actions .app-post__vote--voted { color: var(--braun-tertiary); }
+.comment-vote__total { color: var(--braun-secondary); font-size: .8rem; }
 .comment-form { margin-bottom: var(--braun-space-lg); overflow-wrap: anywhere; }
 .comment-form textarea { display: block; margin-bottom: var(--braun-space-md); }
 @media (max-width: 520px) {

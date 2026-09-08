@@ -3,6 +3,7 @@ class Comment < ApplicationRecord
   belongs_to :author, class_name: "User", optional: true
   belongs_to :parent, class_name: "Comment", optional: true
   has_one :deletion, class_name: "Comment::Deletion", dependent: :delete
+  has_many :comment_votes, dependent: :delete_all
 
   validates :body, presence: true
   validates :author, presence: true, on: :create

@@ -22,6 +22,6 @@
       </div>
     </article>
 
-    <%= render "posts/comments/comments", post: @post, comment: @comment, reply_parent_id: nil, thread: @thread, notice: nil, focus_comment_id: params[:comment_id] %>
+    <%= render "posts/comments/comments", post: @post, comment: @comment, reply_parent_id: nil, thread: @thread, notice: nil, focus_comment_id: params[:comment_id], voted_comment_ids: @voted_comment_ids %>
   </main>
 </div>

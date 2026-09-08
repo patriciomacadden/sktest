@@ -10,6 +10,7 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
     @voted = current_user&.votes&.exists?(post: @post) || false
     @thread = Comment::Thread.new(@post)
+    @voted_comment_ids = current_user ? current_user.comment_votes.where(comment: @post.comments).pluck(:comment_id) : []
     @comment = @post.comments.new
   end
 end

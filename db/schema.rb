@@ -10,12 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_06_035000) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_08_152504) do
   create_table "comment_deletions", force: :cascade do |t|
     t.integer "comment_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["comment_id"], name: "index_comment_deletions_on_comment_id", unique: true
+  end
+
+  create_table "comment_votes", force: :cascade do |t|
+    t.integer "comment_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["comment_id"], name: "index_comment_votes_on_comment_id"
+    t.index ["user_id", "comment_id"], name: "index_comment_votes_on_user_id_and_comment_id", unique: true
   end
 
   create_table "comments", force: :cascade do |t|
@@ -25,6 +34,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_06_035000) do
     t.bigint "parent_id"
     t.integer "post_id", null: false
     t.datetime "updated_at", null: false
+    t.integer "votes_count", default: 0, null: false
     t.index ["author_id"], name: "index_comments_on_author_id"
     t.index ["post_id", "id"], name: "index_comments_on_post_id_and_id", unique: true
     t.index ["post_id", "parent_id", "created_at", "id"], name: "index_comments_on_thread_order"
@@ -72,6 +82,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_06_035000) do
   end
 
   add_foreign_key "comment_deletions", "comments", on_delete: :cascade
+  add_foreign_key "comment_votes", "comments", on_delete: :cascade
+  add_foreign_key "comment_votes", "users"
   add_foreign_key "comments", "comments", column: ["post_id", "parent_id"], primary_key: ["post_id", "id"]
   add_foreign_key "comments", "posts", on_delete: :cascade
   add_foreign_key "comments", "users", column: "author_id", on_delete: :nullify

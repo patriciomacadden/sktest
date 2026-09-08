@@ -68,12 +68,48 @@ class CommentsTest < ApplicationSystemTestCase
     assert_text "Comment posted."
     comment = Comment.find_by!(body: "Keyboard comment")
     visit post_path(posts(:member_older_post), anchor: "comment_#{comment.id}")
-    find("#comment_#{comment.id}").send_keys(:tab, :enter)
+    find("#comment_#{comment.id}").find_link("Reply").send_keys(:enter)
     assert_field "Reply"
     fill_in "Reply", with: "Keyboard reply"
     find_field("Reply").send_keys(:tab, :enter)
     assert_text "Comment posted."
     assert_text "Keyboard reply"
+  end
+
+  test "comment votes show zero totals, toggle for a signed-in reader, and disappear when deleted" do
+    comment = comments(:member_question)
+    sign_in_member
+    visit post_path(posts(:member_recent_post))
+
+    within("#comment_#{comment.id}") do
+      assert_selector "button[aria-label='Vote for this comment. 0 votes.'][aria-pressed='false']"
+      assert_text "0 votes"
+      find("button[aria-label='Vote for this comment. 0 votes.']").click
+    end
+    assert_text "Vote added."
+    within("#comment_#{comment.id}") do
+      assert_selector "button[aria-label='Remove your vote. 1 vote.'][aria-pressed='true']"
+      assert_text "1 vote"
+    end
+
+    comment.create_deletion!
+    visit post_path(posts(:member_recent_post))
+    within("#comment_#{comment.id}") do
+      assert_text "[deleted]"
+      assert_text "1 vote"
+      assert_no_selector ".comment-vote"
+    end
+    page.save_screenshot(Rails.root.join("tmp/screenshots/comments-votes.png"))
+  end
+
+  test "visitor sees comment totals and is prompted to sign in to vote" do
+    comment = comments(:member_question)
+    visit post_path(posts(:member_recent_post))
+
+    within("#comment_#{comment.id}") do
+      assert_text "0 votes"
+      assert_selector "a[aria-label='Sign in to vote for this comment. 0 votes.']"
+    end
   end
 
   test "deep threads wrap at mobile width and retain parent links" do

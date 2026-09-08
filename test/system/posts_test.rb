@@ -17,7 +17,7 @@ class PostsTest < ApplicationSystemTestCase
 
   test "member votes and removes their vote from a public post" do
     visit post_path(posts(:member_recent_post))
-    find("a.app-post__vote").click
+    find("a[aria-label='Sign in to vote for this post. 0 votes.']").click
     assert_field "Email address"
     fill_in "Email address", with: users(:registered_member).email_address
     fill_in "Password", with: "password"
@@ -39,7 +39,7 @@ class PostsTest < ApplicationSystemTestCase
   test "visitor reaches the normal destination after signing in to vote" do
     visit post_path(posts(:member_recent_post))
 
-    find("a.app-post__vote").click
+    find("a[aria-label='Sign in to vote for this post. 0 votes.']").click
     assert_field "Email address"
     fill_in "Email address", with: users(:registered_member).email_address
     fill_in "Password", with: "password"

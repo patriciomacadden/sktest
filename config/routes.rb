@@ -6,7 +6,9 @@ Rails.application.routes.draw do
   resources :passwords, param: :token
   resources :posts, only: %i[ index show ] do
     resource :vote, only: %i[ create destroy ], module: :posts
-    resources :comments, only: %i[ new create edit update destroy ], module: :posts
+    resources :comments, only: %i[ new create edit update destroy ], module: :posts do
+      resource :vote, only: %i[ create destroy ], module: :comments
+    end
   end
 
   namespace :my do
