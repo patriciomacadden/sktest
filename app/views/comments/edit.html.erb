@@ -1,0 +1,8 @@
+<% content_for :title, "Edit comment · Threadwell" %>
+<h1>Edit comment</h1>
+<%= form_with model: @comment, class: "stacked-form" do |form| %>
+  <% if @comment.errors.any? %><div class="form-errors"><%= @comment.errors.full_messages.to_sentence %></div><% end %>
+  <%= form.label :body %>
+  <%= form.text_area :body, rows: 6 %>
+  <%= form.submit "Save changes" %>
+<% end %>

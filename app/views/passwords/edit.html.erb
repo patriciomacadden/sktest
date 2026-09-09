@@ -1,0 +1,8 @@
+<% content_for :title, "Choose a new password · Threadwell" %>
+<h1>Choose a new password</h1>
+<%= form_with model: @user, url: password_path(params[:token]), method: :patch, class: "stacked-form" do |form| %>
+  <% if @user.errors.any? %><div class="form-errors"><%= @user.errors.full_messages.to_sentence %></div><% end %>
+  <%= form.label :password %><%= form.password_field :password, autofocus: true, required: true %>
+  <%= form.label :password_confirmation %><%= form.password_field :password_confirmation, required: true %>
+  <%= form.submit "Update password" %>
+<% end %>

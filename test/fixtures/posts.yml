@@ -1,0 +1,13 @@
+neighborhood:
+  author: maya
+  title: The small rituals that make a neighborhood feel like home
+  url: https://example.com/neighborhood-rituals
+  body: Familiar places make the day feel generous.
+  votes_count: 1
+  comments_count: 2
+
+quiet_note:
+  author: rui
+  title: A quiet note
+  body: A small thought.
+  votes_count: 0

@@ -1,0 +1,7 @@
+<% content_for :title, "Reset password · Threadwell" %>
+<h1>Reset password</h1>
+<p>Enter your email and we’ll send a reset link if you have an account.</p>
+<%= form_with url: passwords_path, class: "stacked-form" do |form| %>
+  <%= form.label :email %><%= form.email_field :email, autofocus: true, required: true %>
+  <%= form.submit "Send reset link" %>
+<% end %>

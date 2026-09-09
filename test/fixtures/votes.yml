@@ -1,0 +1,7 @@
+alex_likes_neighborhood:
+  user: alex
+  votable: neighborhood (Post)
+
+maya_likes_alex_observation:
+  user: maya
+  votable: alex_observation (Comment)

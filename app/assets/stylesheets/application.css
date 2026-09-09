@@ -1,10 +1,64 @@
-/*
- * This is a manifest file that'll be compiled into application.css.
- *
- * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
- * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
- * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
- * depending on specificity.
- *
- * Consider organizing styles into separate files for maintainability.
- */
+:root {
+  --accent: #e85d2a;
+  --paper: #f7f6f1;
+  --ink: #20201d;
+  --quiet: #77746d;
+  --line: #ddd9ce;
+  font-family: Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-size: 14px; }
+a { color: inherit; }
+.topline { height: 4px; background: var(--accent); }
+.site-header, .page-content, footer { max-width: 920px; margin: auto; }
+.site-header { display: flex; align-items: center; gap: 25px; padding: 17px 20px; border-bottom: 1px solid var(--line); }
+.brand { color: var(--ink); font: bold 20px Georgia, serif; letter-spacing: -.04em; text-decoration: none; }
+.brand span { color: var(--accent); }
+.site-header nav { font-size: 12px; }
+.account-nav { display: flex; align-items: center; gap: 10px; margin-left: auto; font-size: 12px; }
+.join, input[type="submit"] { background: var(--accent); border: 0; color: #fff; cursor: pointer; padding: 8px 10px; text-decoration: none; }
+.text-button { display: inline; padding: 0; border: 0; background: none; color: var(--quiet); cursor: pointer; font: inherit; text-decoration: underline; }
+.page-content { min-height: calc(100vh - 130px); padding: 31px 0 55px; }
+.flash { margin: 0 0 18px; padding: 9px 11px; font-size: 12px; }
+.notice { background: #e2eee5; } .alert, .form-errors { background: #fae4dc; }
+.post-row { display: grid; grid-template-columns: 45px 1fr; gap: 13px; padding: 15px 0; border-top: 1px solid var(--line); }
+.post-row:first-child { border-top: 0; }
+.score { color: var(--accent); font-size: 12px; line-height: 1.1; text-align: right; }
+.score strong { display: block; color: var(--ink); font-size: 17px; }
+.post-title { font-size: 15px; line-height: 1.25; }
+.post-title a, .source-link, .crumb { color: #1c6383; }
+.domain, .metadata, .comment-meta { color: var(--quiet); font-size: 10px; }
+.metadata { margin-top: 4px; }
+.empty-state { border: 1px dashed #c9c4b8; color: var(--quiet); margin-top: 24px; padding: 24px; text-align: center; }
+.crumb { font-size: 11px; }
+.post-detail h1, h1 { font: normal 29px/1.1 Georgia, serif; letter-spacing: -.025em; margin: 13px 0 4px; }
+.source-link { font-size: 12px; overflow-wrap: anywhere; }
+.post-body { line-height: 1.5; margin: 24px 0 12px; max-width: 690px; }
+.post-body p { margin: 0 0 1em; }
+.actions { display: flex; gap: 12px; align-items: center; font-size: 11px; }
+.actions form { display: inline; margin: 0; }
+.discussion { border-top: 2px solid var(--ink); margin-top: 34px; max-width: 760px; padding-top: 12px; }
+h2 { font-size: 14px; margin: 0 0 16px; }
+.comment { border-left: 2px solid var(--accent); margin: 19px 0; padding-left: 11px; }
+.comment-body { line-height: 1.4; }
+.comment-body p { margin: 5px 0 8px; }
+.comment.deleted { border-color: #d0ccc0; color: var(--quiet); font-style: italic; }
+.replies { border-left: 1px solid #bdb9ae; margin-left: 20px; padding-left: 10px; }
+.stacked-form, .comment-form, .reply-form { display: grid; gap: 9px; max-width: 600px; }
+.stacked-form { margin-top: 22px; }
+.stacked-form div { display: grid; gap: 5px; }
+label { font-size: 12px; font-weight: bold; }
+input, textarea { border: 1px solid #bdb9ae; border-radius: 0; font: inherit; padding: 8px; width: 100%; }
+textarea { resize: vertical; }
+.form-errors { padding: 10px; font-size: 12px; }
+.reply-form { margin: 13px 0; }
+.reply-form label { color: var(--quiet); font-weight: normal; }
+footer { border-top: 1px solid var(--line); color: var(--quiet); font-size: 11px; padding: 17px 20px; }
+
+@media (max-width: 600px) {
+  .site-header { padding: 13px; } .site-header nav, .account-nav span { display: none; }
+  .page-content { padding: 24px 14px; } .post-row { grid-template-columns: 37px 1fr; gap: 9px; }
+  .post-title { font-size: 14px; } .post-detail h1, h1 { font-size: 24px; }
+  .replies { margin-left: 12px; padding-left: 7px; }
+}

@@ -1,0 +1,18 @@
+<%= form_with model: post, class: "stacked-form" do |form| %>
+  <% if post.errors.any? %>
+    <div class="form-errors"><%= pluralize(post.errors.count, "error") %> prevented this post from being saved: <%= post.errors.full_messages.to_sentence %></div>
+  <% end %>
+  <div>
+    <%= form.label :title %>
+    <%= form.text_field :title, autofocus: true, required: true %>
+  </div>
+  <div>
+    <%= form.label :url, "URL (optional)" %>
+    <%= form.url_field :url %>
+  </div>
+  <div>
+    <%= form.label :body, "Body (optional)" %>
+    <%= form.text_area :body, rows: 8 %>
+  </div>
+  <%= form.submit %>
+<% end %>

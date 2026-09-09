@@ -1,0 +1,12 @@
+alex_observation:
+  post: neighborhood
+  author: alex
+  body: Recognition is infrastructure too.
+  votes_count: 1
+
+rui_reply:
+  post: neighborhood
+  author: rui
+  parent_comment: alex_observation
+  body: It makes ordinary routes generous.
+  votes_count: 0

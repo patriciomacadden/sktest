@@ -1,0 +1,9 @@
+<% content_for :title, "Join · Threadwell" %>
+<h1>Join Threadwell</h1>
+<%= form_with model: @user, url: registration_path, class: "stacked-form" do |form| %>
+  <% if @user.errors.any? %><div class="form-errors"><%= @user.errors.full_messages.to_sentence %></div><% end %>
+  <%= form.label :email %><%= form.email_field :email, autofocus: true, required: true %>
+  <%= form.label :password %><%= form.password_field :password, required: true %>
+  <%= form.label :password_confirmation %><%= form.password_field :password_confirmation, required: true %>
+  <%= form.submit "Create account" %>
+<% end %>

@@ -1,0 +1,40 @@
+<% content_for :title, "#{@post.title} · Threadwell" %>
+<%= link_to "← all posts", root_path, class: "crumb" %>
+<article class="post-detail">
+  <h1><%= @post.title %></h1>
+  <% if @post.url.present? %><p class="source-link"><% if @post.link_url %><%= tag.a @post.url, href: @post.link_url %><% else %><%= @post.url %><% end %></p><% end %>
+  <div class="metadata"><%= @post.votes_count %> votes · <%= @post.author.email %> · <%= time_tag @post.created_at, @post.created_at.strftime("%b %-d, %Y, %H:%M") %></div>
+  <% if @post.body.present? %><div class="post-body"><%= simple_format @post.body %></div><% end %>
+  <p class="actions">
+    <% if authenticated? %>
+      <% if @post.votes.any? { |vote| vote.user_id == Current.user.id } %>
+        <%= button_to "Remove upvote", post_vote_path(@post), method: :delete, class: "text-button" %>
+      <% else %>
+        <%= button_to "Upvote", post_vote_path(@post), class: "text-button" %>
+      <% end %>
+      <% if @post.editable_by?(Current.user) %>
+        <%= link_to "Edit", edit_post_path(@post) %>
+        <%= button_to "Delete", @post, method: :delete, class: "text-button", form: { data: { turbo_confirm: "Delete this post and its discussion?" } } %>
+      <% end %>
+    <% else %>
+      <%= link_to "Sign in to upvote", new_session_path %>
+    <% end %>
+  </p>
+</article>
+
+<section class="discussion">
+  <h2><%= pluralize(@comments.count, "comment") %></h2>
+  <% if authenticated? %>
+    <%= form_with model: [ @post, Comment.new ], class: "comment-form" do |form| %>
+      <%= form.label :body, "Add a comment" %>
+      <%= form.text_area :body, rows: 4 %>
+      <%= form.submit "Add comment" %>
+    <% end %>
+  <% else %>
+    <p><%= link_to "Sign in", new_session_path %> or <%= link_to "join", new_registration_path %> to add to the conversation.</p>
+  <% end %>
+  <% comments_by_parent = @comments.group_by(&:parent_comment_id) %>
+  <% comments_by_parent[nil].to_a.each do |comment| %>
+    <%= render "comments/comment", comment: comment, comments_by_parent: comments_by_parent %>
+  <% end %>
+</section>
