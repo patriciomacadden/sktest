@@ -1,14 +1,23 @@
 <article id="comment-<%= comment.id %>" class="comment <%= "deleted" if comment.deleted? %>">
-  <div class="comment-meta"><% unless comment.deleted? %>▲ <%= comment.votes_count %> votes · <%= comment.author.email %> · <% end %><%= time_tag comment.created_at, comment.created_at.strftime("%b %-d, %Y, %H:%M") %></div>
+  <div class="comment-meta">
+    <% unless comment.deleted? %>
+      <% if authenticated? %>
+        <% if comment.votes.any? { |vote| vote.user_id == Current.user.id } %>
+          <%= button_to "▲", comment_vote_path(comment), method: :delete, class: "vote-arrow voted", aria: { label: "Remove upvote" } %>
+        <% else %>
+          <%= button_to "▲", comment_vote_path(comment), class: "vote-arrow", aria: { label: "Upvote" } %>
+        <% end %>
+      <% else %>
+        <%= link_to "▲", new_session_path, class: "vote-arrow", aria: { label: "Sign in to upvote" } %>
+      <% end %>
+      <%= comment.votes_count %> votes · <%= comment.author.email %> ·
+    <% end %>
+    <%= time_tag comment.created_at, comment.created_at.strftime("%b %-d, %Y, %H:%M") %>
+  </div>
   <div class="comment-body"><%= simple_format comment.body %></div>
   <% unless comment.deleted? %>
     <p class="actions">
       <% if authenticated? %>
-        <% if comment.votes.any? { |vote| vote.user_id == Current.user.id } %>
-          <%= button_to "Remove upvote", comment_vote_path(comment), method: :delete, class: "text-button" %>
-        <% else %>
-          <%= button_to "Upvote", comment_vote_path(comment), class: "text-button" %>
-        <% end %>
         <% if comment.editable_by?(Current.user) %>
           <%= link_to "Edit", edit_comment_path(comment) %>
           <%= button_to "Delete", comment, method: :delete, class: "text-button" %>

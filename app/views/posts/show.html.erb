@@ -3,21 +3,25 @@
 <article class="post-detail">
   <h1><%= @post.title %></h1>
   <% if @post.url.present? %><p class="source-link"><% if @post.link_url %><%= tag.a @post.url, href: @post.link_url %><% else %><%= @post.url %><% end %></p><% end %>
-  <div class="metadata"><%= @post.votes_count %> votes · <%= @post.author.email %> · <%= time_tag @post.created_at, @post.created_at.strftime("%b %-d, %Y, %H:%M") %></div>
+  <div class="metadata">
+    <% if authenticated? %>
+      <% if @post.votes.any? { |vote| vote.user_id == Current.user.id } %>
+        <%= button_to "▲", post_vote_path(@post), method: :delete, class: "vote-arrow voted", aria: { label: "Remove upvote" } %>
+      <% else %>
+        <%= button_to "▲", post_vote_path(@post), class: "vote-arrow", aria: { label: "Upvote" } %>
+      <% end %>
+    <% else %>
+      <%= link_to "▲", new_session_path, class: "vote-arrow", aria: { label: "Sign in to upvote" } %>
+    <% end %>
+    <%= @post.votes_count %> votes · <%= @post.author.email %> · <%= time_tag @post.created_at, @post.created_at.strftime("%b %-d, %Y, %H:%M") %>
+  </div>
   <% if @post.body.present? %><div class="post-body"><%= simple_format @post.body %></div><% end %>
   <p class="actions">
     <% if authenticated? %>
-      <% if @post.votes.any? { |vote| vote.user_id == Current.user.id } %>
-        <%= button_to "Remove upvote", post_vote_path(@post), method: :delete, class: "text-button" %>
-      <% else %>
-        <%= button_to "Upvote", post_vote_path(@post), class: "text-button" %>
-      <% end %>
       <% if @post.editable_by?(Current.user) %>
         <%= link_to "Edit", edit_post_path(@post) %>
         <%= button_to "Delete", @post, method: :delete, class: "text-button", form: { data: { turbo_confirm: "Delete this post and its discussion?" } } %>
       <% end %>
-    <% else %>
-      <%= link_to "Sign in to upvote", new_session_path %>
     <% end %>
   </p>
 </article>

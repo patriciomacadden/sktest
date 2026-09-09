@@ -30,6 +30,10 @@ a { color: inherit; }
 .post-title a, .source-link, .crumb { color: #1c6383; }
 .domain, .metadata, .comment-meta { color: var(--quiet); font-size: 10px; }
 .metadata { margin-top: 4px; }
+.metadata form, .comment-meta form { display: inline; }
+.vote-arrow { background: none; border: 0; color: var(--quiet); cursor: pointer; font: inherit; font-size: 12px; padding: 0 2px 0 0; text-decoration: none; }
+.vote-arrow:hover, .vote-arrow:focus-visible, .vote-arrow.voted { color: var(--accent); }
+.vote-arrow.voted { font-weight: bold; }
 .empty-state { border: 1px dashed #c9c4b8; color: var(--quiet); margin-top: 24px; padding: 24px; text-align: center; }
 .crumb { font-size: 11px; }
 .post-detail h1, h1 { font: normal 29px/1.1 Georgia, serif; letter-spacing: -.025em; margin: 13px 0 4px; }
