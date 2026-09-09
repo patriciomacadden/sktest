@@ -4,7 +4,7 @@ class CommentsController < ApplicationController
   before_action -> { require_owner!(@comment) }, only: %i[edit update destroy]
 
   def create
-    @post = Post.find(params[:post_id])
+    @post = Post.includes(:votes).find(params[:post_id])
     @comment = @post.comments.new(comment_params.merge(author: Current.user))
 
     if @comment.parent_comment&.deleted?
@@ -14,7 +14,7 @@ class CommentsController < ApplicationController
     elsif @comment.save
       redirect_to @post, anchor: "comment-#{@comment.id}", notice: "Comment added."
     else
-      @comments = @post.comments.includes(:author).order(:created_at)
+      @comments = @post.comments.includes(:author, :votes).order(:created_at)
       render "posts/show", status: :unprocessable_content
     end
   end

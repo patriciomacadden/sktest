@@ -7,6 +7,7 @@ class RegistrationsController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
+      reset_session
       session[:user_id] = @user.id
       redirect_to root_path, notice: "Welcome to Threadwell."
     else

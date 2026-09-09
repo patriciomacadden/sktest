@@ -6,6 +6,7 @@ class SessionsController < ApplicationController
     user = User.find_by(email: params[:email])
 
     if user&.authenticate(params[:password])
+      reset_session
       session[:user_id] = user.id
       redirect_to root_path, notice: "Signed in."
     else

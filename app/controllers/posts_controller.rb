@@ -8,7 +8,7 @@ class PostsController < ApplicationController
   end
 
   def show
-    @comments = @post.comments.includes(:author).order(:created_at)
+    @comments = @post.comments.includes(:author, :votes).order(:created_at)
   end
 
   def new
@@ -43,7 +43,7 @@ class PostsController < ApplicationController
 
   private
     def set_post
-      @post = Post.find(params[:id])
+      @post = Post.includes(:author, :votes).find(params[:id])
     end
 
     def post_params
