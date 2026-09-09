@@ -13,7 +13,7 @@
     <% else %>
       <%= link_to "▲", new_session_path, class: "vote-arrow", aria: { label: "Sign in to upvote" } %>
     <% end %>
-    <%= @post.votes_count %> votes · <%= @post.author.email %> · <%= time_tag @post.created_at, @post.created_at.strftime("%b %-d, %Y, %H:%M") %>
+    <%= @post.votes_count %> votes · <%= @post.author.email_address %> · <%= time_tag @post.created_at, @post.created_at.strftime("%b %-d, %Y, %H:%M") %>
   </div>
   <% if @post.body.present? %><div class="post-body"><%= simple_format @post.body %></div><% end %>
   <p class="actions">

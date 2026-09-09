@@ -1,5 +1,4 @@
 class CommentsController < ApplicationController
-  before_action :require_authentication
   before_action :set_comment, only: %i[edit update destroy]
   before_action -> { require_owner!(@comment) }, only: %i[edit update destroy]
 

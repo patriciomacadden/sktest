@@ -7,7 +7,7 @@ Gemfile, Gemfile.lock, config/routes.rb, app/controllers/application_controller.
 
 ## Order of work
 
-1. Add `bcrypt`, then implement Rails-native email/password authentication: `User` with normalized, uniquely indexed email and `has_secure_password`; session-based sign-in/sign-out; registration; and reset-token email/reset flows using Rails-supported password-reset tokens.
+1. Run `bin/rails generate authentication` as the Rails-native baseline for `User`, persisted sessions, authentication concern, sign-in/sign-out, password reset, mailer, migrations, and generated tests. Add application-specific registration on top of that baseline; use the generated `email_address` identity field everywhere user email is displayed.
 2. Add posts, comments, and polymorphic votes with foreign keys, indexes, and database uniqueness constraints. Use `votes_count` and `comments_count` counter caches so public list metadata and ordering avoid per-row counting.
 3. Model ownership and deletion rules: posts own comments and votes; post deletion destroys all related comments and votes; comment deletion marks it deleted and replaces visible content with `[deleted]`, preserving descendants and existing votes while disallowing further replies. Model predicates define author-only edit/delete access.
 4. Add conventional REST routes/controllers for posts, nested comment creation, shallow comment edit/update/delete, sessions/registration/passwords, and singular nested post/comment vote resources. Require authentication for writes and reject unauthorized ownership actions.

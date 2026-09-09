@@ -1,4 +1,6 @@
 class RegistrationsController < ApplicationController
+  allow_unauthenticated_access
+
   def new
     @user = User.new
   end
@@ -7,8 +9,7 @@ class RegistrationsController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      reset_session
-      session[:user_id] = @user.id
+      start_new_session_for(@user)
       redirect_to root_path, notice: "Welcome to Threadwell."
     else
       render :new, status: :unprocessable_content
@@ -17,6 +18,6 @@ class RegistrationsController < ApplicationController
 
   private
     def user_params
-      params.expect(user: [ :email, :password, :password_confirmation ])
+      params.expect(user: [ :email_address, :password, :password_confirmation ])
     end
 end

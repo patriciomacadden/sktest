@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :require_authentication, except: %i[index show]
+  allow_unauthenticated_access only: %i[index show]
   before_action :set_post, only: %i[show edit update destroy]
   before_action -> { require_owner!(@post) }, only: %i[edit update destroy]
 

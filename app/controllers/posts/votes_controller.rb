@@ -1,5 +1,4 @@
 class Posts::VotesController < ApplicationController
-  before_action :require_authentication
   before_action :set_post
 
   def create

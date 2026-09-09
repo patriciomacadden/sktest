@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_09_153504) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_09_180912) do
   create_table "comments", force: :cascade do |t|
     t.integer "author_id", null: false
     t.text "body", null: false
@@ -39,12 +39,21 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_09_153504) do
     t.index ["votes_count", "created_at"], name: "index_posts_on_votes_count_and_created_at"
   end
 
+  create_table "sessions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "ip_address"
+    t.datetime "updated_at", null: false
+    t.string "user_agent"
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_sessions_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.string "email", null: false
+    t.string "email_address", null: false
     t.string "password_digest", null: false
     t.datetime "updated_at", null: false
-    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 
   create_table "votes", force: :cascade do |t|
@@ -58,9 +67,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_09_153504) do
     t.index ["votable_type", "votable_id"], name: "index_votes_on_votable"
   end
 
-  add_foreign_key "comments", "comments", column: "parent_comment_id"
+  add_foreign_key "comments", "comments", column: "parent_comment_id", on_delete: :nullify
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users", column: "author_id"
   add_foreign_key "posts", "users", column: "author_id"
+  add_foreign_key "sessions", "users"
   add_foreign_key "votes", "users"
 end

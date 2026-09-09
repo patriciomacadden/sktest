@@ -16,7 +16,7 @@
       <div class="account-nav">
         <% if authenticated? %>
           <%= link_to "New post", new_post_path, class: "join" %>
-          <span><%= Current.user.email %></span>
+          <span><%= Current.user.email_address %></span>
           <%= button_to "Sign out", session_path, method: :delete, class: "text-button" %>
         <% else %>
           <%= link_to "Sign in", new_session_path %>

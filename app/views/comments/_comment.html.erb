@@ -10,7 +10,7 @@
       <% else %>
         <%= link_to "▲", new_session_path, class: "vote-arrow", aria: { label: "Sign in to upvote" } %>
       <% end %>
-      <%= comment.votes_count %> votes · <%= comment.author.email %> ·
+      <%= comment.votes_count %> votes · <%= comment.author.email_address %> ·
     <% end %>
     <%= time_tag comment.created_at, comment.created_at.strftime("%b %-d, %Y, %H:%M") %>
   </div>
@@ -27,7 +27,7 @@
     <% if authenticated? %>
       <%= form_with model: [ comment.post, Comment.new(parent_comment_id: comment.id) ], class: "reply-form" do |form| %>
         <%= form.hidden_field :parent_comment_id %>
-        <%= form.label :body, "Reply to #{comment.author.email}" %>
+        <%= form.label :body, "Reply to #{comment.author.email_address}" %>
         <%= form.text_area :body, rows: 3 %>
         <%= form.submit "Reply" %>
       <% end %>

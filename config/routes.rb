@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
+  resource :session
+  resources :passwords, param: :token
   root "posts#index"
 
   resource :registration, only: %i[new create]
-  resource :session, only: %i[new create destroy]
-  resources :passwords, param: :token, only: %i[new create edit update]
 
   resources :posts do
     resource :vote, only: %i[create destroy], module: :posts

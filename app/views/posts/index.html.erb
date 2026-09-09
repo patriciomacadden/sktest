@@ -6,7 +6,7 @@
       <div class="score">▲<strong><%= post.votes_count %></strong>votes</div>
       <div>
         <div class="post-title"><%= link_to post.title, post %> <% if post.link_url %><span class="domain">(<%= URI.parse(post.link_url).host %>)</span><% end %></div>
-        <div class="metadata">by <%= post.author.email %> · <%= time_tag post.created_at, post.created_at.strftime("%b %-d, %Y") %> · <%= pluralize(post.comments_count, "comment") %></div>
+        <div class="metadata">by <%= post.author.email_address %> · <%= time_tag post.created_at, post.created_at.strftime("%b %-d, %Y") %> · <%= pluralize(post.comments_count, "comment") %></div>
       </div>
     </article>
   <% end %>
