@@ -1,6 +1,8 @@
-## Rails
+## Rails generators
 
-Favor running `rails g scaffold|scaffold_controller|model|controller` over creating the files manually.
+Before writing or approving an implementation plan for Rails work, identify the applicable `bin/rails generate ...` command(s). The plan must name those commands.
+
+Use Rails generators for models, controllers, scaffolds, migrations, and other supported artifacts unless they are inapplicable. If manually creating or modifying a generator-supported artifact is necessary, explicitly state why in the plan before doing so.
 
 ## Designing
 
