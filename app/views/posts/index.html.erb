@@ -2,8 +2,6 @@
 
 <h1>Posts</h1>
 
-<%= render "application/account_controls" %>
-
 <% if authenticated? %>
   <p><%= link_to "Create post", new_post_path %></p>
 <% end %>
