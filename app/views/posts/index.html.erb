@@ -22,10 +22,10 @@
       <p>By <%= post.author.email_address %> on <time datetime="<%= post.created_at.iso8601 %>"><%= post.created_at.to_fs(:long) %></time></p>
 
       <% if authenticated? && post.editable_by?(Current.user) %>
-        <p>
+        <div>
           <%= link_to "Edit", edit_post_path(post) %>
           <%= button_to "Delete", post_path(post), method: :delete %>
-        </p>
+        </div>
       <% end %>
     </article>
   <% end %>
