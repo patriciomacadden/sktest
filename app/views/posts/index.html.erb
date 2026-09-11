@@ -9,7 +9,7 @@
 <% if @posts.any? %>
   <% @posts.each do |post| %>
     <article>
-      <h2><%= post.title %></h2>
+      <h2><%= link_to post.title, post_path(post) %></h2>
 
       <% if post.url.present? %>
         <p><%= link_to post.url, post.url %></p>
@@ -20,6 +20,7 @@
       <% end %>
 
       <p>By <%= post.author.email_address %> on <time datetime="<%= post.created_at.iso8601 %>"><%= post.created_at.to_fs(:long) %></time></p>
+      <p><%= pluralize(post.comments_count, "comment") %></p>
 
       <% if authenticated? && post.editable_by?(Current.user) %>
         <div>

@@ -15,7 +15,7 @@ class RootPostsTest < ActionDispatch::IntegrationTest
   end
 
   test "visitor sees an invitation when there are no posts" do
-    Post.delete_all
+    Post.destroy_all
 
     get root_path
 

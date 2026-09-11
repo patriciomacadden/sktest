@@ -1,11 +1,16 @@
 class PostsController < ApplicationController
-  allow_unauthenticated_access only: :index
+  allow_unauthenticated_access only: %i[index show]
 
-  before_action :set_post, only: %i[edit update destroy]
+  before_action :set_post, only: %i[show edit update destroy]
   before_action :ensure_author, only: %i[edit update destroy]
 
   def index
     @posts = Post.includes(:author).order(created_at: :desc)
+  end
+
+  def show
+    @comments_by_parent_id = @post.comments.includes(:author).order(:created_at).group_by(&:parent_id)
+    @comment = @post.comments.build
   end
 
   def new

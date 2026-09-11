@@ -103,4 +103,32 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_select "a[href='#{edit_post_path(@post)}']", count: 0
     assert_select "form[action='#{post_path(@post)}']", count: 0
   end
+
+  test "root feed links to public post details and displays its comment count" do
+    get root_path
+
+    assert_response :success
+    assert_select "a[href='#{post_path(@post)}']", text: @post.title
+    assert_select "p", "4 comments"
+  end
+
+  test "visitors can read a post thread including deleted comments" do
+    get post_path(@post)
+
+    assert_response :success
+    assert_select "h1", @post.title
+    assert_select "article##{dom_id(comments(:deleted_root))}", text: /\[deleted\]/
+    assert_select "article##{dom_id(comments(:deleted_reply))}", text: /Reply beneath deleted comment/
+    assert_select "a", text: "Sign in to add a comment"
+  end
+
+  test "deleting a post deletes its comments" do
+    sign_in_as @author
+
+    assert_difference "Comment.count", -4 do
+      delete post_path(@post)
+    end
+
+    assert_redirected_to root_path
+  end
 end

@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   root "posts#index"
-  resources :posts, only: %i[new create edit update destroy]
+  resources :posts, only: %i[index show new create edit update destroy] do
+    resources :comments, only: %i[create destroy]
+  end
 
   resource :registration, only: %i[new create]
   resource :session

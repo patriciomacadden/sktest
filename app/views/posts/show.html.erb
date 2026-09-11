@@ -1,0 +1,38 @@
+<% content_for :title, @post.title %>
+
+<article>
+  <h1><%= @post.title %></h1>
+
+  <% if @post.url.present? %>
+    <p><%= link_to @post.url, URI.parse(@post.url).to_s %></p>
+  <% end %>
+
+  <% if @post.body.present? %>
+    <%= simple_format(h(@post.body), sanitize: false) %>
+  <% end %>
+
+  <p>By <%= @post.author.email_address %> on <time datetime="<%= @post.created_at.iso8601 %>"><%= @post.created_at.to_fs(:long) %></time></p>
+</article>
+
+<section aria-labelledby="comments-heading">
+  <h2 id="comments-heading">Comments</h2>
+
+  <% if @comments_by_parent_id[nil].present? %>
+    <ol>
+      <% @comments_by_parent_id[nil].each do |comment| %>
+        <li><%= render "comments/comment", comment:, post: @post, comments_by_parent_id: @comments_by_parent_id %></li>
+      <% end %>
+    </ol>
+  <% elsif authenticated? %>
+    <p>There are no comments yet. Add the first comment.</p>
+  <% else %>
+    <p>There are no comments yet. <%= link_to "Sign in to add the first comment", new_session_path %>.</p>
+  <% end %>
+
+  <% if authenticated? %>
+    <h3>Add a comment</h3>
+    <%= render "comments/form", comment: @comment, post: @post, submit_label: "Add comment" %>
+  <% else %>
+    <p><%= link_to "Sign in to add a comment", new_session_path %>.</p>
+  <% end %>
+</section>

@@ -1,5 +1,6 @@
 class Post < ApplicationRecord
   belongs_to :author, class_name: "User"
+  has_many :comments, dependent: :destroy
 
   validates :title, presence: true
   validate :url_must_be_absolute_http_or_https
