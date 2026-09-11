@@ -1,0 +1,33 @@
+<h1>Create account</h1>
+
+<% if @user.errors.any? %>
+  <div role="alert">
+    <h2><%= pluralize(@user.errors.count, "error") %> prevented account creation</h2>
+    <ul>
+      <% @user.errors.each do |error| %>
+        <li><%= error.full_message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_with model: @user, url: registration_path do |form| %>
+  <p>
+    <%= form.label :email_address, "Email address" %>
+    <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "email" %>
+  </p>
+
+  <p>
+    <%= form.label :password %>
+    <%= form.password_field :password, required: true, autocomplete: "new-password", maxlength: 72 %>
+  </p>
+
+  <p>
+    <%= form.label :password_confirmation, "Confirm password" %>
+    <%= form.password_field :password_confirmation, required: true, autocomplete: "new-password", maxlength: 72 %>
+  </p>
+
+  <p><%= form.submit "Create account" %></p>
+<% end %>
+
+<p><%= link_to "Sign in", new_session_path %></p>

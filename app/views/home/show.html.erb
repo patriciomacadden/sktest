@@ -1,0 +1,9 @@
+<h1>Welcome</h1>
+
+<% if authenticated? %>
+  <p>Signed in as <%= Current.user.email_address %></p>
+  <%= button_to "Sign out", session_path, method: :delete %>
+<% else %>
+  <p><%= link_to "Sign in", new_session_path %></p>
+  <p><%= link_to "Create account", new_registration_path %></p>
+<% end %>

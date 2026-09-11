@@ -7,6 +7,7 @@ Author: Patricio Mac Adden. Timestamp: 2026-09-11T03:12:08Z. Status: accepted.
 - `Gemfile.lock`
 - `db/migrate/*_create_users.rb` (new)
 - `db/migrate/*_create_sessions.rb` (new)
+- `db/schema.rb` (new)
 - `app/models/user.rb` (new)
 - `app/models/session.rb` (new)
 - `app/models/current.rb` (new)
@@ -16,6 +17,7 @@ Author: Patricio Mac Adden. Timestamp: 2026-09-11T03:12:08Z. Status: accepted.
 - `app/controllers/registrations_controller.rb` (new)
 - `app/controllers/home_controller.rb` (new)
 - `app/controllers/application_controller.rb`
+- `app/channels/application_cable/connection.rb` (new)
 - `app/mailers/passwords_mailer.rb` (new)
 - `app/views/sessions/new.html.erb` (new)
 - `app/views/passwords/new.html.erb` (new)
@@ -31,6 +33,7 @@ Author: Patricio Mac Adden. Timestamp: 2026-09-11T03:12:08Z. Status: accepted.
 - `test/controllers/passwords_controller_test.rb` (new)
 - `test/controllers/registrations_controller_test.rb` (new)
 - `test/controllers/home_controller_test.rb` (new)
+- `test/mailers/previews/passwords_mailer_preview.rb` (new)
 - `test/test_helper.rb`
 - `test/test_helpers/session_test_helper.rb` (new)
 - `intent/20260910T202108Z-public-user-authentication/plan.md` (new)

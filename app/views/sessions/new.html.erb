@@ -1,0 +1,25 @@
+<h1>Sign in</h1>
+
+<% if flash[:alert] %>
+  <p role="alert"><%= flash[:alert] %></p>
+<% end %>
+<% if flash[:notice] %>
+  <p><%= flash[:notice] %></p>
+<% end %>
+
+<%= form_with url: session_path do |form| %>
+  <p>
+    <%= form.label :email_address, "Email address" %>
+    <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", value: params[:email_address] %>
+  </p>
+
+  <p>
+    <%= form.label :password %>
+    <%= form.password_field :password, required: true, autocomplete: "current-password", maxlength: 72 %>
+  </p>
+
+  <p><%= form.submit "Sign in" %></p>
+<% end %>
+
+<p><%= link_to "Forgot password?", new_password_path %></p>
+<p><%= link_to "Create account", new_registration_path %></p>
