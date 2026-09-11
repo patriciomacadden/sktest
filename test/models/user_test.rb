@@ -13,4 +13,13 @@ class UserTest < ActiveSupport::TestCase
     assert_not user.valid?
     assert_includes user.errors[:email_address], "has already been taken"
   end
+
+  test "requires a valid email address" do
+    [ "", "not-an-email" ].each do |email_address|
+      user = User.new(email_address:, password: "password")
+
+      assert_not user.valid?
+      assert_includes user.errors[:email_address], "is invalid" unless email_address.empty?
+    end
+  end
 end

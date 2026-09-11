@@ -37,4 +37,19 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_content
     assert_select "[role=alert]", /Email address has already been taken/
   end
+
+  test "create with a malformed email re-renders with an error" do
+    assert_no_difference "User.count" do
+      post registration_path, params: {
+        user: {
+          email_address: "not-an-email",
+          password: "password",
+          password_confirmation: "password"
+        }
+      }
+    end
+
+    assert_response :unprocessable_content
+    assert_select "[role=alert]", /Email address is invalid/
+  end
 end

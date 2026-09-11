@@ -4,5 +4,5 @@ class User < ApplicationRecord
 
   normalizes :email_address, with: ->(email_address) { email_address.strip.downcase }
 
-  validates :email_address, uniqueness: true
+  validates :email_address, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }, uniqueness: true
 end
