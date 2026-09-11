@@ -3,3 +3,11 @@
 registered_reader:
   email_address: reader@example.com
   password_digest: <%= password_digest %>
+
+published_author:
+  email_address: writer@example.com
+  password_digest: <%= password_digest %>
+
+other_author:
+  email_address: other.writer@example.com
+  password_digest: <%= password_digest %>

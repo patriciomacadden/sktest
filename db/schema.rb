@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_11_143027) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_11_191207) do
+  create_table "posts", force: :cascade do |t|
+    t.integer "author_id", null: false
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.string "url"
+    t.index ["author_id"], name: "index_posts_on_author_id"
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "ip_address"
@@ -28,5 +38,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_11_143027) do
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 
+  add_foreign_key "posts", "users", column: "author_id"
   add_foreign_key "sessions", "users"
 end

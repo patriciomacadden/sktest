@@ -1,0 +1,30 @@
+<%= form_with model: post do |form| %>
+  <% if post.errors.any? %>
+    <div role="alert">
+      <p>Please correct the errors below.</p>
+    </div>
+  <% end %>
+
+  <p>
+    <%= form.label :title, "Title" %>
+    <%= form.text_field :title, required: true, autofocus: true, aria: { describedby: post.errors[:title].any? ? "post_title_error" : nil } %>
+    <% if post.errors[:title].any? %>
+      <span id="post_title_error"><%= post.errors.full_messages_for(:title).to_sentence %></span>
+    <% end %>
+  </p>
+
+  <p>
+    <%= form.label :url, "URL" %>
+    <%= form.url_field :url, aria: { describedby: post.errors[:url].any? ? "post_url_error" : nil } %>
+    <% if post.errors[:url].any? %>
+      <span id="post_url_error"><%= post.errors.full_messages_for(:url).to_sentence %></span>
+    <% end %>
+  </p>
+
+  <p>
+    <%= form.label :body, "Body" %>
+    <%= form.textarea :body %>
+  </p>
+
+  <p><%= form.submit submit_label %></p>
+<% end %>
