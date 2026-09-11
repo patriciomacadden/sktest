@@ -13,6 +13,7 @@
 - Why it matters: A direct request can create an account with an empty or malformed `email_address`; the HTML `required` and `type="email"` constraints do not protect the server. Such an account cannot receive a password-reset email, so it does not meet the intended email/password account flow.
 - Evidence: The model only normalizes `email_address` and checks uniqueness. The database migration rejects `NULL` but permits empty and malformed strings, and `RegistrationsController#create` saves the model directly. The accepted specification requires registration with an email address (FR-1) and a working password-reset journey (FR-4).
 - Suggested direction: Add server-side presence and email-format validation, retaining the database unique index; add request/model coverage for rejected blank and malformed addresses.
+- Outcome: Fixed — `62e9b28`; `bin/rails test test/models/user_test.rb test/controllers/registrations_controller_test.rb` (7 runs, 27 assertions) and targeted RuboCop passed.
 
 ## Review passes
 - Bugs: Findings above.
