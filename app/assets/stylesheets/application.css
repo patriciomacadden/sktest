@@ -66,6 +66,19 @@ h3 { font-size: 1rem; }
 .post-meta, .comment-meta { color: var(--muted); font-size: .84rem; margin: .16rem 0 0; }
 .post-actions, .comment-actions { font-size: .84rem; margin: .15rem 0 0; }
 .post-actions form { display: inline; }
+.post-actions button, .comment button {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  color: var(--blue);
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+  text-decoration: underline;
+  text-decoration-thickness: .09em;
+  text-underline-offset: .15em;
+}
+.post-actions button:hover, .comment button:hover { color: var(--blue-dark); }
 
 .post-detail { max-width: var(--reading-width); }
 .post-detail__title { display: inline; font-size: 1.2rem; margin: 0; }
