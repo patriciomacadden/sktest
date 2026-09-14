@@ -49,8 +49,17 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 
 .button:hover, input[type="submit"]:hover { background: var(--blue-dark); }
-.site-header__sign-out button { background: transparent; border: 1px solid #8090a0; color: white; cursor: pointer; font: inherit; font-weight: 750; padding: .34rem .6rem; }
-.site-header__sign-out button:hover { background: transparent; border-color: var(--yellow); }
+button.site-header__sign-out {
+  appearance: none;
+  background: transparent;
+  border: 1px solid #8090a0;
+  color: white;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 750;
+  padding: .34rem .6rem;
+}
+button.site-header__sign-out:hover { background: transparent; border-color: var(--yellow); }
 
 .site-main { margin: 3rem auto 6rem; width: min(100% - 2rem, var(--content-width)); }
 h1, h2, h3 { letter-spacing: -.035em; line-height: 1.15; }
