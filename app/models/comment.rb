@@ -17,7 +17,7 @@ class Comment < ApplicationRecord
   end
 
   def edited?
-    edited_at.present?
+    !deleted? && edited_at.present?
   end
 
   def deleted?

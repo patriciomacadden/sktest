@@ -116,6 +116,17 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
     assert_response :forbidden
   end
 
+  test "deleted comments do not show an edited indicator" do
+    sign_in_as @author
+    comment = comments(:active_root)
+
+    patch post_comment_path(@post, comment), params: { comment: { body: "Corrected comment." } }
+    delete post_comment_path(@post, comment)
+
+    get post_path(@post)
+    assert_select "turbo-frame##{ActionView::RecordIdentifier.dom_id(comment, :editor)} p", text: /\(edited\)/, count: 0
+  end
+
   test "author soft-deletes their comment and retains replies" do
     sign_in_as @author
     comment = comments(:active_root)
