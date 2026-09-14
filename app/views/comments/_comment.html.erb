@@ -1,29 +1,41 @@
-<article id="<%= dom_id comment %>">
-  <p>By <%= comment.author.email_address %> on <time datetime="<%= comment.created_at.iso8601 %>"><%= comment.created_at.to_fs(:long) %></time></p>
-  <%= simple_format(h(comment.deleted? ? "[deleted]" : comment.body), sanitize: false) %>
+<%= turbo_frame_tag dom_id(comment, :editor) do %>
+  <article id="<%= dom_id comment %>">
+    <p>By <%= comment.author.email_address %> on <time datetime="<%= comment.created_at.iso8601 %>"><%= comment.created_at.to_fs(:long) %></time><%= " (edited)" if comment.edited? %></p>
 
-  <% if authenticated? && comment.deletable_by?(Current.user) %>
-    <%= button_to "Delete", post_comment_path(post, comment), method: :delete %>
-  <% end %>
-
-  <% if comment.replyable? %>
-    <% if authenticated? %>
-      <details>
-        <summary>Reply</summary>
-        <%= render "comments/form", comment: Comment.new(post:, parent: comment), post:, submit_label: "Reply" %>
-      </details>
+    <% if editing %>
+      <%= render "comments/form", comment:, post:, submit_label: "Save changes" %>
+      <%= link_to "Cancel", post_path(post, anchor: dom_id(comment)) %>
     <% else %>
-      <p><%= link_to "Sign in to reply", new_session_path %>.</p>
-    <% end %>
-  <% end %>
+      <%= simple_format(h(comment.deleted? ? "[deleted]" : comment.body), sanitize: false) %>
 
-  <% if comments_by_parent_id[comment.id].present? %>
-    <blockquote>
-      <ol>
-        <% comments_by_parent_id[comment.id].each do |reply| %>
-          <li><%= render "comments/comment", comment: reply, post:, comments_by_parent_id: %></li>
-        <% end %>
-      </ol>
-    </blockquote>
-  <% end %>
-</article>
+      <% if authenticated? && comment.editable_by?(Current.user) %>
+        <%= link_to "Edit", edit_post_comment_path(post, comment) %>
+      <% end %>
+
+      <% if authenticated? && comment.deletable_by?(Current.user) %>
+        <%= button_to "Delete", post_comment_path(post, comment), method: :delete %>
+      <% end %>
+    <% end %>
+
+    <% if comment.replyable? %>
+      <% if authenticated? %>
+        <details>
+          <summary>Reply</summary>
+          <%= render "comments/form", comment: Comment.new(post:, parent: comment), post:, submit_label: "Reply" %>
+        </details>
+      <% else %>
+        <p><%= link_to "Sign in to reply", new_session_path %>.</p>
+      <% end %>
+    <% end %>
+
+    <% if comments_by_parent_id[comment.id].present? %>
+      <blockquote>
+        <ol>
+          <% comments_by_parent_id[comment.id].each do |reply| %>
+            <li><%= render "comments/comment", comment: reply, post:, comments_by_parent_id:, editing: false %></li>
+          <% end %>
+        </ol>
+      </blockquote>
+    <% end %>
+  </article>
+<% end %>

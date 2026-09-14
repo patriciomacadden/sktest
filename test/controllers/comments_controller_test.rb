@@ -52,6 +52,70 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to new_session_path
   end
 
+  test "author edits a comment inline and marks it edited" do
+    sign_in_as @author
+    comment = comments(:active_root)
+
+    get post_path(@post)
+    assert_select "turbo-frame##{ActionView::RecordIdentifier.dom_id(comment, :editor)} a", "Edit"
+
+    get edit_post_comment_path(@post, comment), headers: { "Turbo-Frame" => ActionView::RecordIdentifier.dom_id(comment, :editor) }
+    assert_response :success
+    assert_select "turbo-frame##{ActionView::RecordIdentifier.dom_id(comment, :editor)}" do
+      assert_select "form[action='#{post_comment_path(@post, comment)}']"
+      assert_select "input[value='Save changes']"
+      assert_select "a", "Cancel"
+    end
+
+    patch post_comment_path(@post, comment), params: { comment: { body: "Corrected comment." } }, headers: { "Turbo-Frame" => ActionView::RecordIdentifier.dom_id(comment, :editor) }
+
+    assert_redirected_to post_path(@post, anchor: ActionView::RecordIdentifier.dom_id(comment))
+    assert_equal "Corrected comment.", comment.reload.body
+    assert comment.edited?
+
+    get post_path(@post)
+    assert_select "turbo-frame##{ActionView::RecordIdentifier.dom_id(comment, :editor)} p", /\(edited\)/
+  end
+
+  test "blank edit retains input and identifies the body field" do
+    sign_in_as @author
+    comment = comments(:active_root)
+
+    patch post_comment_path(@post, comment), params: { comment: { body: "" } }, headers: { "Turbo-Frame" => ActionView::RecordIdentifier.dom_id(comment, :editor) }
+
+    assert_response :unprocessable_content
+    assert_select "turbo-frame##{ActionView::RecordIdentifier.dom_id(comment, :editor)}" do
+      assert_select "textarea", ""
+      assert_select "#new_comment_body_error", /Body can't be blank/
+    end
+    assert_not comment.reload.edited?
+  end
+
+  test "unauthenticated visitors cannot edit comments" do
+    comment = comments(:active_root)
+
+    get edit_post_comment_path(@post, comment)
+    assert_redirected_to new_session_path
+
+    patch post_comment_path(@post, comment), params: { comment: { body: "Changed" } }
+    assert_redirected_to new_session_path
+    assert_equal "First comment.", comment.reload.body
+  end
+
+  test "non-author and deleted comments cannot be edited" do
+    sign_in_as @other_author
+
+    get edit_post_comment_path(@post, comments(:active_root))
+    assert_response :forbidden
+
+    patch post_comment_path(@post, comments(:active_root)), params: { comment: { body: "Changed" } }
+    assert_response :forbidden
+    assert_equal "First comment.", comments(:active_root).reload.body
+
+    get edit_post_comment_path(@post, comments(:deleted_root))
+    assert_response :forbidden
+  end
+
   test "author soft-deletes their comment and retains replies" do
     sign_in_as @author
     comment = comments(:active_root)

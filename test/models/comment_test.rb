@@ -30,15 +30,28 @@ class CommentTest < ActiveSupport::TestCase
     assert_includes comment.errors[:parent], "cannot accept replies"
   end
 
-  test "only an active comment author can delete it" do
+  test "only an active comment author can edit or delete it" do
     comment = comments(:active_root)
 
+    assert comment.editable_by?(users(:published_author))
+    assert_not comment.editable_by?(users(:other_author))
     assert comment.deletable_by?(users(:published_author))
     assert_not comment.deletable_by?(users(:other_author))
 
     comment.delete!
 
     assert comment.deleted?
+    assert_not comment.editable_by?(users(:published_author))
     assert_not comment.deletable_by?(users(:published_author))
+  end
+
+  test "is edited when it has an edited timestamp" do
+    comment = comments(:active_root)
+
+    assert_not comment.edited?
+
+    comment.update!(body: "Corrected comment.", edited_at: Time.current)
+
+    assert comment.edited?
   end
 end

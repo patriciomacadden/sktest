@@ -20,7 +20,7 @@
   <% if @comments_by_parent_id[nil].present? %>
     <ol>
       <% @comments_by_parent_id[nil].each do |comment| %>
-        <li><%= render "comments/comment", comment:, post: @post, comments_by_parent_id: @comments_by_parent_id %></li>
+        <li><%= render "comments/comment", comment:, post: @post, comments_by_parent_id: @comments_by_parent_id, editing: false %></li>
       <% end %>
     </ol>
   <% elsif authenticated? %>

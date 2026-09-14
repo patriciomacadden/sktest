@@ -8,8 +8,16 @@ class Comment < ApplicationRecord
   validate :parent_must_belong_to_post
   validate :parent_must_accept_replies
 
-  def deletable_by?(user)
+  def editable_by?(user)
     !deleted? && author == user
+  end
+
+  def deletable_by?(user)
+    editable_by?(user)
+  end
+
+  def edited?
+    edited_at.present?
   end
 
   def deleted?
