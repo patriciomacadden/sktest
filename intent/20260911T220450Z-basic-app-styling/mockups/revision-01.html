@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sktest styling mockup — revision 01</title>
+  <style>
+    :root { --paper:#eef2f5; --surface:#ffffff; --ink:#18212b; --muted:#596775; --rule:#c9d3dc; --blue:#2452c5; --blue-dark:#173a93; --sun:#f4c84b; --danger:#a02828; --measure:46rem; }
+    * { box-sizing:border-box; }
+    html { background:var(--paper); color:var(--ink); font:17px/1.55 ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    body { margin:0; }
+    a { color:var(--blue); text-decoration-thickness:.1em; text-underline-offset:.16em; }
+    a:hover { color:var(--blue-dark); }
+    a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible { outline:3px solid var(--sun); outline-offset:3px; }
+    .site-header { background:var(--ink); color:white; border-bottom:5px solid var(--sun); }
+    .bar { width:min(100% - 2rem, 70rem); margin:auto; min-height:4.5rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; }
+    .brand { color:#fff; text-decoration:none; font-weight:850; letter-spacing:-.045em; font-size:1.5rem; }
+    .brand::before { content:"// "; color:var(--sun); }
+    .account { margin:0; display:flex; align-items:center; gap:1rem; font-size:.88rem; }
+    .account button, .button { appearance:none; border:0; background:var(--blue); color:white; border-radius:0; padding:.62rem .9rem; font:inherit; font-weight:750; cursor:pointer; text-decoration:none; display:inline-block; }
+    .account button { background:transparent; border:1px solid #788794; padding:.35rem .65rem; }
+    main { width:min(100% - 2rem, 70rem); margin:3.5rem auto 6rem; }
+    .eyebrow { color:var(--muted); font-size:.73rem; font-weight:850; letter-spacing:.13em; text-transform:uppercase; margin:0 0 .4rem; }
+    h1,h2,h3 { letter-spacing:-.045em; line-height:1.08; margin:0; }
+    h1 { font-size:clamp(2.25rem,6vw,4.7rem); max-width:14ch; }
+    h2 { font-size:1.55rem; }
+    h3 { font-size:1.1rem; }
+    .lead { max-width:var(--measure); font-size:1.15rem; color:var(--muted); margin:1rem 0 2.25rem; }
+    .topline { display:flex; justify-content:space-between; align-items:end; gap:1rem; border-bottom:1px solid var(--ink); padding-bottom:1rem; }
+    .feed { margin-top:0; }
+    .post { background:var(--surface); padding:1.45rem 1.5rem 1.35rem; border-bottom:1px solid var(--rule); display:grid; grid-template-columns:minmax(0,1fr) auto; gap:1rem; }
+    .post:first-child { border-top:5px solid var(--blue); }
+    .post h2 { margin-bottom:.55rem; }
+    .post p { margin:.45rem 0; max-width:var(--measure); }
+    .meta { color:var(--muted); font-size:.85rem; }
+    .count { color:var(--blue); font-size:.85rem; font-weight:800; white-space:nowrap; align-self:start; }
+    .post-actions { display:flex; gap:.8rem; font-size:.88rem; margin-top:1rem; }
+    .article { max-width:var(--measure); }
+    .article .source { font-weight:750; margin:.85rem 0 1.3rem; }
+    .article .body { font-family:ui-serif, Georgia, serif; font-size:1.12rem; }
+    .comments { margin-top:3.5rem; max-width:var(--measure); }
+    .comments > h2 { border-bottom:3px solid var(--ink); padding-bottom:.65rem; margin-bottom:1.25rem; }
+    .thread { list-style:none; margin:0; padding:0; }
+    .thread > li { margin:0; }
+    .comment { border-left:4px solid var(--rule); padding:0 0 1.35rem 1.1rem; margin:0 0 1.35rem; }
+    .comment:hover { border-color:var(--blue); }
+    .comment p { margin:.5rem 0; }
+    .comment .meta { margin-top:0; }
+    .reply { list-style:none; margin:1.25rem 0 0 1.1rem; padding:0; }
+    .reply .comment { border-left-color:#9aafc1; }
+    .form-panel { max-width:33rem; background:var(--surface); padding:1.5rem; border-top:5px solid var(--blue); margin-top:1.5rem; }
+    label { display:block; font-size:.88rem; font-weight:800; margin-bottom:.35rem; }
+    input, textarea { display:block; width:100%; border:1px solid #8697a5; border-radius:0; background:#fff; color:var(--ink); padding:.65rem .7rem; font:inherit; }
+    textarea { min-height:8rem; resize:vertical; }
+    .field { margin:0 0 1.1rem; }
+    .form-actions { display:flex; align-items:center; gap:1rem; margin-top:1.35rem; }
+    .notice { background:#fff5c7; border-left:4px solid var(--sun); padding:.8rem 1rem; max-width:33rem; }
+    .error { color:var(--danger); font-size:.9rem; font-weight:700; margin:.4rem 0 0; }
+    .auth { max-width:27rem; margin:8vh auto; }
+    .auth h1 { font-size:3rem; }
+    .auth .form-panel { margin-top:1.5rem; }
+    .design-notes { margin-top:6rem; padding-top:2rem; border-top:1px solid var(--rule); max-width:var(--measure); color:var(--muted); font-size:.9rem; }
+    .design-notes code { color:var(--ink); }
+    @media (max-width: 600px) { main { margin-top:2.25rem; } .bar { min-height:4rem; } .account span { display:none; } .post { padding:1.2rem; grid-template-columns:1fr; gap:.45rem; } .count { order:2; } .reply { margin-left:.4rem; } }
+  </style>
+</head>
+<body>
+  <header class="site-header"><div class="bar"><a class="brand" href="#posts">sktest</a><p class="account"><span>Signed in as pat@example.com</span><button>Sign out</button></p></div></header>
+  <main id="posts">
+    <div class="topline"><div><p class="eyebrow">Public posts</p><h1>Things worth passing along.</h1></div><a class="button" href="#post-form">Create post</a></div>
+    <p class="lead">A small, readable place for links, notes, and the conversation they start.</p>
+    <section class="feed" aria-label="Posts">
+      <article class="post"><div><h2><a href="#detail">The case for durable web notes</a></h2><p class="source"><a href="#">sive.rs</a></p><p>Writing that stays useful when the timeline has moved on.</p><p class="meta">By pat@example.com · September 11, 2026</p><p class="post-actions"><a href="#">Edit</a><a href="#">Delete</a></p></div><a class="count" href="#detail">3 comments</a></article>
+      <article class="post"><div><h2><a href="#">A tiny guide to better command-line help</a></h2><p>Examples, honest defaults, and a way out when something goes wrong.</p><p class="meta">By lee@example.com · September 10, 2026</p></div><a class="count" href="#">1 comment</a></article>
+    </section>
+
+    <section id="detail" class="article" style="margin-top:6rem"><p class="eyebrow">Post</p><h1>The case for durable web notes</h1><p class="source"><a href="#">sive.rs</a></p><div class="body"><p>Some ideas deserve a quieter place than a feed. The point is not to preserve every passing thought; it is to leave the useful ones findable.</p></div><p class="meta">By pat@example.com · September 11, 2026</p></section>
+    <section class="comments"><h2>Comments <span class="meta">(3)</span></h2><ol class="thread"><li><article class="comment"><p class="meta">By lee@example.com · September 11, 2026</p><p>This is a good argument for treating a note as a place to return to rather than a broadcast.</p><p><a href="#">Edit</a> · <a href="#">Reply</a> · <a href="#">Delete</a></p><ol class="reply"><li><article class="comment"><p class="meta">By pat@example.com · September 11, 2026</p><p>Exactly. A useful note is allowed to take up space.</p><p><a href="#">Reply</a></p></article></li></ol></article></li></ol>
+      <div class="form-panel"><h3>Add a comment</h3><div class="field"><label for="comment">Comment</label><textarea id="comment"></textarea></div><button class="button">Add comment</button></div>
+    </section>
+
+    <section id="post-form" class="form-panel" style="margin-top:6rem"><p class="eyebrow">New post</p><h2>Share something worth revisiting.</h2><div class="field"><label for="title">Title</label><input id="title" value="The case for durable web notes"></div><div class="field"><label for="url">URL <span class="meta">(optional)</span></label><input id="url" type="url"></div><div class="field"><label for="body">Body <span class="meta">(optional)</span></label><textarea id="body"></textarea></div><p class="error">Title can’t be blank.</p><div class="form-actions"><button class="button">Create post</button><a href="#posts">Cancel</a></div></section>
+
+    <section class="auth" id="sign-in"><p class="eyebrow">Welcome back</p><h1>Sign in</h1><p class="notice" role="status">Your password was updated. Sign in to continue.</p><div class="form-panel"><div class="field"><label for="email">Email address</label><input id="email" type="email" autocomplete="username"></div><div class="field"><label for="password">Password</label><input id="password" type="password" autocomplete="current-password"></div><div class="form-actions"><button class="button">Sign in</button></div></div><p><a href="#">Forgot password?</a></p><p>New here? <a href="#">Create account</a>.</p></section>
+
+    <aside class="design-notes"><strong>Revision 01 · 2026-09-12</strong><br>Direction: a civic noticeboard for a small public conversation—cool paper, enamel-blue actions, and a single yellow registration stripe. The distinctive element is the left-hand <em>thread rail</em>: it turns nested comments into a visible conversation structure rather than a generic card stack. Type uses the system sans for speedy, dependency-free legibility and a restrained system serif only for post bodies. Palette: Paper <code>#eef2f5</code>, Surface <code>#ffffff</code>, Ink <code>#18212b</code>, Slate <code>#596775</code>, Enamel <code>#2452c5</code>, Registration yellow <code>#f4c84b</code>.</aside>
+  </main>
+</body>
+</html>
