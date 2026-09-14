@@ -1,24 +1,23 @@
 <% content_for :title, @post.title %>
 
-<article>
-  <h1><%= @post.title %></h1>
-
+<article class="post-detail">
+  <h1 class="post-detail__title"><%= @post.title %></h1>
   <% if @post.url.present? %>
-    <p><%= link_to @post.url, URI.parse(@post.url).to_s %></p>
+    <span class="post-url">(<%= link_to URI.parse(@post.url).host, @post.url %>)</span>
   <% end %>
+
+  <p class="post-meta">By <%= @post.author.email_address %> · <time datetime="<%= @post.created_at.iso8601 %>"><%= @post.created_at.to_fs(:long) %></time></p>
 
   <% if @post.body.present? %>
-    <%= simple_format(h(@post.body), sanitize: false) %>
+    <div class="post-detail__body"><%= simple_format(h(@post.body), sanitize: false) %></div>
   <% end %>
-
-  <p>By <%= @post.author.email_address %> on <time datetime="<%= @post.created_at.iso8601 %>"><%= @post.created_at.to_fs(:long) %></time></p>
 </article>
 
-<section aria-labelledby="comments-heading">
-  <h2 id="comments-heading">Comments</h2>
+<section class="comments" aria-labelledby="comments-heading">
+  <h2 id="comments-heading">Comments <span class="post-meta">(<%= @post.comments_count %>)</span></h2>
 
   <% if @comments_by_parent_id[nil].present? %>
-    <ol>
+    <ol class="comment-thread">
       <% @comments_by_parent_id[nil].each do |comment| %>
         <li><%= render "comments/comment", comment:, post: @post, comments_by_parent_id: @comments_by_parent_id, editing: false %></li>
       <% end %>
@@ -30,8 +29,10 @@
   <% end %>
 
   <% if authenticated? %>
-    <h3>Add a comment</h3>
-    <%= render "comments/form", comment: @comment, post: @post, submit_label: "Add comment" %>
+    <div class="form-panel">
+      <h3>Add a comment</h3>
+      <%= render "comments/form", comment: @comment, post: @post, submit_label: "Add comment" %>
+    </div>
   <% else %>
     <p><%= link_to "Sign in to add a comment", new_session_path %>.</p>
   <% end %>

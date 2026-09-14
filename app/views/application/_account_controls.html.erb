@@ -1,7 +1,16 @@
-<% if authenticated? %>
-  <p>Signed in as <%= Current.user.email_address %></p>
-  <%= button_to "Sign out", session_path, method: :delete %>
-<% else %>
-  <p><%= link_to "Sign in", new_session_path %></p>
-  <p><%= link_to "Create account", new_registration_path %></p>
-<% end %>
+<header class="site-header">
+  <div class="site-header__inner">
+    <%= link_to "sktest", root_path, class: "site-header__brand" %>
+
+    <nav class="site-header__nav" aria-label="Account">
+      <% if authenticated? %>
+        <%= link_to "Create post", new_post_path %>
+        <span class="site-header__identity"><%= Current.user.email_address %></span>
+        <%= button_to "Sign out", session_path, method: :delete, class: "site-header__sign-out" %>
+      <% else %>
+        <%= link_to "Sign in", new_session_path %>
+        <%= link_to "Create account", new_registration_path %>
+      <% end %>
+    </nav>
+  </div>
+</header>

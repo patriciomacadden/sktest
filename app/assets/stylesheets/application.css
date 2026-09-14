@@ -1,10 +1,101 @@
-/*
- * This is a manifest file that'll be compiled into application.css.
- *
- * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
- * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
- * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
- * depending on specificity.
- *
- * Consider organizing styles into separate files for maintainability.
- */
+:root {
+  --paper: #eef2f5;
+  --surface: #ffffff;
+  --ink: #18212b;
+  --muted: #596775;
+  --rule: #c9d3dc;
+  --blue: #2452c5;
+  --blue-dark: #173a93;
+  --yellow: #f4c84b;
+  --danger: #a02828;
+  --content-width: 70rem;
+  --reading-width: 48rem;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  background: var(--paper);
+  color: var(--ink);
+  font: 16px/1.5 ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body { margin: 0; }
+
+a { color: var(--blue); text-decoration-thickness: .09em; text-underline-offset: .15em; }
+a:hover { color: var(--blue-dark); }
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
+
+.site-header { background: var(--ink); border-bottom: 4px solid var(--yellow); color: white; }
+.site-header__inner { align-items: center; display: flex; gap: 1rem; margin: 0 auto; min-height: 4rem; width: min(100% - 2rem, var(--content-width)); }
+.site-header__brand { color: white; font-size: 1.35rem; font-weight: 850; letter-spacing: -.05em; text-decoration: none; }
+.site-header__brand::before { color: var(--yellow); content: "// "; }
+.site-header__nav { align-items: center; display: flex; gap: 1rem; margin-left: auto; }
+.site-header__nav a { color: white; font-size: .9rem; font-weight: 700; }
+.site-header__nav a:hover { color: white; text-decoration-color: var(--yellow); }
+.site-header__identity { font-size: .9rem; }
+.site-header__sign-out { display: inline; margin: 0; }
+
+.button, input[type="submit"] {
+  appearance: none;
+  background: var(--blue);
+  border: 0;
+  border-radius: 0;
+  color: white;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 750;
+  padding: .55rem .8rem;
+}
+
+.button:hover, input[type="submit"]:hover { background: var(--blue-dark); }
+.site-header__sign-out button { background: transparent; border: 1px solid #8090a0; color: white; cursor: pointer; font: inherit; font-weight: 750; padding: .34rem .6rem; }
+.site-header__sign-out button:hover { background: transparent; border-color: var(--yellow); }
+
+.site-main { margin: 3rem auto 6rem; width: min(100% - 2rem, var(--content-width)); }
+h1, h2, h3 { letter-spacing: -.035em; line-height: 1.15; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.2rem; }
+h3 { font-size: 1rem; }
+
+.post-list, .comment-thread, .comment-replies { list-style: none; margin: 0; padding: 0; }
+.post-list { max-width: var(--reading-width); }
+.post-list > li { border-bottom: 1px solid var(--rule); padding: .72rem 0 .68rem; }
+.post-list__title { display: inline; font-size: 1rem; font-weight: 750; margin: 0; }
+.post-url { color: var(--muted); font-size: .86rem; }
+.post-meta, .comment-meta { color: var(--muted); font-size: .84rem; margin: .16rem 0 0; }
+.post-actions, .comment-actions { font-size: .84rem; margin: .15rem 0 0; }
+.post-actions form { display: inline; }
+
+.post-detail { max-width: var(--reading-width); }
+.post-detail__title { display: inline; font-size: 1.2rem; margin: 0; }
+.post-detail__body { font-family: ui-serif, Georgia, serif; font-size: 1.1rem; }
+.post-detail__body p:first-child { margin-top: 1.25rem; }
+
+.comments { margin-top: 3.5rem; max-width: var(--reading-width); }
+.comments > h2 { border-bottom: 2px solid var(--ink); margin: 0 0 1.2rem; padding-bottom: .55rem; }
+.comment { border-left: 3px solid var(--rule); margin: 0 0 1.2rem; padding: 0 0 1.1rem 1rem; }
+.comment:hover { border-color: var(--blue); }
+.comment p { margin: .4rem 0; }
+.comment-replies { margin: 1rem 0 0 1rem; }
+.comment-replies .comment { border-left-color: #94aabc; }
+
+.form-panel { background: var(--surface); border-top: 4px solid var(--blue); max-width: 32rem; padding: 1.4rem; }
+.form-field { margin: 0 0 1rem; }
+label { display: block; font-size: .88rem; font-weight: 800; margin-bottom: .3rem; }
+input:not([type="submit"]), textarea { background: white; border: 1px solid #8495a4; border-radius: 0; color: var(--ink); display: block; font: inherit; padding: .58rem .65rem; width: 100%; }
+textarea { min-height: 8rem; resize: vertical; }
+.form-actions { align-items: center; display: flex; gap: 1rem; margin-top: 1.2rem; }
+.field-error { color: var(--danger); font-size: .9rem; font-weight: 700; margin: .35rem 0 0; }
+.notice { background: #fff5c7; border-left: 4px solid var(--yellow); max-width: 32rem; padding: .75rem .9rem; }
+.alert { background: #f9e2e2; border-left: 4px solid var(--danger); max-width: 32rem; padding: .75rem .9rem; }
+
+.auth-page { margin: 8vh auto; max-width: 26rem; }
+.auth-page h1 { font-size: 2.4rem; }
+.auth-page .form-panel { margin-top: 1.25rem; }
+
+@media (max-width: 600px) {
+  .site-main { margin-top: 2rem; }
+  .site-header__identity { display: none; }
+  .comment-replies { margin-left: .35rem; }
+}

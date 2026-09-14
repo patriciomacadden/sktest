@@ -109,7 +109,17 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select "a[href='#{post_path(@post)}']", text: @post.title
-    assert_select "p", "4 comments"
+    assert_select "p.post-meta", /4 comments/
+  end
+
+  test "authenticated navigation includes post creation and sign out" do
+    sign_in_as @author
+
+    get root_path
+
+    assert_response :success
+    assert_select "nav[aria-label='Account'] a[href='#{new_post_path}']", "Create post"
+    assert_select "nav[aria-label='Account'] form[action='#{session_path}'] button", "Sign out"
   end
 
   test "visitors can read a post thread including deleted comments" do

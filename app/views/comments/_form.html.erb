@@ -1,18 +1,17 @@
 <% error_id = comment.parent ? "reply_#{comment.parent.id}_body_error" : "new_comment_body_error" %>
 <%= form_with model: [ post, comment ] do |form| %>
-  <p>
-    <%= form.label :body, "Comment" %><br>
+  <div class="form-field">
+    <%= form.label :body, "Comment" %>
     <%= form.textarea :body, aria: (comment.errors[:body].any? ? { describedby: error_id } : {}) %>
-  </p>
-
-  <% if comment.errors[:body].any? %>
-    <p id="<%= error_id %>"><%= comment.errors.full_messages_for(:body).to_sentence %></p>
-  <% end %>
+    <% if comment.errors[:body].any? %>
+      <p id="<%= error_id %>" class="field-error"><%= comment.errors.full_messages_for(:body).to_sentence %></p>
+    <% end %>
+  </div>
 
   <% if comment.errors[:parent].any? %>
-    <p><%= comment.errors.full_messages_for(:parent).to_sentence %></p>
+    <p class="field-error"><%= comment.errors.full_messages_for(:parent).to_sentence %></p>
   <% end %>
 
   <%= form.hidden_field :parent_id %>
-  <%= form.submit submit_label %>
+  <div class="form-actions"><%= form.submit submit_label %></div>
 <% end %>

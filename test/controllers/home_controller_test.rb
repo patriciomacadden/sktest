@@ -6,9 +6,9 @@ class RootPostsTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_operator response.body.index("Newest post"), :<, response.body.index("Earlier post")
-    assert_select "article h2", "Newest post"
-    assert_select "a[href='https://example.com/newest']", "https://example.com/newest"
-    assert_select "article", /By writer@example.com on/
+    assert_select "ol.post-list h2", "Newest post"
+    assert_select "a[href='https://example.com/newest']", "example.com"
+    assert_select "li", /By writer@example.com/
     assert_select "a", "Sign in"
     assert_select "a", "Create account"
     assert_select "button", count: 0
@@ -26,11 +26,11 @@ class RootPostsTest < ActionDispatch::IntegrationTest
   test "post bodies are rendered as text rather than HTML" do
     posts(:latest_release).update!(body: "<script>alert('unsafe')</script>\nSecond line")
 
-    get root_path
+    get post_path(posts(:latest_release))
 
     assert_response :success
     assert_select "script", text: /alert\('unsafe'\)/, count: 0
     assert_includes response.body, "&lt;script&gt;alert"
-    assert_select "br"
+    assert_select ".post-detail__body br"
   end
 end

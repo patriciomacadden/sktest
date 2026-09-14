@@ -1,15 +1,17 @@
 <%= turbo_frame_tag dom_id(comment, :editor) do %>
-  <article id="<%= dom_id comment %>">
-    <p>By <%= comment.author.email_address %> on <time datetime="<%= comment.created_at.iso8601 %>"><%= comment.created_at.to_fs(:long) %></time><%= " (edited)" if comment.edited? %></p>
+  <article id="<%= dom_id comment %>" class="comment">
+    <p class="comment-meta">By <%= comment.author.email_address %> · <time datetime="<%= comment.created_at.iso8601 %>"><%= comment.created_at.to_fs(:long) %></time><%= " (edited)" if comment.edited? %></p>
 
     <% if editing %>
-      <%= render "comments/form", comment:, post:, submit_label: "Save changes" %>
-      <%= link_to "Cancel", post_path(post, anchor: dom_id(comment)) %>
+      <div class="form-panel">
+        <%= render "comments/form", comment:, post:, submit_label: "Save changes" %>
+      </div>
+      <p class="comment-actions"><%= link_to "Cancel", post_path(post, anchor: dom_id(comment)) %></p>
     <% else %>
       <%= simple_format(h(comment.deleted? ? "[deleted]" : comment.body), sanitize: false) %>
 
       <% if authenticated? && comment.editable_by?(Current.user) %>
-        <%= link_to "Edit", edit_post_comment_path(post, comment) %>
+        <p class="comment-actions"><%= link_to "Edit", edit_post_comment_path(post, comment) %></p>
       <% end %>
 
       <% if authenticated? && comment.deletable_by?(Current.user) %>
@@ -21,7 +23,9 @@
       <% if authenticated? %>
         <details>
           <summary>Reply</summary>
-          <%= render "comments/form", comment: Comment.new(post:, parent: comment), post:, submit_label: "Reply" %>
+          <div class="form-panel">
+            <%= render "comments/form", comment: Comment.new(post:, parent: comment), post:, submit_label: "Reply" %>
+          </div>
         </details>
       <% else %>
         <p><%= link_to "Sign in to reply", new_session_path %>.</p>
@@ -29,13 +33,11 @@
     <% end %>
 
     <% if comments_by_parent_id[comment.id].present? %>
-      <blockquote>
-        <ol>
-          <% comments_by_parent_id[comment.id].each do |reply| %>
-            <li><%= render "comments/comment", comment: reply, post:, comments_by_parent_id:, editing: false %></li>
-          <% end %>
-        </ol>
-      </blockquote>
+      <ol class="comment-replies">
+        <% comments_by_parent_id[comment.id].each do |reply| %>
+          <li><%= render "comments/comment", comment: reply, post:, comments_by_parent_id:, editing: false %></li>
+        <% end %>
+      </ol>
     <% end %>
   </article>
 <% end %>

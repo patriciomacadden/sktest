@@ -1,35 +1,22 @@
 <% content_for :title, "Posts" %>
 
-<h1>Posts</h1>
-
-<% if authenticated? %>
-  <p><%= link_to "Create post", new_post_path %></p>
-<% end %>
-
 <% if @posts.any? %>
-  <% @posts.each do |post| %>
-    <article>
-      <h2><%= link_to post.title, post_path(post) %></h2>
+  <ol class="post-list">
+    <% @posts.each do |post| %>
+      <li>
+        <h2 class="post-list__title"><%= link_to post.title, post_path(post) %></h2>
+        <% if post.url.present? %>
+          <span class="post-url">(<%= link_to URI.parse(post.url).host, post.url %>)</span>
+        <% end %>
 
-      <% if post.url.present? %>
-        <p><%= link_to post.url, post.url %></p>
-      <% end %>
+        <p class="post-meta"><%= pluralize(post.comments_count, "comment") %> · By <%= post.author.email_address %> · <time datetime="<%= post.created_at.iso8601 %>"><%= post.created_at.to_fs(:long) %></time></p>
 
-      <% if post.body.present? %>
-        <%= simple_format(h(post.body), sanitize: false) %>
-      <% end %>
-
-      <p>By <%= post.author.email_address %> on <time datetime="<%= post.created_at.iso8601 %>"><%= post.created_at.to_fs(:long) %></time></p>
-      <p><%= pluralize(post.comments_count, "comment") %></p>
-
-      <% if authenticated? && post.editable_by?(Current.user) %>
-        <div>
-          <%= link_to "Edit", edit_post_path(post) %>
-          <%= button_to "Delete", post_path(post), method: :delete %>
-        </div>
-      <% end %>
-    </article>
-  <% end %>
+        <% if authenticated? && post.editable_by?(Current.user) %>
+          <div class="post-actions"><%= link_to "Edit", edit_post_path(post) %> · <%= button_to "Delete", post_path(post), method: :delete %></div>
+        <% end %>
+      </li>
+    <% end %>
+  </ol>
 <% elsif authenticated? %>
   <p>There are no posts yet. <%= link_to "Create the first post", new_post_path %>.</p>
 <% else %>
