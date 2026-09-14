@@ -10,12 +10,18 @@
     <% else %>
       <%= simple_format(h(comment.deleted? ? "[deleted]" : comment.body), sanitize: false) %>
 
-      <% if authenticated? && comment.editable_by?(Current.user) %>
-        <p class="comment-actions"><%= link_to "Edit", edit_post_comment_path(post, comment) %></p>
-      <% end %>
-
-      <% if authenticated? && comment.deletable_by?(Current.user) %>
-        <%= button_to "Delete", post_comment_path(post, comment), method: :delete %>
+      <% if authenticated? && (comment.editable_by?(Current.user) || comment.deletable_by?(Current.user)) %>
+        <div class="comment-actions">
+          <% if comment.editable_by?(Current.user) %>
+            <%= link_to "Edit", edit_post_comment_path(post, comment) %>
+          <% end %>
+          <% if comment.editable_by?(Current.user) && comment.deletable_by?(Current.user) %>
+            ·
+          <% end %>
+          <% if comment.deletable_by?(Current.user) %>
+            <%= button_to "Delete", post_comment_path(post, comment), method: :delete %>
+          <% end %>
+        </div>
       <% end %>
     <% end %>
 
