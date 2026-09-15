@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Upvote UI mockup · Sktest</title>
+  <style>
+    :root { --paper:#eef2f5; --surface:#fff; --ink:#18212b; --muted:#596775; --rule:#c9d3dc; --blue:#2452c5; --blue-dark:#173a93; --yellow:#f4c84b; --content:70rem; --reading:48rem; }
+    * { box-sizing:border-box; }
+    body { background:var(--paper); color:var(--ink); font:16px/1.5 ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; margin:0; }
+    a { color:var(--blue); text-decoration-thickness:.09em; text-underline-offset:.15em; }
+    button, a { -webkit-tap-highlight-color:transparent; }
+    :focus-visible { outline:3px solid var(--yellow); outline-offset:3px; }
+    .site-header { background:var(--ink); border-bottom:4px solid var(--yellow); color:#fff; }
+    .site-header__inner { align-items:center; display:flex; gap:1rem; margin:auto; min-height:4rem; width:min(100% - 2rem,var(--content)); }
+    .brand { color:#fff; font-size:1.35rem; font-weight:850; letter-spacing:-.05em; text-decoration:none; }
+    .brand::before { color:var(--yellow); content:"// "; }
+    .identity { font-size:.9rem; margin-left:auto; }
+    main { margin:3rem auto 6rem; width:min(100% - 2rem,var(--content)); }
+    h1,h2 { letter-spacing:-.035em; line-height:1.15; }
+    h1 { font-size:2rem; margin:0 0 1rem; }
+    h2 { font-size:1rem; margin:0; }
+    .order-bar { align-items:center; border-bottom:2px solid var(--ink); display:flex; gap:.35rem; margin:0 0 1.2rem; max-width:var(--reading); padding-bottom:.55rem; }
+    .order-bar__label { color:var(--muted); font-size:.82rem; font-weight:750; margin-right:.25rem; text-transform:uppercase; letter-spacing:.06em; }
+    .order-link { border:1px solid transparent; color:var(--blue); font-size:.9rem; font-weight:800; padding:.22rem .48rem; }
+    .order-link[aria-current="page"] { background:var(--ink); color:#fff; text-decoration:none; }
+    .post-list,.thread { list-style:none; margin:0; max-width:var(--reading); padding:0; }
+    .post-list > li { border-bottom:1px solid var(--rule); padding:.75rem 0; }
+    .story { align-items:start; display:grid; gap:.75rem; grid-template-columns:3.2rem minmax(0,1fr); }
+    .story__title { display:inline; font-size:1rem; font-weight:780; }
+    .story__url,.meta { color:var(--muted); font-size:.84rem; }
+    .meta { margin:.16rem 0 0; }
+    .tally { align-items:center; background:var(--surface); border:1px solid var(--rule); display:flex; flex-direction:column; min-height:4.2rem; padding:.2rem; }
+    .tally__button { appearance:none; background:transparent; border:0; color:var(--blue); cursor:pointer; font:inherit; font-size:.72rem; font-weight:850; line-height:1; min-height:1.8rem; padding:.25rem .3rem; }
+    .tally__button::before { content:"▲"; display:block; font-size:.9rem; margin-bottom:.08rem; }
+    .tally__button[aria-pressed="true"] { background:var(--yellow); color:var(--ink); }
+    .tally__button[aria-pressed="true"]::before { content:"✓"; }
+    .tally__count { border-top:1px solid var(--rule); font-size:.84rem; font-variant-numeric:tabular-nums; font-weight:850; line-height:1; padding:.42rem .15rem .28rem; text-align:center; width:100%; }
+    .tally__count span { display:block; color:var(--muted); font-size:.58rem; font-weight:750; letter-spacing:.05em; margin-top:.15rem; text-transform:uppercase; }
+    .detail { max-width:var(--reading); }
+    .detail__body { font-family:ui-serif,Georgia,serif; font-size:1.1rem; margin:1.25rem 0 .4rem 3.95rem; }
+    .comments { margin-top:3.5rem; max-width:var(--reading); }
+    .comments > h2 { border-bottom:2px solid var(--ink); margin-bottom:1.2rem; padding-bottom:.55rem; }
+    .comment { border-left:3px solid var(--rule); margin:0 0 1.2rem; padding:0 0 1.1rem 1rem; }
+    .comment:hover { border-color:var(--blue); }
+    .comment .story { grid-template-columns:2.7rem minmax(0,1fr); }
+    .comment .tally { min-height:3.7rem; }
+    .comment .tally__button { min-height:1.55rem; }
+    .comment__body { margin:.45rem 0 0; }
+    .reply { margin:1rem 0 0 1rem; }
+    .annotation { background:#fff5c7; border-left:4px solid var(--yellow); font-size:.86rem; margin:2.5rem 0 0; max-width:var(--reading); padding:.75rem .9rem; }
+    .annotation strong { display:block; }
+    @media (max-width:600px) { main { margin-top:2rem; } .identity { display:none; } .story { gap:.55rem; grid-template-columns:2.8rem minmax(0,1fr); } .detail__body { margin-left:3.35rem; } .reply { margin-left:.35rem; } }
+  </style>
+</head>
+<body>
+  <header class="site-header"><div class="site-header__inner"><a class="brand" href="#">Sktest</a><span class="identity">pat@example.com</span></div></header>
+  <main>
+    <h1>Posts</h1>
+    <nav class="order-bar" aria-label="Post order">
+      <span class="order-bar__label">Order</span>
+      <a class="order-link" aria-current="page" href="#hot">Hot</a>
+      <a class="order-link" href="#new">New</a>
+    </nav>
+
+    <ol class="post-list" aria-label="Hot posts">
+      <li><article class="story">
+        <div class="tally"><button class="tally__button" type="button" aria-pressed="true" aria-label="Remove upvote from Designing for the margins">Upvoted</button><div class="tally__count" data-count>42<span>upvotes</span></div></div>
+        <div><h2 class="story__title"><a href="#post">Designing for the margins</a></h2> <span class="story__url">(journal.example)</span><p class="meta">12 comments · By marina@example.com · September 15, 2026</p></div>
+      </article></li>
+      <li><article class="story">
+        <div class="tally"><button class="tally__button" type="button" aria-pressed="false" aria-label="Upvote A small guide to resilient forms">Upvote</button><div class="tally__count" data-count>17<span>upvotes</span></div></div>
+        <div><h2 class="story__title"><a href="#post">A small guide to resilient forms</a></h2><p class="meta">4 comments · By lee@example.com · September 14, 2026</p></div>
+      </article></li>
+    </ol>
+
+    <section class="detail" aria-labelledby="post-title" style="margin-top:4rem">
+      <article class="story">
+        <div class="tally"><button class="tally__button" type="button" aria-pressed="true" aria-label="Remove upvote from Designing for the margins">Upvoted</button><div class="tally__count" data-count>42<span>upvotes</span></div></div>
+        <div><h2 id="post-title" class="story__title">Designing for the margins</h2><p class="meta">12 comments · By marina@example.com · September 15, 2026</p></div>
+      </article>
+      <p class="detail__body">The strongest interface choices often begin with the people who have the least room for error.</p>
+    </section>
+
+    <section class="comments" aria-labelledby="comments-title"><h2 id="comments-title">Comments</h2>
+      <ol class="thread">
+        <li><article class="comment"><div class="story">
+          <div class="tally"><button class="tally__button" type="button" aria-pressed="false" aria-label="Upvote this comment">Upvote</button><div class="tally__count" data-count>8<span>upvotes</span></div></div>
+          <div><p class="meta">By pat@example.com · September 15, 2026</p><p class="comment__body">This is a useful reminder that the quiet parts of a page deserve the same care as the headline.</p></div>
+        </div></article></li>
+        <li class="reply"><article class="comment"><div class="story">
+          <div class="tally"><button class="tally__button" type="button" aria-pressed="true" aria-label="Remove upvote from this comment">Upvoted</button><div class="tally__count" data-count>3<span>upvotes</span></div></div>
+          <div><p class="meta">By marina@example.com · September 15, 2026</p><p class="comment__body">Exactly. The tally rail keeps the response readable while making the action easy to find.</p></div>
+        </div></article></li>
+      </ol>
+    </section>
+    <aside class="annotation"><strong>Mockup note</strong>The narrow tally rail is the signature interaction: the count stays fixed in the reading scanline, while yellow confirms the user’s own vote. It uses a native button with an explicit pressed state; this static mockup toggles locally for review only.</aside>
+  </main>
+  <script>
+    document.querySelectorAll('.tally__button').forEach((button) => {
+      button.addEventListener('click', () => {
+        const pressed = button.getAttribute('aria-pressed') === 'true';
+        const count = button.parentElement.querySelector('[data-count]');
+        const value = Number(count.firstChild.nodeValue);
+        button.setAttribute('aria-pressed', String(!pressed));
+        button.textContent = pressed ? 'Upvote' : 'Upvoted';
+        button.setAttribute('aria-label', pressed ? 'Upvote this item' : 'Remove upvote from this item');
+        count.firstChild.nodeValue = String(value + (pressed ? -1 : 1));
+      });
+    });
+  </script>
+</body>
+</html>
