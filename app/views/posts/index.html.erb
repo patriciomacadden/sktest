@@ -1,7 +1,5 @@
 <% content_for :title, "Posts" %>
 
-<h1>Posts</h1>
-
 <nav class="post-order" aria-label="Post order">
   <span class="post-order__label">Order</span>
   <%= link_to "Hot", root_path, class: "post-order__link", aria: { current: params[:order] == "new" ? nil : "page" } %>
