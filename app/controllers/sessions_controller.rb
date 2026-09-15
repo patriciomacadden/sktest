@@ -3,6 +3,7 @@ class SessionsController < ApplicationController
   rate_limit to: 10, within: 3.minutes, only: :create, with: -> { redirect_to new_session_path, alert: "Try again later." }
 
   def new
+    session[:return_to_after_authenticating] = return_to if return_to
   end
 
   def create
@@ -18,4 +19,14 @@ class SessionsController < ApplicationController
     terminate_session
     redirect_to new_session_path, status: :see_other
   end
+
+  private
+    def return_to
+      return if params[:return_to].blank?
+
+      uri = URI.parse(params[:return_to])
+      params[:return_to] if uri.relative? && params[:return_to].start_with?("/") && !params[:return_to].start_with?("//")
+    rescue URI::InvalidURIError
+      nil
+    end
 end

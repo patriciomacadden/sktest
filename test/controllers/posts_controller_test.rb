@@ -151,7 +151,9 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_select "article##{dom_id(comments(:deleted_reply))}", text: /Reply beneath deleted comment/
     assert_select "a", text: "Sign in to add a comment"
     assert_select ".tally__count", /2 upvotes/
-    assert_select ".tally__sign-in", "Sign in to upvote"
+    assert_select "a.tally__sign-in", href: new_session_path(return_to: post_path(@post)), text: "Sign in to upvote"
+    comment = comments(:active_root)
+    assert_select "article##{dom_id(comment)} a.tally__sign-in", href: new_session_path(return_to: post_path(@post, anchor: dom_id(comment))), text: "Sign in to upvote"
   end
 
   test "deleting a post deletes its comments" do

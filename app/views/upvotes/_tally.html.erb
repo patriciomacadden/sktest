@@ -4,7 +4,8 @@
   <% if authenticated? %>
     <%= button_to(upvoted ? "Remove upvote" : "Upvote", upvote_path, method: upvoted ? :delete : :post, class: "tally__button", aria: { pressed: upvoted }) %>
   <% else %>
-    <%= link_to "Sign in to upvote", new_session_path, class: "tally__sign-in" %>
+    <% return_to = target.is_a?(Comment) ? post_path(post, anchor: dom_id(target)) : request.fullpath %>
+    <%= link_to "Sign in to upvote", new_session_path(return_to:), class: "tally__sign-in" %>
   <% end %>
   <span class="tally__count"><%= pluralize(target.upvotes_count, "upvote") %></span>
 </div>
