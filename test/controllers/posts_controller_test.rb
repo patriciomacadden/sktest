@@ -129,7 +129,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     get root_path
 
     assert_response :success
-    assert_select "form[action='#{post_upvote_path(@post)}'][method='post'] button[aria-pressed='true']", "Remove upvote"
+    assert_select "form[action='#{post_upvote_path(@post)}'][method='post'] button[aria-pressed='true'][aria-label='Remove upvote']", "Upvoted"
   end
 
   test "authenticated navigation includes post creation and sign out" do

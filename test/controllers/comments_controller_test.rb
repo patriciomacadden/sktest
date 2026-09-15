@@ -14,7 +14,7 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
     get post_path(@post)
 
     assert_response :success
-    assert_select "article##{dom_id(comment)} form[action='#{post_comment_upvote_path(@post, comment)}'][method='post'] button[aria-pressed='true']", "Remove upvote"
+    assert_select "article##{dom_id(comment)} form[action='#{post_comment_upvote_path(@post, comment)}'][method='post'] button[aria-pressed='true'][aria-label='Remove upvote']", "Upvoted"
     assert_select "article##{dom_id(comment)} .tally__count", /1 upvote/
   end
 

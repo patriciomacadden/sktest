@@ -1,11 +1,17 @@
 <% upvote_path = target.is_a?(Post) ? post_upvote_path(target) : post_comment_upvote_path(post, target) %>
 
+<% vote_action = upvoted ? "Remove upvote" : "Upvote" %>
+<% upvote_label = upvoted ? "Upvoted" : "Upvote" %>
+
 <div class="tally">
   <% if authenticated? %>
-    <%= button_to(upvoted ? "Remove upvote" : "Upvote", upvote_path, method: upvoted ? :delete : :post, class: "tally__button", aria: { pressed: upvoted }) %>
+    <%= button_to upvote_label, upvote_path, method: upvoted ? :delete : :post, class: "tally__button", aria: { label: vote_action, pressed: upvoted } %>
   <% else %>
     <% return_to = target.is_a?(Comment) ? post_path(post, anchor: dom_id(target)) : request.fullpath %>
     <%= link_to "Sign in to upvote", new_session_path(return_to:), class: "tally__sign-in" %>
   <% end %>
-  <span class="tally__count"><%= pluralize(target.upvotes_count, "upvote") %></span>
+  <span class="tally__count" aria-label="<%= pluralize(target.upvotes_count, "upvote") %>">
+    <span class="tally__number" aria-hidden="true"><%= target.upvotes_count %></span>
+    <span class="tally__label" aria-hidden="true">upvotes</span>
+  </span>
 </div>
