@@ -1,29 +1,34 @@
 <%= turbo_frame_tag dom_id(comment, :editor) do %>
   <article id="<%= dom_id comment %>" class="comment">
-    <p class="comment-meta">By <%= comment.author.email_address %> · <time datetime="<%= comment.created_at.iso8601 %>"><%= comment.created_at.to_fs(:long) %></time><%= " (edited)" if comment.edited? %></p>
+    <div class="comment__header">
+      <%= render "upvotes/tally", target: comment, post:, upvoted: upvoted_comment_ids.include?(comment.id) %>
+      <div class="comment__main">
+        <p class="comment-meta">By <%= comment.author.email_address %> · <time datetime="<%= comment.created_at.iso8601 %>"><%= comment.created_at.to_fs(:long) %></time><%= " (edited)" if comment.edited? %></p>
 
-    <% if editing %>
-      <div class="form-panel">
-        <%= render "comments/form", comment:, post:, submit_label: "Save changes" %>
+        <% if editing %>
+          <div class="form-panel">
+            <%= render "comments/form", comment:, post:, submit_label: "Save changes" %>
+          </div>
+          <p class="comment-actions"><%= link_to "Cancel", post_path(post, anchor: dom_id(comment)) %></p>
+        <% else %>
+          <%= simple_format(h(comment.deleted? ? "[deleted]" : comment.body), sanitize: false) %>
+
+          <% if authenticated? && (comment.editable_by?(Current.user) || comment.deletable_by?(Current.user)) %>
+            <div class="comment-actions">
+              <% if comment.editable_by?(Current.user) %>
+                <%= link_to "Edit", edit_post_comment_path(post, comment) %>
+              <% end %>
+              <% if comment.editable_by?(Current.user) && comment.deletable_by?(Current.user) %>
+                ·
+              <% end %>
+              <% if comment.deletable_by?(Current.user) %>
+                <%= button_to "Delete", post_comment_path(post, comment), method: :delete %>
+              <% end %>
+            </div>
+          <% end %>
+        <% end %>
       </div>
-      <p class="comment-actions"><%= link_to "Cancel", post_path(post, anchor: dom_id(comment)) %></p>
-    <% else %>
-      <%= simple_format(h(comment.deleted? ? "[deleted]" : comment.body), sanitize: false) %>
-
-      <% if authenticated? && (comment.editable_by?(Current.user) || comment.deletable_by?(Current.user)) %>
-        <div class="comment-actions">
-          <% if comment.editable_by?(Current.user) %>
-            <%= link_to "Edit", edit_post_comment_path(post, comment) %>
-          <% end %>
-          <% if comment.editable_by?(Current.user) && comment.deletable_by?(Current.user) %>
-            ·
-          <% end %>
-          <% if comment.deletable_by?(Current.user) %>
-            <%= button_to "Delete", post_comment_path(post, comment), method: :delete %>
-          <% end %>
-        </div>
-      <% end %>
-    <% end %>
+    </div>
 
     <% if comment.replyable? %>
       <% if authenticated? %>
@@ -41,7 +46,7 @@
     <% if comments_by_parent_id[comment.id].present? %>
       <ol class="comment-replies">
         <% comments_by_parent_id[comment.id].each do |reply| %>
-          <li><%= render "comments/comment", comment: reply, post:, comments_by_parent_id:, editing: false %></li>
+          <li><%= render "comments/comment", comment: reply, post:, comments_by_parent_id:, upvoted_comment_ids:, editing: false %></li>
         <% end %>
       </ol>
     <% end %>

@@ -55,10 +55,13 @@ class CommentsController < ApplicationController
     end
 
     def render_comment(editing:, status: :ok)
-      render partial: "comments/comment", locals: { comment: @comment, post: @post, comments_by_parent_id: @comments_by_parent_id, editing: }, status:
+      render partial: "comments/comment", locals: { comment: @comment, post: @post, comments_by_parent_id: @comments_by_parent_id, upvoted_comment_ids: @upvoted_comment_ids, editing: }, status:
     end
 
     def load_thread
-      @comments_by_parent_id = @post.comments.includes(:author).order(:created_at).group_by(&:parent_id)
+      comments = @post.comments.includes(:author).order(:created_at)
+      @comments_by_parent_id = comments.group_by(&:parent_id)
+      @upvoted_post_ids = Current.user.upvotes.where(voteable: @post).pluck(:voteable_id)
+      @upvoted_comment_ids = Current.user.upvotes.where(voteable: comments).pluck(:voteable_id)
     end
 end

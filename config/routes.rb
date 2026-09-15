@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
   root "posts#index"
   resources :posts do
-    resources :comments, only: %i[create edit update destroy]
+    resource :upvote, only: %i[create destroy], module: :posts
+    resources :comments, only: %i[create edit update destroy] do
+      resource :upvote, only: %i[create destroy], module: :comments
+    end
   end
 
   resource :registration, only: %i[new create]

@@ -3,6 +3,7 @@ class Comment < ApplicationRecord
   belongs_to :author, class_name: "User"
   belongs_to :parent, class_name: "Comment", optional: true
   has_many :replies, class_name: "Comment", foreign_key: :parent_id, dependent: :destroy, inverse_of: :parent
+  has_many :upvotes, as: :voteable, dependent: :destroy
 
   validates :body, presence: true
   validate :parent_must_belong_to_post

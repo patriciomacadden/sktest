@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_14_024441) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_15_190100) do
   create_table "comments", force: :cascade do |t|
     t.integer "author_id", null: false
     t.text "body", null: false
@@ -20,6 +20,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_14_024441) do
     t.integer "parent_id"
     t.integer "post_id", null: false
     t.datetime "updated_at", null: false
+    t.integer "upvotes_count", default: 0, null: false
     t.index ["author_id"], name: "index_comments_on_author_id"
     t.index ["parent_id"], name: "index_comments_on_parent_id"
     t.index ["post_id", "parent_id", "created_at"], name: "index_comments_on_post_id_and_parent_id_and_created_at"
@@ -33,6 +34,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_14_024441) do
     t.datetime "created_at", null: false
     t.string "title", null: false
     t.datetime "updated_at", null: false
+    t.integer "upvotes_count", default: 0, null: false
     t.string "url"
     t.index ["author_id"], name: "index_posts_on_author_id"
   end
@@ -44,6 +46,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_14_024441) do
     t.string "user_agent"
     t.integer "user_id", null: false
     t.index ["user_id"], name: "index_sessions_on_user_id"
+  end
+
+  create_table "upvotes", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.integer "voteable_id", null: false
+    t.string "voteable_type", null: false
+    t.index ["user_id", "voteable_type", "voteable_id"], name: "index_upvotes_on_user_id_and_voteable_type_and_voteable_id", unique: true
+    t.index ["user_id"], name: "index_upvotes_on_user_id"
+    t.index ["voteable_type", "created_at", "voteable_id"], name: "index_upvotes_on_voteable_type_and_created_at_and_voteable_id"
+    t.index ["voteable_type", "voteable_id"], name: "index_upvotes_on_voteable"
   end
 
   create_table "users", force: :cascade do |t|
@@ -59,4 +73,5 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_14_024441) do
   add_foreign_key "comments", "users", column: "author_id"
   add_foreign_key "posts", "users", column: "author_id"
   add_foreign_key "sessions", "users"
+  add_foreign_key "upvotes", "users"
 end

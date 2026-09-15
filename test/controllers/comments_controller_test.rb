@@ -7,6 +7,17 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
     @post = posts(:latest_release)
   end
 
+  test "signed-in user sees their comment upvote state" do
+    sign_in_as users(:registered_reader)
+    comment = comments(:active_root)
+
+    get post_path(@post)
+
+    assert_response :success
+    assert_select "article##{dom_id(comment)} form[action='#{post_comment_upvote_path(@post, comment)}'][method='post'] button[aria-pressed='true']", "Remove upvote"
+    assert_select "article##{dom_id(comment)} .tally__count", /1 upvote/
+  end
+
   test "authenticated user creates a top-level comment" do
     sign_in_as @author
 

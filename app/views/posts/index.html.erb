@@ -1,19 +1,30 @@
 <% content_for :title, "Posts" %>
 
+<nav class="post-order" aria-label="Post order">
+  <span class="post-order__label">Order</span>
+  <%= link_to "Hot", root_path, class: "post-order__link", aria: { current: params[:order] == "new" ? nil : "page" } %>
+  <%= link_to "New", root_path(order: "new"), class: "post-order__link", aria: { current: params[:order] == "new" ? "page" : nil } %>
+</nav>
+
 <% if @posts.any? %>
   <ol class="post-list">
     <% @posts.each do |post| %>
       <li>
-        <h2 class="post-list__title"><%= link_to post.title, post_path(post) %></h2>
-        <% if post.url.present? %>
-          <span class="post-url">(<%= link_to URI.parse(post.url).host, post.url %>)</span>
-        <% end %>
+        <article class="post-list__item">
+          <%= render "upvotes/tally", target: post, post:, upvoted: @upvoted_post_ids.include?(post.id) %>
+          <div>
+            <h2 class="post-list__title"><%= link_to post.title, post_path(post) %></h2>
+            <% if post.url.present? %>
+              <span class="post-url">(<%= link_to URI.parse(post.url).host, post.url %>)</span>
+            <% end %>
 
-        <p class="post-meta"><%= pluralize(post.comments_count, "comment") %> · By <%= post.author.email_address %> · <time datetime="<%= post.created_at.iso8601 %>"><%= post.created_at.to_fs(:long) %></time></p>
+            <p class="post-meta"><%= pluralize(post.comments_count, "comment") %> · By <%= post.author.email_address %> · <time datetime="<%= post.created_at.iso8601 %>"><%= post.created_at.to_fs(:long) %></time></p>
 
-        <% if authenticated? && post.editable_by?(Current.user) %>
-          <div class="post-actions"><%= link_to "Edit", edit_post_path(post) %> · <%= button_to "Delete", post_path(post), method: :delete %></div>
-        <% end %>
+            <% if authenticated? && post.editable_by?(Current.user) %>
+              <div class="post-actions"><%= link_to "Edit", edit_post_path(post) %> · <%= button_to "Delete", post_path(post), method: :delete %></div>
+            <% end %>
+          </div>
+        </article>
       </li>
     <% end %>
   </ol>

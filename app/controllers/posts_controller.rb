@@ -5,11 +5,13 @@ class PostsController < ApplicationController
   before_action :ensure_author, only: %i[edit update destroy]
 
   def index
-    @posts = Post.includes(:author).order(created_at: :desc)
+    @posts = feed_scope.includes(:author)
+    @upvoted_post_ids = upvoted_post_ids_for(@posts)
   end
 
   def show
-    @comments_by_parent_id = @post.comments.includes(:author).order(:created_at).group_by(&:parent_id)
+    load_comment_thread
+    @upvoted_post_ids = upvoted_post_ids_for([ @post ])
     @comment = @post.comments.build
   end
 
@@ -54,5 +56,19 @@ class PostsController < ApplicationController
 
     def post_params
       params.expect(post: %i[title url body])
+    end
+
+    def feed_scope
+      params[:order] == "new" ? Post.newest : Post.hot
+    end
+
+    def load_comment_thread
+      comments = @post.comments.includes(:author).order(:created_at)
+      @comments_by_parent_id = comments.group_by(&:parent_id)
+      @upvoted_comment_ids = authenticated? ? Current.user.upvotes.where(voteable: comments).pluck(:voteable_id) : []
+    end
+
+    def upvoted_post_ids_for(posts)
+      authenticated? ? Current.user.upvotes.where(voteable: posts).pluck(:voteable_id) : []
     end
 end

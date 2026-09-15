@@ -104,12 +104,32 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_select "form[action='#{post_path(@post)}']", count: 0
   end
 
-  test "root feed links to public post details and displays its comment count" do
+  test "root feed defaults to hot and links to the newest order" do
     get root_path
 
     assert_response :success
+    assert_select "nav[aria-label='Post order'] a[aria-current='page']", "Hot"
+    assert_select "nav[aria-label='Post order'] a", "New"
     assert_select "a[href='#{post_path(@post)}']", text: @post.title
     assert_select "p.post-meta", /4 comments/
+    assert_select ".tally__count", /2 upvotes/
+    assert_select ".tally__sign-in", "Sign in to upvote"
+  end
+
+  test "new feed order is selected from the URL" do
+    get root_path(order: "new")
+
+    assert_response :success
+    assert_select "nav[aria-label='Post order'] a[aria-current='page']", "New"
+  end
+
+  test "signed-in reader sees their post upvote state" do
+    sign_in_as users(:registered_reader)
+
+    get root_path
+
+    assert_response :success
+    assert_select "form[action='#{post_upvote_path(@post)}'][method='post'] button[aria-pressed='true']", "Remove upvote"
   end
 
   test "authenticated navigation includes post creation and sign out" do
@@ -130,6 +150,8 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_select "article##{dom_id(comments(:deleted_root))}", text: /\[deleted\]/
     assert_select "article##{dom_id(comments(:deleted_reply))}", text: /Reply beneath deleted comment/
     assert_select "a", text: "Sign in to add a comment"
+    assert_select ".tally__count", /2 upvotes/
+    assert_select ".tally__sign-in", "Sign in to upvote"
   end
 
   test "deleting a post deletes its comments" do

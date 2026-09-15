@@ -1,0 +1,17 @@
+reader_likes_latest_release:
+  user: registered_reader
+  voteable: latest_release (Post)
+  created_at: <%= 2.hours.ago %>
+  updated_at: <%= 2.hours.ago %>
+
+other_author_likes_latest_release:
+  user: other_author
+  voteable: latest_release (Post)
+  created_at: <%= 3.hours.ago %>
+  updated_at: <%= 3.hours.ago %>
+
+reader_likes_active_root:
+  user: registered_reader
+  voteable: active_root (Comment)
+  created_at: <%= 2.hours.ago %>
+  updated_at: <%= 2.hours.ago %>
